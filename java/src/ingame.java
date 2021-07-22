@@ -20,12 +20,12 @@ class ingame {
 						attack_result = att.to_enemy_crit();
 						break;
 					default:
-						attack_result = att.to_enemy();
+						attack_result = att.attack(1, 0);
 						break;
 				}
 				switch (attack_result) {
 					case 0:
-						att.to_you(1);
+						att.attack(1, 1);
 						break;
 				}
 				hy.hopper(0);
@@ -33,7 +33,7 @@ class ingame {
 			case 2:
 				switch(ait.menu(0)) {
 					case 2:
-						att.to_you(2);
+						att.attack(2, 1);
 						break;
 				}
 				hy.hopper(0);
@@ -47,7 +47,7 @@ class ingame {
 						play_again();
 						break;
 					case 1:
-						att.to_you(1);
+						att.attack(3, 1);
 						hy.hopper(0);
 						break;
 				}
