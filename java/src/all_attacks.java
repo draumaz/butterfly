@@ -9,18 +9,15 @@ class all_attacks {
 		hypersurf hy = new hypersurf();
 		visuals vi = new visuals();
 		tools tool = new tools();
-		int base_rand = (ran.nextInt(3) + 1);
-		double rand_rand = (sav.read()[2] / base_rand);
-		int damage = Math.round((int)rand_rand);
-		sav.write(1, (sav.read()[1] - damage));
+		sav.write(1, (sav.read()[1] - (Math.round((int)(sav.read()[2] / (ran.nextInt(3) + 1))))));
 		hy.hopper(1);
 		vi.fake_main(mode);
 		System.out.print("\nThe " + chr.get_enemy_race(0));
-		System.out.print(" attacks you, dealing " + damage);
+		System.out.print(" attacks you, dealing " + (Math.round((int)(sav.read()[2] / (ran.nextInt(3) + 1)))));
 		System.out.print(" damage!");
 		System.out.println();
 		tool.pause(1000);
-		if ((sav.read()[4] - damage) <= 0) {
+		if ((sav.read()[4] - (Math.round((int)(sav.read()[2] / (ran.nextInt(3) + 1))))) <= 0) {
 			return 1;
 		}
 		return 0;
@@ -32,14 +29,11 @@ class all_attacks {
 		hypersurf hy = new hypersurf();
 		visuals vi = new visuals();
 		tools tool = new tools();
-		int base_rand = (ran.nextInt(3) + 1);
-		double rand_rand = (sav.read()[2] / base_rand);
-		int damage = Math.round((int)rand_rand);
-		sav.write(4, (sav.read()[4] - damage));
+		sav.write(4, (sav.read()[4] - (Math.round((int)(sav.read()[2] / (ran.nextInt(3) + 1))))));
 		hy.hopper(1);
 		vi.fake_main(1);
 		System.out.print("\nYou attack the " + chr.get_enemy_race(0));
-		System.out.print(", dealing " + damage);
+		System.out.print(", dealing " + (Math.round((int)(sav.read()[2] / (ran.nextInt(3) + 1)))));
 		System.out.print(" damage!");
 		System.out.println();
 		tool.pause(1000);
