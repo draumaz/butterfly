@@ -1,5 +1,5 @@
 # Butterfly
-![Screenie](https://github.com/draumaz/butterfly/blob/main/screenshot.png?raw=true "Screenshot")
+![Screenie](https://github.com/draumaz/butterfly/blob/main/screenshot-neu.png?raw=true "Screenshot")
 <p align="center">
   <b></b><br>
   <a href="https://github.com/draumaz/butterfly/releases/latest">Download (Java)</a>
