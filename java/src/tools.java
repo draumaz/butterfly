@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class tools {
 	public String version() {
-		return "0.06";
+		return "0.07";
 	}
 	public static void clear_screen() {
 		if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
