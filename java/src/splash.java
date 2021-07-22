@@ -75,7 +75,7 @@ class splash {
 	}
 	public static void reset() {
 		tools tool = new tools();
-		System.out.println("\nJust to verify, you want to reset your stats?\n\nYES [1]\nNO  [2]\n");
+		System.out.println("\nJust to verify, you want to reset your temp file?\n\nYES [1]\nNO  [2]\n");
 		switch (tool.user_input(1, 2, 1)) {
 			case 1:
 				File fi = new File("temp.txt");
