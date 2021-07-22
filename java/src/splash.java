@@ -78,16 +78,14 @@ class splash {
 		System.out.println("\nJust to verify, you want to reset your temp file?\n\nYES [1]\nNO  [2]\n");
 		switch (tool.user_input(1, 2, 1)) {
 			case 1:
-				File fi = new File("temp.txt");
-				if (fi.delete()) {
+				if (new File("temp.txt").delete()) {
 					System.out.println("\nTemp file successfully deleted.");
 					tool.pause(350);
-					splash_screen();
 				} else {
 					System.out.println("\nUnable to delete temp file.");
 					tool.pause(350);
-					splash_screen();
 				}
+				splash_screen();
 				break;
 			case 2:
 				splash_screen();

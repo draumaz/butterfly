@@ -18,7 +18,7 @@ class all_attacks {
 		System.out.print(" damage!");
 		System.out.println();
 		tool.pause(1000);
-		if (sav.read()[4] - damage <= 0) {
+		if ((sav.read()[4] - damage) <= 0) {
 			return 1;
 		}
 		return 0;
@@ -39,7 +39,7 @@ class all_attacks {
 		System.out.print(" damage!");
 		System.out.println();
 		tool.pause(1000);
-		if ((sav.read()[4]) <= 0) {
+		if (sav.read()[4] <= 0) {
 			return 1;
 		}
 		return 0;

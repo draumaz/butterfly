@@ -46,6 +46,7 @@ class all_items {
 							System.out.println("\nYou don't have any potions left.");
 							tool.pause(1000);
 							hy.hopper(0);
+							break;
 					}
 				case 2:
 					switch (spear_status) {
