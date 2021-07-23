@@ -24,8 +24,11 @@ class all_attacks {
 		vi.fake_main(fake_input);
 		switch (direction) {
 			case 0:
-				System.out.print("\nYou attack the " + chr.get_enemy_race(0));
-				System.out.print(", dealing " + damage);
+				if (sav.read()[4] <= 0) {
+					System.out.print("\nYou deal the death blow, causing " + damage);
+				} else {
+					System.out.print("\nYou attack the " + chr.get_enemy_race(0) + ", dealing " + damage);
+				}
 				break;
 			case 1:
 				if (sav.read()[1] <= 0)  {
@@ -35,8 +38,7 @@ class all_attacks {
 				}
 				break;
 		}
-		System.out.print(" damage!");
-		System.out.println();
+		System.out.print(" damage!\n");
 		tool.pause(1000);
 		if ((sav.read()[4]) <= 0) {
 			return 1;
