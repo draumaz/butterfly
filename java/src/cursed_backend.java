@@ -1,5 +1,62 @@
 class cursed_backend {
-	public String[] loopers(int which) {
+	public static void credit_loops(int which) {
+		tools tool = new tools();
+		int loop;
+		switch (which) {
+			case 0:
+				for (loop = 0; loop < loopers(2).length; loop++) {
+					System.out.print(loopers(2)[loop]);
+					tool.pause(10);
+				}
+				tool.pause(500);
+				break;
+			case 1:
+				System.out.print(" ");
+				for (loop = 0; loop < loopers(3).length; loop++) {
+					System.out.print(loopers(3)[loop]);
+					tool.pause(10);
+				}
+				System.out.print(tool.version());
+				tool.pause(650);
+				break;
+			case 2:
+				System.out.println("\n");
+				for (loop = 0; loop < loopers(4).length; loop++) {
+					System.out.print(loopers(4)[loop]);
+					tool.pause(10);
+				}
+				tool.pause(250);
+				break;
+			case 3:
+				for (loop = 0; loop < loopers(1).length; loop++) {
+					System.out.print(loopers(1)[loop]);
+					tool.pause(100);
+				}
+				tool.pause(1000);
+				break;
+			case 4:
+				System.out.println("\n");
+				for (loop = 0; loop < loopers(5).length; loop++) {
+					System.out.print(loopers(5)[loop]);
+					tool.pause(10);
+				}
+				break;
+			case 5:
+				System.out.print(" ");
+				for (loop = 0; loop < loopers(6).length; loop++) {
+					System.out.print(loopers(6)[loop]);
+					tool.pause(80);
+				}
+				break;
+			case 6:
+				for (loop = 0; loop < loopers(7).length; loop++) {
+					System.out.print(loopers(7)[loop]);
+					tool.pause(8);
+				}
+				break;
+		}
+	}
+	public static String[] loopers(int which) {
 		switch (which) {
 			case 1:
 				String[] b = {"i","n"," ","J","a","v","a","!"};

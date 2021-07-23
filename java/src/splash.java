@@ -33,38 +33,8 @@ class splash {
 		int loop;
 		tool.clear_screen();
 		System.out.println();
-		for (loop = 0; loop < crs.loopers(2).length; loop++) {
-			System.out.print(crs.loopers(2)[loop]);
-			tool.pause(10);
-		}
-		tool.pause(500);
-		System.out.print(" ");
-		for (loop = 0; loop < crs.loopers(3).length; loop++) {
-			System.out.print(crs.loopers(3)[loop]);
-			tool.pause(10);
-		}
-		System.out.print(tool.version());
-		tool.pause(650);
-		System.out.println("\n");
-		for (loop = 0; loop < crs.loopers(4).length; loop++) {
-			System.out.print(crs.loopers(4)[loop]);
-			tool.pause(10);
-		}
-		tool.pause(250);
-		for (loop = 0; loop < crs.loopers(1).length; loop++) {
-			System.out.print(crs.loopers(1)[loop]);
-			tool.pause(100);
-		}
-		tool.pause(1000);
-		System.out.println("\n");
-		for (loop = 0; loop < crs.loopers(5).length; loop++) {
-			System.out.print(crs.loopers(5)[loop]);
-			tool.pause(10);
-		}
-		System.out.print(" ");
-		for (loop = 0; loop < crs.loopers(6).length; loop++) {
-			System.out.print(crs.loopers(6)[loop]);
-			tool.pause(80);
+		for (int i = 0; i < 6; i++) {
+			crs.credit_loops(i);
 		}
 		System.out.print(":");
 		tool.pause(500);
@@ -96,10 +66,7 @@ class splash {
 		System.out.print("\nThanks for playing my game!\n\n");
 		tool.pause(250);
 		System.out.print("Keep up with development at ");
-		for (int loop = 0; loop < crs.loopers(7).length; loop++) {
-			System.out.print(crs.loopers(7)[loop]);
-			tool.pause(8);
-		}
+		crs.credit_loops(6);
 		System.out.print(".");
 		tool.pause(500);
 		System.out.println("\n");
