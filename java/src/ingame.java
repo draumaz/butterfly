@@ -31,10 +31,8 @@ class ingame {
 				hy.hopper(0);
 				break;
 			case 2:
-				switch(ait.menu(0)) {
-					case 2:
-						att.attack(2, 1);
-						break;
+				if (ait.menu(0) == 2) {
+					att.attack(2, 1);
 				}
 				hy.hopper(0);
 				break;

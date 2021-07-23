@@ -10,6 +10,15 @@ class all_attacks {
 		visuals vi = new visuals();
 		tools tool = new tools();
 		int damage = 0;
+		int health_prior = 0;
+		switch (direction) {
+			case 0:
+				health_prior = sav.read()[4];
+				break;
+			case 1:
+				health_prior = sav.read()[1];
+				break;
+		}
 		switch (direction) {
 			case 0:
 				damage = Math.round((int)(sav.read()[2] / (ran.nextInt(3) + 1)));
@@ -28,14 +37,17 @@ class all_attacks {
 				System.out.print(", dealing " + damage);
 				break;
 			case 1:
-				System.out.print("\nThe " + chr.get_enemy_race(0));
-				System.out.print(" attacks you, dealing " + damage);
+				if (sav.read()[1] <= 0)  {
+					System.out.print("\nThe " + chr.get_enemy_race(0) + " deals the death blow, causing " + damage);
+				} else {
+					System.out.print("\nThe " + chr.get_enemy_race(0) + " attacks you, dealing " + damage);
+				}
 				break;
 		}
 		System.out.print(" damage!");
 		System.out.println();
 		tool.pause(1000);
-		if ((sav.read()[4] - damage) <= 0) {
+		if ((sav.read()[4]) <= 0) {
 			return 1;
 		}
 		return 0;

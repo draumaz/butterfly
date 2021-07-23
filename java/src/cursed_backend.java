@@ -28,6 +28,9 @@ class cursed_backend {
 			case 9:
 				String[] j = {".",".","."};
 				return j;
+			case 10:
+				String[] k = {"A","C","T","I","O","N"," ",">",">"," "};
+				return k;
 		}
 		String[] fail = {"INV","ALID"};
 		return fail;

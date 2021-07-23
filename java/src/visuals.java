@@ -25,9 +25,9 @@ class visuals {
 	}
 	public static void action_anim() {
 		tools tool = new tools();
-		String[] x = {"A","C","T","I","O","N"," ",">",">"," "};
-		for (int o = 0; o < x.length; o++) {
-			System.out.print(x[o]);
+		cursed_backend crs = new cursed_backend();
+		for (int i = 0; i < crs.loopers(10).length; i++) {
+			System.out.print(crs.loopers(10)[i]);
 			tool.pause(8);
 		}
 	}

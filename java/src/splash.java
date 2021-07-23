@@ -85,12 +85,9 @@ class splash {
 					System.out.println("\nUnable to delete temp file.");
 					tool.pause(350);
 				}
-				splash_screen();
-				break;
-			case 2:
-				splash_screen();
 				break;
 		}
+		splash_screen();
 	}
 	public static void exit() {
 		cursed_backend crs = new cursed_backend();
