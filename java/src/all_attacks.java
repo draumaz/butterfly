@@ -10,15 +10,6 @@ class all_attacks {
 		visuals vi = new visuals();
 		tools tool = new tools();
 		int damage = 0;
-		int health_prior = 0;
-		switch (direction) {
-			case 0:
-				health_prior = sav.read()[4];
-				break;
-			case 1:
-				health_prior = sav.read()[1];
-				break;
-		}
 		switch (direction) {
 			case 0:
 				damage = Math.round((int)(sav.read()[2] / (ran.nextInt(3) + 1)));
