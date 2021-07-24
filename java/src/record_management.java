@@ -20,8 +20,7 @@ class record_management {
 			FileWriter f = new FileWriter("record.txt");
 			f.write("0\n0\n0");
 			f.close();
-		}
-		catch (IOException f) {}
+		} catch (IOException f) {}
 	}
 	public static int[] read() {
 		int[] y = new int[3];
@@ -50,7 +49,6 @@ class record_management {
 			}
 			out.flush();
 			out.close();
-		}
-		catch (IOException io) {}
+		} catch (IOException io) {}
 	}
 }

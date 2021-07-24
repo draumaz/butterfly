@@ -17,25 +17,20 @@ class save_management {
 	}
 	public static void generate() {
 		char_data ch = new char_data();
+		tools tool = new tools();
 		int[] z = ch.stats_gen();
 		try {
 			boolean i = new File("temp.txt").createNewFile();
-		}
-		catch (IOException i) {}
+		} catch (IOException i) {}
 		try {
-			PrintWriter wr = new PrintWriter("temp.txt");
-			wr.println(z[0]);
-			wr.println(z[1]);
-			wr.println(z[2]);
-			wr.println(z[3]);
-			wr.println(z[4]);
-			wr.println(z[5]);
-			wr.println(z[6]);
-			wr.println(z[7]);
-			wr.println(z[8]);
-			wr.close();
-		}
-		catch (FileNotFoundException o) {}
+			BufferedWriter out = null;
+			out = new BufferedWriter(new FileWriter("temp.txt"));
+			for (int x = 0; x < ch.stats_gen().length; x++) {
+				out.write(z[x]+"\n");
+			}
+			out.flush();
+			out.close();
+		} catch (IOException o) {}
 	}
 	public static int[] read() {
 		hypersurf hy = new hypersurf();
@@ -47,10 +42,9 @@ class save_management {
 			for (int i = 0; i < y.length; i++) {
 				y[i] = Integer.parseInt(x[i]);
 			}
-		}
-		catch (IOException i) {}
-		catch (ArrayIndexOutOfBoundsException a) {
-			generate();
+		} catch (IOException i) {}
+		  catch (ArrayIndexOutOfBoundsException a) {
+		  	generate();
 			System.out.println("\nSave corrupted. Continuing with a new save."); // Consider adding to a pre-game splash screen?
 			tool.pause(1000);
 			hy.hopper(0);
@@ -58,20 +52,17 @@ class save_management {
 		return y;
 	}
 	public static void write(int line, int state) {
-		int[] i = read();
-		if (state <= 0) {
-			state = 0;
-		}
-		i[line] = state;
+		int[] z = read();
+		state = state < 0? 0 : state;
+		z[line] = Math.round((int)(state));
 		try {
 			BufferedWriter out = null;
 			out = new BufferedWriter(new FileWriter("temp.txt"));
-			for (int x = 0; x < i.length; x++) {
-				out.write(i[x]+"\n");
+			for (int x = 0; x < z.length; x++) {
+				out.write(z[x]+"\n");
 			}
 			out.flush();
 			out.close();
-		}
-		catch (IOException f) {}
+		} catch (IOException f) {}
 	}
 }

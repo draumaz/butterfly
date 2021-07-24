@@ -59,7 +59,7 @@ class all_items {
 							vi.fake_main(2);
 							menu(1);
 							vi.fake_input(2);
-							System.out.println("\n\nYou throw the spear, dealing 9HP!");
+							System.out.println("\n\nYou throw the spear, dealing 9 damage!");
 							tool.pause(1000);
 							hy.hopper(2);
 							if ((sav.read()[4] - 9) <= 0) {

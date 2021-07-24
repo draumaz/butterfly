@@ -25,14 +25,14 @@ class all_attacks {
 		switch (direction) {
 			case 0:
 				if (sav.read()[4] <= 0) {
-					System.out.print("\nYou deal the death blow, causing " + damage);
+					System.out.print("\nYou deal the death blow, attacking with " + damage);
 				} else {
 					System.out.print("\nYou attack the " + chr.get_enemy_race(0) + ", dealing " + damage);
 				}
 				break;
 			case 1:
 				if (sav.read()[1] <= 0)  {
-					System.out.print("\nThe " + chr.get_enemy_race(0) + " deals the death blow, causing " + damage);
+					System.out.print("\nThe " + chr.get_enemy_race(0) + " deals the death blow, striking with " + damage);
 				} else {
 					System.out.print("\nThe " + chr.get_enemy_race(0) + " attacks you, dealing " + damage);
 				}
