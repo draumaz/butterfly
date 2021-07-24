@@ -56,10 +56,7 @@ class all_attacks {
 		hy.hopper(1);
 		vi.fake_main(1);
 		System.out.println();
-		for (int i = 0; i < crs.loopers(8).length; i++) {
-			System.out.print(crs.loopers(8)[i]);
-			tool.pause(35);
-		}
+		crs.credit_loops(8);
 		tool.pause(500);
 		System.out.print("\n\nYou attack the " + chr.get_enemy_race(0));
 		System.out.print(", dealing 20 damage!");

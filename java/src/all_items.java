@@ -1,5 +1,5 @@
 class all_items {
-	public static int menu(int x) {
+	public static int menu(int fake) {
 		save_management sav = new save_management();
 		tools tool = new tools();
 		hypersurf hy = new hypersurf();
@@ -25,7 +25,7 @@ class all_items {
 		System.out.print(potion_status + "x POTION [1] (restores 10HP)\n");
 		System.out.print(spear_status + "x SPEAR [2] (deals 9 damage)\nBACK [3]");
 		System.out.println("\n");
-		if (x == 0) {
+		if (fake == 0) {
 			switch (tool.user_input(1, 3, 0)) {
 				case 1:
 					switch (potion_status) {

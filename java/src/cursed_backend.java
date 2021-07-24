@@ -1,87 +1,42 @@
 class cursed_backend {
 	public static void credit_loops(int which) {
 		tools tool = new tools();
-		int loop;
-		switch (which) {
-			case 0:
-				for (loop = 0; loop < loopers(2).length; loop++) {
-					System.out.print(loopers(2)[loop]);
-					tool.pause(10);
-				}
-				tool.pause(500);
-				break;
-			case 1:
-				System.out.print(" ");
-				for (loop = 0; loop < loopers(3).length; loop++) {
-					System.out.print(loopers(3)[loop]);
-					tool.pause(10);
-				}
-				System.out.print(tool.version());
-				tool.pause(650);
-				break;
-			case 2:
-				System.out.println("\n");
-				for (loop = 0; loop < loopers(4).length; loop++) {
-					System.out.print(loopers(4)[loop]);
-					tool.pause(10);
-				}
-				tool.pause(250);
-				break;
-			case 3:
-				for (loop = 0; loop < loopers(1).length; loop++) {
-					System.out.print(loopers(1)[loop]);
-					tool.pause(100);
-				}
-				tool.pause(1000);
-				break;
-			case 4:
-				System.out.println("\n");
-				for (loop = 0; loop < loopers(5).length; loop++) {
-					System.out.print(loopers(5)[loop]);
-					tool.pause(10);
-				}
-				break;
-			case 5:
-				System.out.print(" ");
-				for (loop = 0; loop < loopers(6).length; loop++) {
-					System.out.print(loopers(6)[loop]);
-					tool.pause(80);
-				}
-				break;
-			case 6:
-				for (loop = 0; loop < loopers(7).length; loop++) {
-					System.out.print(loopers(7)[loop]);
-					tool.pause(8);
-				}
-				break;
-			default:
-				break;
+		String[] inter = {"","","\n\n","","\n"," ","",""};
+		String[] inter2 = {" ",tool.version(),"","\n","","","",""};
+		int[] pau1 = {10, 10, 10, 100, 10, 80, 8, 35};
+		int[] pau2 = {500, 650, 250, 1000, 0, 0, 0, 0};
+		System.out.print(inter[which]);
+		for (int i = 0; i < loopers(which).length; i++) {
+			System.out.print(loopers(which)[i]);
+			tool.pause(pau1[which]);	
 		}
+		System.out.print(inter2[which]);
+		tool.pause(pau2[which]);
 	}
 	public static String[] loopers(int which) {
 		switch (which) {
-			case 1:
-				String[] b = {"i","n"," ","J","a","v","a","!"};
-				return b;
-			case 2:
+			case 0:
 				String[] c = {"B","u","t","t","e","r","f","l","y",","};
 				return c;
-			case 3:
+			case 1:
 				String[] d = {"v","e","r","s","i","o","n"," "};
 				return d;
-			case 4:
+			case 2:
 				String[] e = {"D","e","v","e","l","o","p","e","d"," ","b","y"," ","d","r","a","u","m","a","z"," "};
 				return e;
-			case 5:
+			case 3:
+				String[] b = {"i","n"," ","J","a","v","a","!"};
+				return b;
+			case 4:
 				String[] f = {"P","l","a","y","t","e","s","t","e","d"," ","b","y"};
 				return f;
-			case 6:
+			case 5:
 				String[] g = {"T","H","E"," ","B","O","Y","S"};
 				return g;
-			case 7:
+			case 6:
 				String[] h = {"h","t","t","p","s",":","/","/","g","i","t","h","u","b",".","c","o","m","/","d","r","a","u","m","a","z","/","b","u","t","t","e","r","f","l","y"};
 				return h;
-			case 8:
+			case 7:
 				String[] i = {"C","R","I","T","I","C","A","L"," ","H","I","T","!"};
 				return i;
 			case 9:
