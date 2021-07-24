@@ -4,69 +4,56 @@ class char_data {
 	public int[] stats_gen() {
 		Random ran = new Random();
 		int[] i = new int[9];
+		for (int x = 0; x < stats_player((ran.nextInt(5) + 1)).length; x++) {
+			i[x] = stats_player((ran.nextInt(5) + 1))[x];
+			i[(x + 3)] = stats_enemy((ran.nextInt(5) + 1))[x];
+		}
 		i[6] = 0;
 		i[7] = 0;
 		i[8] = 0;
-		switch((ran.nextInt(5) + 1)) {
-			case 1:
-				i[0] = 1; // Vuleen
-				i[1] = 20;
-				i[2] = 10;
-				break;
-			case 2:
-				i[0] = 2; // Aradi
-				i[1] = 30;
-				i[2] = 15;
-				break;
-			case 3:
-				i[0] = 3; // Human
-				i[1] = 20;
-				i[2] = 7;
-				break;
-			case 4:
-				i[0] = 4; // Lycan
-				i[1] = 16;
-				i[2] = 32;
-				break;
-			case 5:
-				i[0] = 5; // Jodum
-				i[1] = 24;
-				i[2] = 16;
-				break;
-		}
-		switch((ran.nextInt(5) + 1)) {
-			case 1:
-				i[3] = 1; // Darak
-				i[4] = 25;
-				i[5] = 10;
-				break;
-			case 2:
-				i[3] = 2; // Goblin
-				i[4] = 12;
-				i[5] = 7;
-				if ((ran.nextInt(14) + 1) == 12) {
-					i[3] = 4; // ULTRA GOBLIN
-					i[4] = 40;
-					i[5] = 15;
-				}
-				break;
-			case 3:
-				i[3] = 3; // Arcran
-				i[4] = 30;
-				i[5] = 5;
-				break;
-			case 4:
-				i[3] = 5; // Sleech
-				i[4] = 12;
-				i[5] = 36;
-				break;
-			case 5:
-				i[3] = 6; // Wimble
-				i[4] = 27;
-				i[5] = 10;
-				break;
-		}
 		return i;
+	}
+	public static int[] stats_player(int i) {
+		switch (i) {
+			case 1:
+				int[] a = {1, 20, 10};
+				return a;
+			case 2:
+				int[] b = {2, 30, 15};
+				return b;
+			case 3:
+				int[] c = {3, 20, 7};
+				return c;
+			case 4:
+				int[] d = {4, 16, 32};
+				return d;
+			case 5:
+				int[] e = {5, 24, 16};
+				return e;
+		}
+		int[] fail = {64, 64};
+		return fail;
+	}
+	public static int[] stats_enemy(int i) {
+		switch (i) {
+			case 1:
+				int[] a = {1, 25, 10};
+				return a;
+			case 2:
+				int[] b = {2, 12, 7};
+				return b;
+			case 3:
+				int[] c = {3, 30, 5};
+				return c;
+			case 4:
+				int[] d = {5, 12, 36};
+				return d;
+			case 5:
+				int[] e = {6, 27, 10};
+				return e;
+		}
+		int[] f = {64, 64};
+		return f;
 	}
 	public static String get_player_race() {
 		save_management sav = new save_management();
@@ -87,69 +74,29 @@ class char_data {
 	public static String get_enemy_race(int capital) {
 		save_management sav = new save_management();
 		String race = new String();
-		String base = new String();
-		String first = new String();
 		switch (sav.read()[3]) {
 			case 1:
-				switch (capital) {
-					case 0:
-						first = "d";
-						break;
-					case 1:
-						first = "D";
-						break;
-				}
-				base = "arak";
+				race = "darak";
 				break;
 			case 2:
-				switch (capital) {
-					case 0:
-						first = "g";
-						break;
-					case 1:
-						first = "G";
-						break;
-				}
-				base = "oblin";
+				race = "goblin";
 				break;
 			case 3:
-				switch (capital) {
-					case 0:
-						first = "a";
-						break;
-					case 1:
-						first = "A";
-						break;
-				}
-				base = "rcran";
+				race = "arcran";
 				break;
 			case 4:
-				first = "U";
-				base = "LTRA GOBLIN";
+				race = "ULTRA GOBLIN";
 				break;
 			case 5:
-				switch (capital) {
-					case 0:
-						first = "s";
-						break;
-					case 1:
-						first = "S";
-						break;
-				}
-				base = "leech";
+				race = "sleech";
 				break;
 			case 6:
-				switch (capital) {
-					case 0:
-						first = "w";
-						break;
-					case 1:
-						first = "W";
-						break;
-				}
-				base = "imble";
+				race = "wimble";
 				break;
 		}
-		return first + base;
+		if (capital == 1) {
+			return race.substring(0, 1).toUpperCase() + race.substring(1);
+		}
+		return race;
 	}
 }

@@ -54,6 +54,8 @@ class cursed_backend {
 					tool.pause(8);
 				}
 				break;
+			default:
+				break;
 		}
 	}
 	public static String[] loopers(int which) {
