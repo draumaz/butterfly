@@ -4,9 +4,11 @@ class char_data {
 	public int[] stats_gen() {
 		Random ran = new Random();
 		int[] i = new int[9];
+		int ran1 = (ran.nextInt(5) + 1);
+		int ran2 = (ran.nextInt(5) + 1);
 		for (int x = 0; x < stats_player((ran.nextInt(5) + 1)).length; x++) {
-			i[x] = stats_player((ran.nextInt(5) + 1))[x];
-			i[(x + 3)] = stats_enemy((ran.nextInt(5) + 1))[x];
+			i[x] = stats_player(ran1)[x];
+			i[(x + 3)] = stats_enemy(ran2)[x];
 		}
 		i[6] = 0;
 		i[7] = 0;
