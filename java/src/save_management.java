@@ -45,7 +45,7 @@ class save_management {
 		} catch (IOException i) {}
 		  catch (ArrayIndexOutOfBoundsException a) {
 		  	generate();
-			System.out.println("\nSave corrupted. Continuing with a new save."); // Consider adding to a pre-game splash screen?
+			System.out.println("\nSave corrupted. Continuing with a new save.");
 			tool.pause(1000);
 			hy.hopper(0);
 		}

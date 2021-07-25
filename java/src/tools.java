@@ -7,15 +7,26 @@ public class tools {
 		return "0.07";
 	}
 	public static void clear_screen() {
-		if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
-			try { // Untested
-				new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
-				} catch (Exception e) {}
-		} else {
-			try {
-				new ProcessBuilder("/bin/sh","-c","clear").inheritIO().start().waitFor();
-			} catch (Exception e) {}
+		switch (os_detect()) {
+			case 0:
+				try {
+					new ProcessBuilder("/bin/sh","-c","clear").inheritIO().start().waitFor();
+				} catch (Exception e) {
+				}
+				break;
+			case 1:
+				try {
+					new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
+				} catch (Exception e) {
+				}
+				break;
 		}
+	}
+	public static int os_detect() {
+		if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
+			return 1;
+		}
+		return 0;
 	}
 	public static void pause(int ms) {
 		try {
