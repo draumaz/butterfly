@@ -23,6 +23,8 @@ class record_management {
 		} catch (IOException f) {}
 	}
 	public static int[] read() {
+		tools tool = new tools();
+		hypersurf hy = new hypersurf();
 		int[] y = new int[3];
 		try {
 			List<String> z = Files.readAllLines(Paths.get("record.txt"));
@@ -33,8 +35,10 @@ class record_management {
 		}
 		catch (IOException i) {}
 		catch (ArrayIndexOutOfBoundsException a) {
-			System.out.println("Fatal file read error encountered. Exiting.");
-			System.exit(0);
+			generate();
+			System.out.println("\nRecord file corrupted. Continuing with a new record.");
+			tool.pause(1000);
+			hy.hopper(0);
 		}
 		return y;
 	}

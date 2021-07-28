@@ -7,31 +7,22 @@ public class tools {
 		return "0.07";
 	}
 	public static void clear_screen() {
-		switch (os_detect()) {
-			case 0:
-				try {
-					new ProcessBuilder("/bin/sh","-c","clear").inheritIO().start().waitFor();
-				} catch (Exception e) {
-				}
-				break;
-			case 1:
-				try {
-					new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
-				} catch (Exception e) {
-				}
-				break;
-		}
-	}
-	public static int os_detect() {
 		if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
-			return 1;
+			try {
+				new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
+			} catch (IOException IO_e) {}
+			  catch (InterruptedException IE_e) {}
+		} else {
+			try {
+				new ProcessBuilder("/bin/sh","-c","clear").inheritIO().start().waitFor();
+			}  catch (IOException IO_e) {}
+			   catch (InterruptedException IE_e) {}
 		}
-		return 0;
 	}
 	public static void pause(int ms) {
 		try {
 			Thread.sleep(ms);
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException IE_e) {}
 	}
 	public int user_input(int min, int max, int screen_mode) { // in-game - screen_mode = 0; main menu - screen_mode = 1;
 		int i = 0;
