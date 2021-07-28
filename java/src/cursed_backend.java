@@ -16,35 +16,25 @@ class cursed_backend {
 	public static String[] loopers(int which) {
 		switch (which) {
 			case 0:
-				String[] c = {"B","u","t","t","e","r","f","l","y",","};
-				return c;
+				return "Butterfly,".split("");
 			case 1:
-				String[] d = {"v","e","r","s","i","o","n"," "};
-				return d;
+				return "version ".split("");
 			case 2:
-				String[] e = {"D","e","v","e","l","o","p","e","d"," ","b","y"," ","d","r","a","u","m","a","z"," "};
-				return e;
+				return "Developed by draumaz ".split("");
 			case 3:
-				String[] b = {"i","n"," ","J","a","v","a","!"};
-				return b;
+				return "in Java!".split("");
 			case 4:
-				String[] f = {"P","l","a","y","t","e","s","t","e","d"," ","b","y"};
-				return f;
+				return "Playtested by".split("");
 			case 5:
-				String[] g = {"T","H","E"," ","B","O","Y","S"};
-				return g;
+				return "THE BOYS".split("");
 			case 6:
-				String[] h = {"h","t","t","p","s",":","/","/","g","i","t","h","u","b",".","c","o","m","/","d","r","a","u","m","a","z","/","b","u","t","t","e","r","f","l","y"};
-				return h;
+				return "https://github.com/draumaz/butterfly".split("");
 			case 7:
-				String[] i = {"C","R","I","T","I","C","A","L"," ","H","I","T","!"};
-				return i;
+				return "C R I T I C A L  H I T!".split("");
 			case 9:
-				String[] j = {".",".","."};
-				return j;
+				return "...".split("");
 			case 10:
-				String[] k = {"A","C","T","I","O","N"," ",">",">"," "};
-				return k;
+				return "ACTION >> ".split("");
 		}
 		String[] fail = {"INV","ALID"};
 		return fail;
