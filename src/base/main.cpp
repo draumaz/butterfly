@@ -1,3 +1,7 @@
 #include <iostream>
 #include "./../header/screen.hpp"
-int main() { splash_screen(); return 0; }
+
+int main() {
+	splash_screen();
+	return 0;
+}
