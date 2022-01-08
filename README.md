@@ -1,16 +1,11 @@
-# Butterfly
-![Screenie](https://github.com/draumaz/butterfly/blob/main/screenshot-neu.png?raw=true "Screenshot")
-<p align="center">
-  <b></b><br>
-  <a href="https://github.com/draumaz/butterfly/releases/latest">Download (Java)</a>
-  <br><br>
+```
+______ _   _ _____ _____ _________________ _   __   __
+| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \ \ / /
+| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \ V /  (.\\//.)
+| ___ | | | | | |   | | |  __||    /|  _| | |    \ /    \ () / 
+| |_/ | |_| | | |   | | | |___| |\ \| |   | |____| |    (_/\_)
+\____/ \___/  \_/   \_/ \____/\_| \_\_|   \_____/\_/
 
-  An infinite, randomly-generated, fantasy-inspired, turn-based battle game, located entirely within your terminal window.
-  
-  Play as a strange creature, and fight off endless hordes of equally odd beings!
-
-# Acknowledgments
-
-Bryce Cano - playtest, character design, inspiration
-
-Catboy6969 - playtest
+git clone git://github.com/draumaz/butterfly-cpp
+cd butterfly-cpp; make
+```
