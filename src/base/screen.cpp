@@ -86,6 +86,7 @@ void board_screen() {
 
 int gip_warn() {
 	int * s = save_reader();
+	int r = 0;
 	bool warn = false;
 	for (int i = 0; i < 6; i++) {
 		if (s[i] != 0) {
@@ -94,7 +95,8 @@ int gip_warn() {
 		}
 	} if (warn == true) {
 		printf("\nGame in progress.\n\nCONTINUE [1]\nRESET [2]\nBACK [3]\n");
-	} return (user_input_int(1,3)-1);
+		return (user_input_int(1,3)-1);
+	} return 1;
 }
 
 void splash_screen() {
