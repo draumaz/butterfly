@@ -157,7 +157,7 @@ void splash_screen() {
 		case 4:
 			screen_clear();
 			printf("\nThanks for playing my game!\n\nKeep up with development at ");
-			lbl_reader("https://github.com/draumaz/butterfly-cpp.", 10);
+			lbl_reader("https://github.com/draumaz/butterfly.", 10);
 			printf("\n\n");
 			exit(0);
 			break;			
