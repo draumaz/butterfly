@@ -1,11 +1,22 @@
-```
-______ _   _ _____ _____ _________________ _   __   __
-| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \ \ / /
-| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \ V /  (.\\//.)
-| ___ | | | | | |   | | |  __||    /|  _| | |    \ /    \ () / 
-| |_/ | |_| | | |   | | | |___| |\ \| |   | |____| |    (_/\_)
-\____/ \___/  \_/   \_/ \____/\_| \_\_|   \_____/\_/
+# Butterfly
+![Screenie](https://github.com/draumaz/butterfly-java/blob/main/screenshot-neu.png?raw=true "Screenshot")
+<p align="center">
+  <b></b><br>
+  <a href="https://github.com/draumaz/butterfly/releases/latest">Download (Java)</a>
+  <br><br>
 
-git clone git://github.com/draumaz/butterfly-cpp
-cd butterfly-cpp; make
-```
+  A randomly-generated, turn-based TUI battle game. Fantasy elements, buff dragons, in your terminal today!
+  
+  Play as a strange creature, and fight off endless hordes of equally odd beings!
+
+# Acknowledgments
+
+Bryce Cano - playtest, character design, inspiration
+
+Catboy6969 - playtest
+
+# Install
+  
+```git clone git://github.com/draumaz/butterfly```
+  
+```cd butterfly; make; ./butterfly ```
