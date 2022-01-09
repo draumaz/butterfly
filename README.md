@@ -23,3 +23,5 @@
 catboy6969 - playtest, engine design
 
 Bryce Cano - character design, inspiration
+
+<a href="https://carbon.now.sh/">Carbon</a> - beautiful screenshots
