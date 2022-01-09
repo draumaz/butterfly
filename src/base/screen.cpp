@@ -24,7 +24,7 @@ void item_options_screen() {
 void board_header_screen(bool fake_options) {
 	int * rec = record_reader();
 	int * sav = save_reader();
-	printf("\nButterfly v%.2f | KILLS: %d | DEATHS: %d | SPARES: %d", version(), rec[0], rec[1], rec[2]);
+	printf("\nButterfly v%s | KILLS: %d | DEATHS: %d | SPARES: %d", version(), rec[0], rec[1], rec[2]);
 	printf("\n\nRACE: %s | HP: %d | STR: %d", race_display(sav[0],0,true), sav[1], sav[2]);
 	printf("\n\nENEMY RACE: %s | HP: %d | STR: %d", race_display(sav[3],1,true),sav[4],sav[5]);
 	if (fake_options == true) {
@@ -139,14 +139,12 @@ void splash_screen() {
 				game_sleep(200);
 			} break;
 		case 3: {
-			std::string v = std::to_string(version());
-			v.erase(v.length()-4);
 			screen_clear();
 			printf("\n");
 			lbl_reader("Butterfly",30);
 			game_sleep(500);
 			std::cout << " v" << std::flush;
-			lbl_reader(v,10);
+			lbl_reader(version(),10);
 			game_sleep(1000);
 			printf("\n\n");
 			lbl_reader("Developed by draumaz",35);
@@ -154,11 +152,11 @@ void splash_screen() {
 			lbl_reader(" in C++!",20);
 			game_sleep(1000);
 			printf("\n\n");
-			lbl_reader("Special thanks to: ",35);
+			lbl_reader("Special thanks to:",35);
 			game_sleep(500);
-			lbl_reader("catboy6969!",25);
+			lbl_reader("\n\ncatboy6969!",25);
 			game_sleep(500);
-			lbl_reader(" Bryce Cano!", 25);
+			lbl_reader("\nBryce Cano!", 25);
 			game_sleep(1000);
 			break; }
 		case 4:

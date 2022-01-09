@@ -2,7 +2,7 @@
 #include <fstream>
 #include <unistd.h>
 
-float version() { return 0.08; }
+const char* version() { return "0.08_01"; }
 
 int screen_clear() {
 	const char* cmd = NULL;
