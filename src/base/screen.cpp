@@ -153,6 +153,13 @@ void splash_screen() {
 			game_sleep(500);
 			lbl_reader(" in C++!",20);
 			game_sleep(1000);
+			printf("\n\n");
+			lbl_reader("Special thanks to: ",35);
+			game_sleep(500);
+			lbl_reader("catboy6969!",25);
+			game_sleep(500);
+			lbl_reader(" Bryce Cano!", 25);
+			game_sleep(1000);
 			break; }
 		case 4:
 			screen_clear();
