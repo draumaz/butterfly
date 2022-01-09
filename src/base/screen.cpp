@@ -130,7 +130,7 @@ void splash_screen() {
 			printf("\nJust to verify, you want to reset your save files?\n\nYES [1]\nNO [2]\n");
 			switch (user_input_int(1, 2)) {
 				case 1:
-					if (remove("data.txt") != 0) {
+					if (remove("data.txt") != 0 || remove("record.txt") != 0) {
 					printf("\nFailed to delete temp files.");
 				} else {
 					printf("\nSuccessfully deleted.");
