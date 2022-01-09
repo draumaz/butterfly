@@ -1,5 +1,5 @@
 # Butterfly
-![Screenie](https://github.com/draumaz/butterfly-java/blob/main/screenshot-neu.png?raw=true "Screenshot")
+![Screenie](https://github.com/draumaz/butterfly-java/blob/main/screenshot_carbon.png?raw=true "Screenshot")
 
   A randomly-generated, turn-based TUI battle game. Fantasy elements, buff dragons, in your terminal today!
   
