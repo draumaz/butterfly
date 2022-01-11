@@ -12,7 +12,7 @@
   You can find these <a href="https://github.com/draumaz/butterfly/releases/latest">here</a>.
 
 ## Build from source! (it won't take long, I promise)
-```git clone git://github.com/draumaz/butterfly```
+```git clone https://github.com/draumaz/butterfly```
   
 ```cd butterfly; make```
 
