@@ -77,41 +77,41 @@ void stats_randomize() {
 
 int * player_stats_gen(int i) {
     switch (i) {
-        case 1:
+        case 1: {
             static int vuleen[3] = {1, 20, 10};
-            return vuleen;
-        case 2:
+            return vuleen; }
+        case 2: {
             static int aradi[3] = {2, 30, 15};
-            return aradi;
-        case 3:
+            return aradi; }
+        case 3: {
             static int human[3] = {3, 20, 7};
-            return human;
-        case 4:
+            return human; }
+        case 4: {
             static int lycan[3] = {4, 16, 32};
-            return lycan;
-        case 5:
+            return lycan; }
+        case 5: {
             static int jodum[3] = {5, 24, 16};
-            return jodum;
+            return jodum; }
     } static int err[3] = {0, 0, 0}; return err;
 }
 
 int * enemy_stats_gen(int i) {
     switch (i) {
-        case 1:
+        case 1: {
             static int darak[3] = {1, 25, 10};
-            return darak;
-        case 2:
+            return darak; }
+        case 2: {
             static int goblin[3] = {2, 12, 7};
-            return goblin;
-        case 3:
+            return goblin; }
+        case 3: {
             static int arcran[3] = {3, 30, 5};
-            return arcran;
-        case 4:
+            return arcran; }
+        case 4: {
             static int sleech[3] = {5, 12, 36};
-            return sleech;
-        case 5:
+            return sleech; }
+        case 5: {
             static int wimble[3] = {6, 27, 10};
-            return wimble;
+            return wimble; }
     } static int err[3] = {0, 0, 0}; return err;
 }
 
