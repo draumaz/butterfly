@@ -132,10 +132,13 @@ void splash_screen() {
 			switch (user_input_int(1, 2)) {
 				case 1:
 					if (remove("data.txt") != 0 || remove("record.txt") != 0) {
-					printf("\nFailed to delete temp files.");
-				} else {
-					printf("\nSuccessfully deleted.");
-				}
+						printf("\nFailed to delete temp files.");
+					} else {
+						printf("\nSuccessfully deleted.");
+					}
+				case 2:
+					splash_screen();
+					break;
 				fflush(stdout);
 				game_sleep(200);
 			} break;

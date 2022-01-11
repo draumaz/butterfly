@@ -26,7 +26,7 @@ int user_input_int(int min, int max) {
 	char in[99] = "";
 	const char* s0 = "ACTION >> ";
 	const char* s1 = "Did you mean something else?";
-	int x,y = 0;
+	int x = 0; int y = 0;
 	while (x < x+1) {
 		printf("\n");
 		lbl_reader(s0, 10);
@@ -42,6 +42,7 @@ int user_input_int(int min, int max) {
 			y = 0;
 			game_sleep(100);
 			printf("\n");
+			continue;
 		} else { break; }
 	} return atoi(in);
 }
