@@ -30,7 +30,7 @@
 
 # Acknowledgments
 
-<a href="https://github.com/catboy6969">catboy6969</a> - playtest, engine design
+<a href="https://github.com/catboy6969">catboy6969</a> - playtest, engine element design, architecture testing
 
 <a href="https://carbon.now.sh/">Carbon</a> - beautiful screenshots
 
