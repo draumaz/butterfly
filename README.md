@@ -15,8 +15,6 @@
 
 ```git clone https://github.com/draumaz/butterfly; cd butterfly```
 
-#### If you're not on a common architecture, make sure to set your march= in the Makefile.
-
 ```make; ./butterfly-debug```
 
 # Acknowledgments
