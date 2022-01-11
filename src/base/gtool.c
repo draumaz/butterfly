@@ -37,8 +37,10 @@ int user_input_int(int min, int max) {
 			}
 		}
 		if (y == 1) {
-			lbl_reader(s1, 10);
-			game_sleep(250);
+			printf("\n");
+			lbl_reader(s1, 5);
+			y = 0;
+			game_sleep(100);
 			printf("\n");
 		} else { break; }
 	} return atoi(in);

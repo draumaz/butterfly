@@ -26,7 +26,7 @@ void new_game_manager() {
 
 void item_options_screen() {
 	int * sav = save_reader();
-	printf("\n%dx POTION [1] (restore 10HP)\n%dx SPEAR [2] (deal 9 damage)\nBACK [3]\n",sav[7],sav[8]);
+	printf("\n%dx POTION [1] (restore 10HP)\n%dx SPEAR  [2] (deal 9 damage)\nBACK      [3]\n",sav[7],sav[8]);
 }
 
 void board_header_screen(int fake_options) {
@@ -92,7 +92,7 @@ int gip_warn() {
 			break;
 		}
 	} if (warn == 0) {
-		printf("\nGame in progress.\n\nCONTINUE [1]\nRESET [2]\nBACK [3]\n");
+		printf("\nGame in progress.\n\nCONTINUE [1]\nRESET    [2]\nBACK     [3]\n");
 		return (user_input_int(1,3)-1);
 	} return 1;
 }
@@ -128,7 +128,7 @@ void splash_screen() {
 					break;
 			} break;
 		case 2:
-			printf("\nJust to verify, you want to reset your save files?\n\nYES [1]\nNO [2]\n");
+			printf("\nJust to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n");
 			switch (user_input_int(1, 2)) {
 				case 1:
 					if (remove("data.txt") != 0 || remove("record.txt") != 0) {
