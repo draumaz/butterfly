@@ -15,7 +15,9 @@
 
 ```git clone https://github.com/draumaz/butterfly; cd butterfly```
 
-```make; ./butterfly-debug```
+```make```
+
+```./butterfly-debug```
 
 # Acknowledgments
 
