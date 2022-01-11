@@ -2,7 +2,9 @@
 #include <fstream>
 #include <unistd.h>
 
-const char* version() { return "0.08_01"; }
+const char* version() {
+	return "0.08_02";
+}
 
 int screen_clear() {
 	const char* cmd = NULL;

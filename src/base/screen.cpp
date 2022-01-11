@@ -16,6 +16,16 @@ bool board_again_screen() {
 	} return false;
 }
 
+void new_game_manager() {
+	if (board_again_screen() == true) {
+			stats_write();
+			stats_randomize();
+			save_writer(7, 1);
+			save_writer(8, 1);
+			board_screen();
+	} else { printf("\n"); exit(0); }
+}
+
 void item_options_screen() {
 	int * sav = save_reader();
 	printf("\n%dx POTION [1] (restore 10HP)\n%dx SPEAR [2] (deal 9 damage)\nBACK [3]\n",sav[7],sav[8]);
@@ -39,17 +49,11 @@ void board_screen() {
 	if (sav[1] <= 0) {
 		printf("\n\nYou died!"); record_writer(1); std::cout << std::flush;
 		game_sleep(1000);
-		if (board_again_screen() == true) {
-			stats_write();
-			board_screen();
-		} else { printf("\n"); exit(0); }
+		new_game_manager();
 	} else if (sav[4] <= 0) {
 		printf("\n\nYou win!"); record_writer(0); std::cout << std::flush;
 		game_sleep(1000);
-		if (board_again_screen() == true) {
-			stats_write();
-			board_screen();
-		} else { printf("\n"); exit(0); }
+		new_game_manager();
 	}
 	printf("\n\nFIGHT [1]\nITEMS [2]\nSPARE [3]\nEXIT  [4]\n");
 	switch (user_input_int(1, 4)) {
@@ -69,10 +73,7 @@ void board_screen() {
 			if (spare() == true || sav[4] < 2) {
 				screen_clear();
 				board_header_screen(false);
-				if (board_again_screen() == true) {
-					stats_write();
-					board_screen();
-				} else { printf("\n"); exit(0); }
+				new_game_manager();
 			} else { attack(1); } break;
 		case 4:
 			splash_screen();
@@ -118,8 +119,10 @@ void splash_screen() {
 					board_screen();
 					break;
 				case 1:
-					stats_randomize();
 					stats_write();
+					save_writer(7, 1);
+					save_writer(8, 1);
+					stats_randomize();
 					board_screen();
 					break;
 				case 2:
