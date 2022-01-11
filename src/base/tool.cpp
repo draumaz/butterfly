@@ -1,6 +1,4 @@
 #include <iostream>
-#include <fstream>
-#include <unistd.h>
 
 const char* version() {
 	return "0.08_02";

@@ -1,6 +1,6 @@
 #include <iostream>
-#include <cstdlib>
 #include <cmath>
+
 #include "./../header/save_io.hpp"
 
 const char* race_display(int race, int type, bool cap) {

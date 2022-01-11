@@ -1,4 +1,3 @@
-#include <iostream>
 #include "./../header/screen.hpp"
 
 int main() {

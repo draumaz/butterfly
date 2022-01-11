@@ -1,9 +1,6 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <string>
-#include <unistd.h>
-#include <time.h>
 
 void game_sleep(int ms) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(ms));

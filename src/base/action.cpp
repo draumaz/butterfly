@@ -1,6 +1,6 @@
 #include <iostream>
-#include <cstdlib>
 #include <cmath>
+
 #include "./../header/tool.hpp"
 #include "./../header/save_io.hpp"
 #include "./../header/record_io.hpp"
