@@ -1,8 +1,8 @@
 # Butterfly
-![Screenie](https://github.com/draumaz/butterfly/raw/main/screenshot_carbon.png "Screenshot")
+![Screenie](https://github.com/draumaz/butterfly/raw/main/media/screenshot_carbon.png "Screenshot")
 
   A randomly-generated, turn-based TUI battle game. Fantasy elements, buff dragons, in your terminal today!
-![Weapon](https://github.com/draumaz/butterfly/raw/main/screenshot_spear_carbon.png "Screenshot")
+![Weapon](https://github.com/draumaz/butterfly/raw/main/media/screenshot_spear_carbon.png "Screenshot")
 
   Play as a strange creature, and fight off endless hordes of equally odd beings!
 
