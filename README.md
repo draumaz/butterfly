@@ -12,16 +12,26 @@
   You can find these <a href="https://github.com/draumaz/butterfly/releases/latest">here</a>.
 
 ## Build from source! (it won't take long, I promise)
-```git clone https://github.com/draumaz/butterfly```
-  
-```cd butterfly; make```
 
-```./butterfly```
+### Linux:
+
+```git clone https://github.com/draumaz/butterfly; cd butterfly```
+
+```make; ./butterfly-debug```
+### A (reasonably new) Android device: 
+
+```git clone https://github.com/draumaz/butterfly; cd butterfly```
+
+```sed -i 's/native/armv8/g' Makefile```
+
+```make; ./butterfly-debug```
+
+#### Thanks to catboy6969 for detailing this compile process!
 
 # Acknowledgments
 
-catboy6969 - playtest, engine design
-
-Bryce Cano - character design, inspiration
+<a href="https://github.com/catboy6969">catboy6969</a> - playtest, engine design
 
 <a href="https://carbon.now.sh/">Carbon</a> - beautiful screenshots
+
+Bryce Cano - character design, inspiration
