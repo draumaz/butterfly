@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 const char* version() {
-	return "0.09";
+	return "0.09_01";
 }
 
 int screen_clear() {
