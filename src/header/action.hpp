@@ -1,3 +1,3 @@
-bool spare();
-bool items();
+int spare();
+int items();
 void attack(int dir);
