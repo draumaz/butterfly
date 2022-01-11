@@ -15,7 +15,7 @@ int * record_reader() {
 	} j += 1; return array;
 }
 
-void record_writer(int line) {
+void record_writer(int line) { // C++
 	int * record_in = record_reader();
 	std::ofstream record_out(record_name);
 	for (int i = 0; i < 4; i++) {

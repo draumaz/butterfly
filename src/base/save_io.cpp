@@ -15,7 +15,7 @@ int * save_reader() {
 	} j += 1; return array;
 }
 
-void save_writer(int line, int state) {
+void save_writer(int line, int state) { // C++
 	if (state < 0) { state = 0; }
 	int * save_in = save_reader();
 	std::ofstream save_out(save_name);

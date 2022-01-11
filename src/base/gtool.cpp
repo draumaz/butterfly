@@ -1,33 +1,45 @@
-#include <iostream>
-#include <chrono>
-#include <thread>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <time.h>
+#include <errno.h>
 
 void game_sleep(int ms) {
-	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+	struct timespec ts; int res;
+	if (ms < 0) { errno = EINVAL; }
+	ts.tv_sec = ms / 1000;
+	ts.tv_nsec = (ms % 1000) * 1000000;
+	do {
+		res = nanosleep(&ts, &ts);
+	} while (res && errno == EINTR);
 }
 	
-void lbl_reader(std::string line, int stile) {
-	for (unsigned long int i = 0; i < line.length(); i++) {
-		std::cout << line[i] << std::flush;
+void lbl_reader(const char* line, int stile) {
+	for (unsigned long int i = 0; i < strlen(line); i++) {
+		printf("%c",line[i]); fflush(stdout);
 		game_sleep(stile);
 	}
 }
 
 int user_input_int(int min, int max) {
-	int u_ip;
-	std::string s0 = "ACTION >> ";
+	char in[99] = "";
+	const char* s0 = "ACTION >> ";
 	const char* s1 = "Did you mean something else?";
-	printf("\n");
-	lbl_reader(s0, 10);
-	std::cin >> u_ip;
-	while (std::cin.fail() || u_ip < min || u_ip > max) {
-		std::cin.clear();
-		std::cin.ignore(256, '\n');
-		printf("\n%s\n",s1);
-		game_sleep(250);
+	int x,y = 0;
+	while (x < x+1) {
 		printf("\n");
 		lbl_reader(s0, 10);
-		std::cin >> u_ip;
-	}
-	return u_ip;
+		scanf("%s",in);
+		for (long unsigned int i = 0; i < strlen(in); i++) {
+			if (! isdigit(in[i])) {
+				y = 1;
+			}
+		}
+		if (y == 1) {
+			lbl_reader(s1, 10);
+			game_sleep(250);
+			printf("\n");
+		} else { break; }
+	} return atoi(in);
 }

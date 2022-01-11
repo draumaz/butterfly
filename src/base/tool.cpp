@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdlib.h>
 
 const char* version() {
 	return "0.08_02";

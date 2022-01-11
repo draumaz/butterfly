@@ -1,5 +1,5 @@
-#include <iostream>
-#include <cmath>
+#include <time.h>
+#include <math.h>
 
 #include "./../header/save_io.hpp"
 
