@@ -21,7 +21,7 @@
 
 # Acknowledgments
 
-<a href="https://github.com/catboy6969">catboy6969</a> - playtest, engine element design, armv8 testing
+<a href="https://github.com/catboy6969">catboy6969</a> - playtest, game design, armv8 testing
 
 <a href="https://carbon.now.sh/">Carbon</a> - beautiful screenshots
 
