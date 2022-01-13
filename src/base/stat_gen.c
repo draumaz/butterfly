@@ -127,3 +127,12 @@ void stats_write() {
         }
     }
 }
+
+void stats_deploy() {
+    stats_write();
+    stats_randomize();
+    save_writer(7, 1); // potion set to 1x
+    save_writer(8, 1); // spear set to 1x
+    save_writer(9, 1); // poison set to 1x
+    save_writer(10, 0); // reset poison effects
+}
