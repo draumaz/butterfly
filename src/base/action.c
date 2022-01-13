@@ -33,7 +33,7 @@ int items() {
     int item_used = 1;
     int * sav = save_reader();
     item_options_screen();
-    switch (user_input_int(1, 3)) {
+    switch (user_input_int(1, 4)) {
         case 1:
             if (sav[7] > 0) { // use potion
                 item_used = 0;
@@ -65,7 +65,22 @@ int items() {
                 printf("\nYou don't have any spears left.");
             }
             break;
-        case 3: // leave now
+        case 3:
+            if (sav[9] > 0) { // use poison
+                item_used = 0;
+                save_writer(9, 0); // poison thrown
+                save_writer(10, 1); // poison loop active
+                screen_clear();
+                board_header_screen(0);
+                printf("\nACTION >> 3\n");
+                item_options_screen();
+                printf("\nACTION >> 2\n\nYou throw the poison! The %s feels the pain...", race_display(sav[3],1,1));
+            } else {
+                item_used = 1;
+                printf("\nYou don't have any more poison.");
+            }
+            break;
+        case 4: // leave now
             return item_used;
     } fflush(stdout); game_sleep(1000); return item_used;
 }

@@ -18,15 +18,17 @@ void new_game_manager() {
 	if (board_again_screen() == 1) {
 			stats_write();
 			stats_randomize();
-			save_writer(7, 1);
-			save_writer(8, 1);
+			save_writer(7, 1); // potion set to 1x
+			save_writer(8, 1); // spear set to 1x
+			save_writer(9, 1); // poison set to 1x
+			save_writer(10, 0); // reset poison effects
 			board_screen();
 	} else { printf("\n"); exit(0); }
 }
 
 void item_options_screen() {
 	int * sav = save_reader();
-	printf("\n%dx POTION [1] (restore 10HP)\n%dx SPEAR  [2] (deal 9 damage)\nBACK      [3]\n",sav[7],sav[8]);
+	printf("\n%dx POTION [1] (restore 10HP)\n%dx SPEAR  [2] (deal 9 damage)\n%dx POISON [3] (damage over 3 turns)\nBACK      [4]\n",sav[7],sav[8],sav[9]);
 }
 
 void board_header_screen(int fake_options) {
@@ -44,6 +46,20 @@ void board_screen() {
 	int * sav = save_reader();
 	screen_clear();
 	board_header_screen(1);
+	if (sav[10] >= 1 && sav[10] <= 4) {
+		if (sav[10] == 4) {
+			save_writer(10, 0);
+			printf("\n\nThe %s shakes off the poison.",race_display(sav[3],1,1));
+		} else {
+			save_writer(10, sav[10]+1); // increment
+			save_writer(4, sav[4]-2); // damage
+			printf("\n\nThe %s loses 2HP from the poison!", race_display(sav[3],1,1));
+		}
+		fflush(stdout);
+		game_sleep(1000);
+		screen_clear();
+		board_header_screen(1);
+	}
 	if (sav[1] <= 0) {
 		printf("\n\nYou died!"); record_writer(1); fflush(stdout);
 		game_sleep(1000);
@@ -118,8 +134,10 @@ void splash_screen() {
 					break;
 				case 1:
 					stats_write();
-					save_writer(7, 1);
-					save_writer(8, 1);
+					save_writer(7, 1); // potion set to 1x
+					save_writer(8, 1); // spear set to 1x
+					save_writer(9, 1); // poison set to 1x
+					save_writer(10, 0); // reset poison effects
 					stats_randomize();
 					board_screen();
 					break;

@@ -4,7 +4,7 @@
 const char* save_name = "data.txt";
 
 int * save_reader() {
-	static int array[9];
+	static int array[12];
 	FILE *read_in = fopen(save_name, "r");
 	int i = 0; int j = 0; int x = 0;
 	j = fscanf(read_in, "%d", &i);
@@ -18,7 +18,7 @@ void save_writer(int line, int state) {
 	if (state < 0) { state = 0; }
 	int * save_in = save_reader();
 	FILE *read_out = fopen(save_name, "w");
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 12; i++) {
 		if (i == line) {
 			fprintf(read_out, "%d\n", state);
 		} else {
@@ -29,12 +29,8 @@ void save_writer(int line, int state) {
 
 void save_generate() {
 	FILE *generate = fopen(save_name, "w");
-	for (int i = 0; i < 9; i++) {
-		if (i <= 6) {
-			fprintf(generate, "%d\n", 0);
-		} else {
-			fprintf(generate, "%d\n", 1); // items
-		}
+	for (int i = 0; i < 12; i++) {
+		fprintf(generate, "%d", 0);
 	}
 }
 
