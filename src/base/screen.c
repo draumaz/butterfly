@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "./../header/tool.h"
 #include "./../header/save_io.h"
@@ -38,6 +39,7 @@ void board_header_screen(int fake_options) {
 }
 
 void board_screen() {
+	srand(time(0));
 	int * sav = save_reader();
 	screen_clear();
 	board_header_screen(1);
@@ -46,16 +48,15 @@ void board_screen() {
 			if (sav[10] == 4) {
 				save_writer(10, 0); // set poison effects back to 0 (disabled)
 				screen_clear();
-				board_header_screen(1);
-				printf("\n\nFIGHT [1]\nITEMS [2]\nSPARE [3]\nEXIT  [4]\n");
+				board_header_screen(0);
 				printf("\nThe %s shakes off the poison.",race_display(sav[3],1,1));
 			} else {
+				int dam = (rand()%4)+1;
 				save_writer(10, sav[10]+1); // increment
-				save_writer(4, sav[4]-2); // damage
+				save_writer(4, sav[4]-dam); // damage
 				screen_clear();
-				board_header_screen(1);
-				printf("\n\nFIGHT [1]\nITEMS [2]\nSPARE [3]\nEXIT  [4]\n");
-				printf("\nThe %s loses 2HP from the poison!", race_display(sav[3],1,1));
+				board_header_screen(0);
+				printf("\nThe %s loses %dHP from the poison!", race_display(sav[3],1,1), dam);
 			}
 		}
 		fflush(stdout);

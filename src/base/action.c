@@ -74,7 +74,8 @@ int items() {
                 board_header_screen(0);
                 printf("\nACTION >> 3\n");
                 item_options_screen();
-                printf("\nACTION >> 2\n\nYou throw the poison! The %s feels the pain...", race_display(sav[3],1,1));
+                printf("\nACTION >> 2\n\nYou throw the poison! The %s feels the pain...", 
+                race_display(sav[3],1,1));
             } else {
                 item_used = 1;
                 printf("\nYou don't have any more poison.");
@@ -96,10 +97,10 @@ void attack(int dir) {
             save_writer(4, sav[4]-dam_to_enemy);
             board_header_screen(0);
             if (sav[4] <= 0) {
-                printf("\nYou deal the death blow, attacking with %d damage!\n"
+                printf("\nYou deal the death blow, attacking with %dHP!\n"
                 ,dam_to_enemy);
             } else {
-                printf("\nYou attack the %s, dealing %d damage!\n",
+                printf("\nYou attack the %s, dealing %dHP!\n",
                 race_display(sav[3],1,1),dam_to_enemy);
             } break; }
         case 1: { // get attacked
@@ -107,10 +108,10 @@ void attack(int dir) {
             save_writer(1, sav[1]-dam_to_player);
             board_header_screen(0);
             if (sav[1] <= 0) {
-                printf("\nThe %s deals the death blow, attacking with %d damage!\n",
+                printf("\nThe %s deals the death blow, attacking with %dHP!\n",
                 race_display(sav[3],1,1),dam_to_player);
             } else {
-                printf("\nThe %s attacks you, dealing %d damage!\n",
+                printf("\nThe %s attacks you, dealing %dHP!\n",
                 race_display(sav[3],1,1),dam_to_player);
             } break; }
     } fflush(stdout); game_sleep(1000);
