@@ -185,6 +185,9 @@ void splash_screen() {
 			printf("\nThanks for playing my game!\n\nKeep up with development at ");
 			lbl_reader("https://github.com/draumaz/butterfly.", 10);
 			printf("\n\n");
+			#ifdef _WIN32
+				system("pause");
+			#endif
 			exit(0);
 			break;			
 	} splash_screen();
