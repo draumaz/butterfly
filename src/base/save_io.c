@@ -10,11 +10,11 @@ const char* save_name = "data.txt";
 // 3 enemy race
 // 4 enemy health
 // 5 enemy strength
-// 6 potion qty
-// 7 spear qty
-// 8 poison qty
-// 9 poison incrementer
-// 10 empty
+// 6 empty
+// 7 potion qty
+// 8 spear qty
+// 9 poison qty
+// 10 poison incrementer
 
 int * save_reader() {
 	static int array[12];
