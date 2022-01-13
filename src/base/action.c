@@ -74,8 +74,13 @@ int items() {
                 board_header_screen(0);
                 printf("\nACTION >> 3\n");
                 item_options_screen();
-                printf("\nACTION >> 2\n\nYou throw the poison! The %s feels the pain...", 
+                printf("\nACTION >> 2\n\nYou throw the poison! The %s feels the pain", 
                 race_display(sav[3],1,1));
+                for (int i = 0; i < 3; i++) {
+                    printf(".");
+                    fflush(stdout);
+                    game_sleep(300);
+                }
             } else {
                 item_used = 1;
                 printf("\nYou don't have any more poison.");

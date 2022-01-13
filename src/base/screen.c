@@ -42,7 +42,6 @@ void board_screen() {
 	srand(time(0));
 	int * sav = save_reader();
 	screen_clear();
-	board_header_screen(1);
 	if (sav[10] >= 1 && sav[10] <= 4) {
 		if (sav[0] > 0 || sav[4] > 0) {
 			if (sav[10] == 4) {
@@ -62,8 +61,8 @@ void board_screen() {
 		fflush(stdout);
 		game_sleep(1000);
 		screen_clear();
-		board_header_screen(1);
 	}
+	board_header_screen(1);
 	if (sav[1] <= 0) {
 		printf("\n\nYou died!"); record_writer(1); fflush(stdout);
 		game_sleep(1000);
