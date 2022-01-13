@@ -3,6 +3,19 @@
 
 const char* save_name = "data.txt";
 
+// save positions
+// 0 player race
+// 1 player health
+// 2 player strength
+// 3 enemy race
+// 4 enemy health
+// 5 enemy strength
+// 6 potion qty
+// 7 spear qty
+// 8 poison qty
+// 9 poison incrementer
+// 10 empty
+
 int * save_reader() {
 	static int array[12];
 	FILE *read_in = fopen(save_name, "r");
