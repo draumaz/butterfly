@@ -83,8 +83,10 @@ void board_screen() {
 				if (sav[1] > 0) { attack(0); }
 			} break;
 		case 2:
-			if (items() == 0 || sav[1] < 5) {
-				attack(1);
+			if (items() == 0) {
+				if (sav[1] < 5 && sav[4] > 0) {
+					attack(1);
+				}
 			} break;
 		case 3:
 			if (spare() == 0 || sav[4] < 2) {
