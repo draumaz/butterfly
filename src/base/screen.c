@@ -205,7 +205,7 @@ void splash_screen() {
                 case '4': {
                         clear();
                         printw("\nThanks for playing my game!\n\nKeep up with development at ");
-                        lbl_reader("https://github.com/draumaz/cursed-butterfly.", 10);
+                        lbl_reader("https://github.com/draumaz/butterfly.", 10);
                         printw("\n\n");
                         refresh();
                         #ifdef _WIN32
