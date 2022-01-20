@@ -10,8 +10,10 @@
 #include "./../header/action.h"
 #include "./../header/screen.h"
 
+const char* board_screen_prompt = "\n\nFIGHT [1]\nITEMS [2]\nSPARE [3]\nEXIT  [4]";
+
 int board_again_screen() {
-	printf("\n\nPlay again?\n\nYES [1]\nNO [2]\n");
+	puts("\nPlay again?\n\nYES [1]\nNO [2]");
 	return user_input_int(1, 2);
 }
 
@@ -34,7 +36,7 @@ void board_header_screen(int fake_options) {
 	printf("\n\nRACE: %s | HP: %d | STR: %d", race_display(sav[0],0,0), sav[1], sav[2]);
 	printf("\n\nENEMY RACE: %s | HP: %d | STR: %d", race_display(sav[3],1,0),sav[4],sav[5]);
 	if (fake_options == 0) {
-		printf("\n\nFIGHT [1]\nITEMS [2]\nSPARE [3]\nEXIT  [4]\n");
+		puts(board_screen_prompt);
 	}
 }
 
@@ -64,15 +66,15 @@ void board_screen() {
 	}
 	board_header_screen(1);
 	if (sav[1] <= 0) {
-		printf("\n\nYou died!"); record_writer(1); fflush(stdout);
+		puts("\n\nYou died!"); record_writer(1); fflush(stdout);
 		game_sleep(1000);
 		new_game_manager();
 	} else if (sav[4] <= 0) {
-		printf("\n\nYou win!"); record_writer(0); fflush(stdout);
+		puts("\n\nYou win!"); record_writer(0); fflush(stdout);
 		game_sleep(1000);
 		new_game_manager();
 	}
-	printf("\n\nFIGHT [1]\nITEMS [2]\nSPARE [3]\nEXIT  [4]\n");
+	puts(board_screen_prompt);
 	switch (user_input_int(1, 4)) {
 		case 1:
 			if (sav[1] >= sav[4]) {
@@ -84,7 +86,7 @@ void board_screen() {
 			} break;
 		case 2:
 			if (items() == 0) {
-				if (sav[1] < 5 && sav[4] > 0) {
+				if (sav[4] > 0) {
 					attack(1);
 				}
 			} break;
@@ -154,11 +156,12 @@ void splash_screen() {
 					} else {
 						printf("\nSuccessfully deleted.");
 					}
+					fflush(stdout);
+					game_sleep(200);
+					break;
 				case 2:
 					splash_screen();
 					break;
-				fflush(stdout);
-				game_sleep(200);
 			} break;
 		case 3: {
 			screen_clear();

@@ -65,16 +65,6 @@ const char* race_display(int race, int type, int cap) {
     } return out;
 }
 
-void stats_randomize() {
-    int * stat = save_reader();
-    float ran = ((float)rand())/(float)RAND_MAX;
-    for (int i = 1; i < 6; i++) {
-        if (i == 1 || i == 2 || i == 4 || i == 5) {
-            save_writer(i, round(stat[i]/(ran*(1.12-0.96)+0.96)));
-        }
-    }
-}
-
 int * player_stats_gen(int i) {
     switch (i) {
         case 1: {
@@ -115,22 +105,24 @@ int * enemy_stats_gen(int i) {
     } static int err[3] = {0, 0, 0}; return err;
 }
 
-void stats_write() {
+void stats_deploy() {
+    int * stat = save_reader();
     srand(time(0));
-    int * stat = player_stats_gen((rand()%4)+1);
-    int * stat2 = enemy_stats_gen((rand()%4)+1);
+    float ran = ((float)rand())/(float)RAND_MAX;
+    int * p_stat = player_stats_gen((rand()%4)+1);
+    int * e_stat = enemy_stats_gen((rand()%4)+1);
     for (int i = 0; i < 6; i++) {
         if (i <= 2) {
-            save_writer(i, stat[i]);
+            save_writer(i, p_stat[i]);
         } else if (i >= 3) {
-            save_writer(i, stat2[i-3]);
+            save_writer(i, e_stat[i-3]);
         }
     }
-}
-
-void stats_deploy() {
-    stats_write();
-    stats_randomize();
+    for (int i = 1; i < 6; i++) {
+        if (i == 1 || i == 2 || i == 4 || i == 5) {
+            save_writer(i, round(stat[i]/(ran*(1.12-0.96)+0.96)));
+        }
+    }
     save_writer(7, 1); // potion set to 1x
     save_writer(8, 1); // spear set to 1x
     save_writer(9, 1); // poison set to 1x
