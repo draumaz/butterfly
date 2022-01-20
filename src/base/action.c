@@ -21,10 +21,10 @@ int spare() {
     } game_sleep(750);
     if (sav[1] >= sav[4]) {
         record_writer(2);
-        printf("\n\nIt worked!");
+        puts("\n\nIt worked!");
         result = 0;
     } else if (sav[1] <= sav[4]) {
-        printf("\n\nIt didn't work.");
+        puts("\n\nIt didn't work.");
         result = 1;
     } fflush(stdout); game_sleep(1000); return result;
 }
@@ -41,12 +41,12 @@ int items() {
                 save_writer(1, (sav[1]+10));
                 screen_clear();
                 board_header_screen(0);
-                printf("\nACTION >> 2\n");
+                puts("\nACTION >> 2");
                 item_options_screen();
-                printf("\nACTION >> 1\n\nYou drink the potion, recovering 10HP!");
+                puts("\nACTION >> 1\n\nYou drink the potion, recovering 10HP!");
             } else { // no potions
                 item_used = 1;
-                printf("\nYou don't have any potions left.");
+                puts("\nYou don't have any potions left.");
             }
             break;
         case 2:
@@ -56,13 +56,12 @@ int items() {
                 save_writer(4, (sav[4]-9));
                 screen_clear();
                 board_header_screen(0);
-                printf("\nACTION >> 2\n");
+                puts("\nACTION >> 2");
                 item_options_screen();
-                printf("\nACTION >> 2\n\nYou throw the spear, dealing 9HP!");
-                
+                puts("\nACTION >> 2\n\nYou throw the spear, dealing 9HP!");
             } else { // no spears
                 item_used = 1;
-                printf("\nYou don't have any spears left.");
+                puts("\nYou don't have any spears left.");
             }
             break;
         case 3:
@@ -72,7 +71,7 @@ int items() {
                 save_writer(10, 1); // poison loop active
                 screen_clear();
                 board_header_screen(0);
-                printf("\nACTION >> 3\n");
+                puts("\nACTION >> 3");
                 item_options_screen();
                 printf("\nACTION >> 2\n\nYou throw the poison! The %s feels the pain", 
                 race_display(sav[3],1,1));
@@ -83,7 +82,7 @@ int items() {
                 }
             } else {
                 item_used = 1;
-                printf("\nYou don't have any more poison.");
+                puts("\nYou don't have any more poison.");
             }
             break;
         case 4: // leave now
