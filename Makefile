@@ -1,6 +1,6 @@
 butterfly:
 	cd ./src/base; \
-		gcc -O2 -lm -Wall \
-		main.c gtool.c tool.c screen.c stat_gen.c action.c \
-		save_io.c record_io.c \
+		gcc -lncurses -ltinfo -lm \
+		main.c screen.c controller.c save_io.c record_io.c \
+		gtool.c stat_gen.c action.c \
 	        -o ../../butterfly-debug
