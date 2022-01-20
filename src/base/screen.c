@@ -37,7 +37,7 @@ char in_prog_warn() {
 }
 
 char board_again_screen() {
-	printw("\nPlay again?\n\nYES [1]\nNO [2]\n\n");
+	printw("\n\nPlay again?\n\nYES [1]\nNO [2]\n\n");
 	return (char)getch();
 }
 
