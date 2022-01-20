@@ -43,7 +43,7 @@ void save_writer(int line, int state) {
 void save_generate() {
 	FILE *generate = fopen(save_name, "w");
 	for (int i = 0; i < 12; i++) {
-		fprintf(generate, "%d", 0);
+		fprintf(generate, "%d\n", 0);
 	}
 }
 

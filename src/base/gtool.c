@@ -4,6 +4,11 @@
 #include <string.h>
 #include <time.h>
 #include <errno.h>
+#include <curses.h>
+
+const char* version() {
+    return "1.0";
+}
 
 void game_sleep(int ms) {
 	struct timespec ts; int res;
@@ -14,35 +19,10 @@ void game_sleep(int ms) {
 		res = nanosleep(&ts, &ts);
 	} while (res && errno == EINTR);
 }
-	
+
 void lbl_reader(const char* line, int stile) {
 	for (unsigned long int i = 0; i < strlen(line); i++) {
-		printf("%c",line[i]); fflush(stdout);
+		printw("%c",line[i]); refresh();
 		game_sleep(stile);
 	}
-}
-
-int user_input_int(int min, int max) {
-	char in[99] = "";
-	const char* s0 = "ACTION >> ";
-	const char* s1 = "Did you mean something else?";
-	int x = 0; int y = 0; int z = 0;
-	while (x < x+1) {
-		printf("\n");
-		lbl_reader(s0, 10);
-		z = scanf("%s",in);
-		for (long unsigned int i = 0; i < strlen(in); i++) {
-			if (! isdigit(in[i])) {
-				y = 1;
-			}
-		} z += 1;
-		if (y == 1) {
-			printf("\n");
-			lbl_reader(s1, 5);
-			y = 0;
-			game_sleep(100);
-			printf("\n");
-			continue;
-		} else { break; }
-	} return atoi(in);
 }

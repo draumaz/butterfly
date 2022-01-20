@@ -1,6 +1,6 @@
-#include "./../header/screen.h"
+#include "./../header/controller.h"
 
 int main() {
-	splash_screen();
-	return 0;
+        joystick();
+        return 0;
 }
