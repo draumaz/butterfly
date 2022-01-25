@@ -286,35 +286,34 @@ void reset_screen() {
 
 void credits_screen() {
 	const char* catboy_contribs[] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Playtest"};
+	const char* a[] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
+	int b[] = {500, 500, 100}; int c[] = {35, 20, 10};
 	clear();
-	printw("\n");
-	lbl_reader("Butterfly",30);
+	int pos = 1;
+	move(1, 0);
+	lbl_reader("Butterfly", 30); printw(","); refresh(); game_sleep(500); printw(" v");
+	lbl_reader(version(), 15);
 	game_sleep(500);
-	printw(" v"); fflush(stdout);
-	lbl_reader(version(),10);
-	game_sleep(1000);
-	printw("\n\n");
-	lbl_reader("Developed by draumaz",35);
-	game_sleep(500);
-	lbl_reader(" in C!",20);
-	game_sleep(750);
-	lbl_reader(" (with the lovely curses library)", 10);
-	game_sleep(1000);
-	printw("\n\n");
+	pos += 2; move(pos, 0);
+	for (int i = 0 ; i < 3; i++) {
+		lbl_reader(a[i], c[i]);
+		game_sleep(b[i]);
+	} game_sleep(1000);
+	pos += 2; move(pos, 0);
 	lbl_reader("Special thanks to:",35);
 	game_sleep(500);
-	printw("\n\ncatboy6969!",25);
-	printw("\n\n");
+	pos += 2; move(pos, 0);
+	printw("catboy6969!", 30);
+	pos += 2; move(pos, 0);
 	for (int i = 0; i < 4; i++) {
 		lbl_reader(catboy_contribs[i], 25);
-		printw("\n");
-	}
-	refresh();
-	game_sleep(750);
-	printw("\nBryce Cano!", 25);
-	printw("\n\n");
+		pos += 1; move(pos, 0); refresh();
+	} game_sleep(500); pos+= 1; move(pos, 0);
+	printw("Bryce Cano!");
+	pos += 2; move(pos, 0);
 	lbl_reader("Character design", 25);
-	lbl_reader("\nInspiration", 25);
+	pos += 1; move(pos, 0);
+	lbl_reader("Inspiration", 25);
 	refresh();
 	game_sleep(1000);
 }
