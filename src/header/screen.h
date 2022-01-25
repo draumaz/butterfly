@@ -1,5 +1,5 @@
 char in_prog_warn();
-char board_again_scren();
+int board_again_screen();
 void new_game_manager();
 void board_header_screen(int fake_options);
 void item_options_screen();
