@@ -142,11 +142,10 @@ void reset_screen() {
 	int pos_x = 8;
 	int pos_y = 15;
 	int loop = 0;
-	//printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
+	printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
 	while (loop == 0) {
 		move(13, 0);
-		printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
-		move(pos_y, pos_x); printw("< %d, %d", pos_x, pos_y);
+		move(pos_y, pos_x); printw("<");
 		refresh();
 		switch (getch()) {
 			case 'q':
@@ -159,11 +158,13 @@ void reset_screen() {
 				exit(0);
                 break;
             case 's':
+				mvdelch(pos_y, pos_x);
 				if (pos_y == 16) {
 					pos_y -= 1;
 				} else { pos_y += 1; }
                 break;
             case 'w':
+				mvdelch(pos_y, pos_x);
 				if (pos_y == 15) {
 					pos_y += 1;
 				} else { pos_y -= 1; }
@@ -172,8 +173,7 @@ void reset_screen() {
                 loop = 1;
                 break;
 			default:
-				curs_set(1); system("stty sane");
-				exit(0); break;
+                break;
 		}
 	}
 	if (pos_y == 15) {
@@ -218,29 +218,30 @@ void splash2(int pos_x, int pos_y) {
 	int game = 0;
 	save_exists();
     record_exists();
+	clear();
+	for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); }
+	printw("\nPLAY    [1]\nRESET   [2]\nCREDITS [3]\nEXIT    [4]\n\n");
 	while (game == 0) {
-        clear();
-		for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); }
-		printw("\nPLAY    [1]\nRESET   [2]\nCREDITS [3]\nEXIT    [4]\n\n");
-        move(pos_y, pos_x); printw("< ");
-        printw("%d, %d", pos_x, pos_y);
+        move(pos_y, pos_x); printw("<");
         refresh();
         switch ((char)getch()) {
             case 'q':
                 return;
                 break;
             case 's':
+				mvdelch(pos_y, pos_x);
                 if (pos_y < 11 || ! pos_y > 8) {
                     pos_y += 1;
-                } else if (pos_y == 5) {
-                    pos_y = 3;
+                } else if (pos_y == 11) {
+                    pos_y = 8;
                 }
                 break;
             case 'w':
+				mvdelch(pos_y, pos_x);
                 if (pos_y > 8) {
                     pos_y -= 1;
-                } else if (pos_y == 3) {
-                    pos_y = 5;
+                } else if (pos_y == 8) {
+                    pos_y = 11;
                 }
                 break;
             case '\n':
@@ -250,19 +251,17 @@ void splash2(int pos_x, int pos_y) {
                 break;
         }
     }
-    if (game == 1) {
-		move(14, 12);
-        if (pos_y == 8) {
-            printw(" You said yes!\n"); refresh(); sleep(1);
-        } else if (pos_y == 9) {
-            move(13, 0); reset_screen();
-        } else if (pos_y == 10) {
-            credits_screen();
-        } else if (pos_y == 11) {
-			return;
-		}
-        splash2(pos_x, pos_y);
-    }
+	move(14, 12);
+    if (pos_y == 8) {
+        printw(" You said yes!\n"); refresh(); sleep(1);
+    } else if (pos_y == 9) {
+        move(13, 0); reset_screen();
+    } else if (pos_y == 10) {
+        credits_screen();
+    } else if (pos_y == 11) {
+		return;
+	}
+	splash2(pos_x, pos_y);
 }
 
 void splash_screen() {
