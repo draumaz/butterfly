@@ -3,6 +3,11 @@
 
 const char* record_name = "record.txt";
 
+// record positions
+// 0 kills
+// 1 deaths
+// 2 spares
+
 int * record_reader() {
 	static int array[4];
 	FILE *read_in = fopen(record_name, "r");

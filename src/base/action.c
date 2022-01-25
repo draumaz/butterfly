@@ -41,6 +41,7 @@ int items() {
 		switch (getch()) {
 			case 'q':
                 curs_set(1);
+                clear();
 				#ifdef _WIN32
 					system("pause");
 				#else

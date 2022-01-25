@@ -47,6 +47,7 @@ int board_again_screen() {
 		switch (getch()) {
 			case 'q':
                 curs_set(1);
+				clear();
 				#ifdef _WIN32
 					system("pause");
 				#else
@@ -157,6 +158,7 @@ void board_screen(int pos_x, int pos_y) {
 		switch (getch()) {
 			case 'q':
                 curs_set(1);
+				clear();
 				#ifdef _WIN32
 					system("pause");
 				#else
@@ -230,6 +232,7 @@ void reset_screen() {
 		switch (getch()) {
 			case 'q':
                 curs_set(1);
+				clear();
 				#ifdef _WIN32
 					system("pause");
 				#else
