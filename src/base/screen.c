@@ -285,6 +285,7 @@ void reset_screen() {
 }
 
 void credits_screen() {
+	const char* catboy_contribs[] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Playtest"};
 	clear();
 	printw("\n");
 	lbl_reader("Butterfly",30);
@@ -303,9 +304,17 @@ void credits_screen() {
 	lbl_reader("Special thanks to:",35);
 	game_sleep(500);
 	printw("\n\ncatboy6969!",25);
+	printw("\n\n");
+	for (int i = 0; i < 4; i++) {
+		lbl_reader(catboy_contribs[i], 25);
+		printw("\n");
+	}
 	refresh();
 	game_sleep(750);
 	printw("\nBryce Cano!", 25);
+	printw("\n\n");
+	lbl_reader("Character design", 25);
+	lbl_reader("\nInspiration", 25);
 	refresh();
 	game_sleep(1000);
 }

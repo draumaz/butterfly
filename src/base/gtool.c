@@ -7,7 +7,7 @@
 #include <curses.h>
 
 const char* version() {
-    return "0.11";
+    return "0.12";
 }
 
 void game_sleep(int ms) {
