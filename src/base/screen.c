@@ -138,91 +138,220 @@ void board_screen() {
 	board_screen();
 }
 
-void splash_screen() {
+void reset_screen() {
+	int pos_x = 8;
+	int pos_y = 15;
+	int loop = 0;
+	//printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
+	while (loop == 0) {
+		move(13, 0);
+		printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
+		move(pos_y, pos_x); printw("< %d, %d", pos_x, pos_y);
+		refresh();
+		switch (getch()) {
+			case 'q':
+                curs_set(1);
+				#ifdef _WIN32
+					system("pause");
+				#else
+                	system("stty sane");
+				#endif
+				exit(0);
+                break;
+            case 's':
+				if (pos_y == 16) {
+					pos_y -= 1;
+				} else { pos_y += 1; }
+                break;
+            case 'w':
+				if (pos_y == 15) {
+					pos_y += 1;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+                loop = 1;
+                break;
+			default:
+				curs_set(1); system("stty sane");
+				exit(0); break;
+		}
+	}
+	if (pos_y == 15) {
+		move(18, 0);
+		if (remove("data.txt") != 0 || remove("record.txt") != 0) {
+			printw("Failed to delete temp files.");
+		} else {
+			printw("Successfully deleted.");
+		}
+		refresh();
+		game_sleep(200);
+	}
+}
+
+void credits_screen() {
+	clear();
+	printw("\n");
+	lbl_reader("Butterfly",30);
+	game_sleep(500);
+	printw(" v"); fflush(stdout);
+	lbl_reader(version(),10);
+	game_sleep(1000);
+	printw("\n\n");
+	lbl_reader("Developed by draumaz",35);
+	game_sleep(500);
+	lbl_reader(" in C!",20);
+	game_sleep(750);
+	lbl_reader(" (with the lovely curses library)", 10);
+	game_sleep(1000);
+	printw("\n\n");
+	lbl_reader("Special thanks to:",35);
+	game_sleep(500);
+	printw("\n\ncatboy6969!",25);
+	refresh();
+	game_sleep(750);
+	printw("\nBryce Cano!", 25);
+	refresh();
+	game_sleep(1000);
+}
+
+void splash2(int pos_x, int pos_y) {
+	int game = 0;
+	save_exists();
+    record_exists();
+	while (game == 0) {
         clear();
+		for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); }
+		printw("\nPLAY    [1]\nRESET   [2]\nCREDITS [3]\nEXIT    [4]\n\n");
+        move(pos_y, pos_x); printw("< ");
+        printw("%d, %d", pos_x, pos_y);
+        refresh();
+        switch ((char)getch()) {
+            case 'q':
+                return;
+                break;
+            case 's':
+                if (pos_y < 11 || ! pos_y > 8) {
+                    pos_y += 1;
+                } else if (pos_y == 5) {
+                    pos_y = 3;
+                }
+                break;
+            case 'w':
+                if (pos_y > 8) {
+                    pos_y -= 1;
+                } else if (pos_y == 3) {
+                    pos_y = 5;
+                }
+                break;
+            case '\n':
+                game = 1;
+                break;
+            default:
+                break;
+        }
+    }
+    if (game == 1) {
+		move(14, 12);
+        if (pos_y == 8) {
+            printw(" You said yes!\n"); refresh(); sleep(1);
+        } else if (pos_y == 9) {
+            move(13, 0); reset_screen();
+        } else if (pos_y == 10) {
+            credits_screen();
+        } else if (pos_y == 11) {
+			return;
+		}
+        splash2(pos_x, pos_y);
+    }
+}
+
+void splash_screen() {
         save_exists();
         record_exists();
-	for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); }
-        printw("\nPLAY  [1] | CREDITS [3]\nRESET [2] | EXIT    [4]\n\n");
-        refresh();
-        switch (getch()) {
-                case '1': {
-                        switch (in_prog_warn()) {
-                                case '1':
-                                        stats_deploy();
-                                        board_screen();
-                                        break;
-                                case '2':
-                                        break;
-                                case '3':
-                                        splash_screen();
-                                        break;
-                        }
-                        stats_deploy();
-                        board_screen();
-                        break; }
-                case '2': {
-                        printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
+		int x = 0;
+		while (x == 0) {
+			for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); }
+			printw("\nPLAY    [1] | CREDITS   [3]\nRESET [2] | EXIT    [4]\n\n");
+			refresh();
 			switch (getch()) {
-				case '1':
-					if (remove("data.txt") != 0 || remove("record.txt") != 0) {
-						printw("Failed to delete temp files.");
-					} else {
-						printw("Successfully deleted.");
-					}
-					refresh();
-					game_sleep(200);
-					break;
-				case '2':
-					splash_screen();
-					break;
-			} break; }
-                case '3': {
-                        clear();
-                        printw("\n");
-			lbl_reader("Butterfly",30);
-			game_sleep(500);
-			printw(" v"); fflush(stdout);
-			lbl_reader(version(),10);
-			game_sleep(1000);
-			printw("\n\n");
-			lbl_reader("Developed by draumaz",35);
-			game_sleep(500);
-			lbl_reader(" in C!",20);
-			game_sleep(750);
-                        lbl_reader(" (with the lovely curses library)", 10);
-                        game_sleep(1000);
-			printw("\n\n");
-			lbl_reader("Special thanks to:",35);
-			game_sleep(500);
-			printw("\n\ncatboy6969!",25);
-                        refresh();
-			game_sleep(750);
-			printw("\nBryce Cano!", 25);
-                        refresh();
-			game_sleep(1000);
-                        break; }
-                case '4': {
-                        clear();
-                        printw("\nThanks for playing my game!\n\nKeep up with development at ");
-                        lbl_reader("https://github.com/draumaz/butterfly.", 10);
-                        printw("\n\n");
-                        refresh();
-                        #ifdef _WIN32
-				system("pause");
-			#else
-                                system("stty sane");
-                        #endif
-                        exit(0);
-                        break; }
-                default: {
-                        printw("Did you mean something else?");
-                        refresh();
-                        game_sleep(200);
-                        clear();
-                        splash_screen();
-                        break; }
-        }
+					case '1': {
+							switch (in_prog_warn()) {
+									case '1':
+											stats_deploy();
+											board_screen();
+											break;
+									case '2':
+											break;
+									case '3':
+											splash_screen();
+											break;
+							}
+							stats_deploy();
+							board_screen();
+							break; }
+					case '2': {
+							printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
+				switch (getch()) {
+					case '1':
+						if (remove("data.txt") != 0 || remove("record.txt") != 0) {
+							printw("Failed to delete temp files.");
+						} else {
+							printw("Successfully deleted.");
+						}
+						refresh();
+						game_sleep(200);
+						break;
+					case '2':
+						splash_screen();
+						break;
+				} break; }
+					case '3': {
+							clear();
+							printw("\n");
+				lbl_reader("Butterfly",30);
+				game_sleep(500);
+				printw(" v"); fflush(stdout);
+				lbl_reader(version(),10);
+				game_sleep(1000);
+				printw("\n\n");
+				lbl_reader("Developed by draumaz",35);
+				game_sleep(500);
+				lbl_reader(" in C!",20);
+				game_sleep(750);
+							lbl_reader(" (with the lovely curses library)", 10);
+							game_sleep(1000);
+				printw("\n\n");
+				lbl_reader("Special thanks to:",35);
+				game_sleep(500);
+				printw("\n\ncatboy6969!",25);
+							refresh();
+				game_sleep(750);
+				printw("\nBryce Cano!", 25);
+							refresh();
+				game_sleep(1000);
+							break; }
+					case '4': {
+							clear();
+							printw("\nThanks for playing my game!\n\nKeep up with development at ");
+							lbl_reader("https://github.com/draumaz/butterfly.", 10);
+							printw("\n\n");
+							refresh();
+							#ifdef _WIN32
+					system("pause");
+				#else
+									system("stty sane");
+							#endif
+							exit(0);
+							break; }
+					default: {
+							printw("Did you mean something else?");
+							refresh();
+							game_sleep(200);
+							clear();
+							splash_screen();
+							break; }
+			}
         refresh();
+		}
         splash_screen();
 }

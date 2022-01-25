@@ -5,8 +5,13 @@
 #include "./../header/screen.h"
 
 void joystick() {
-	initscr(); noecho(); raw();
-	splash_screen();
-	sleep(1);
+	initscr(); noecho(); raw(); curs_set(0);
+	splash2(12, 8);
+	clear(); curs_set(1);
+	#ifdef _WIN32
+		system("pause");
+	#else
+       	system("stty sane");
+	#endif
 	endwin();
 }
