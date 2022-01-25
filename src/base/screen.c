@@ -36,24 +36,59 @@ char in_prog_warn() {
 	} return 'a';
 }
 
-char board_again_screen() {
+int board_again_screen() {
 	printw("\n\nPlay again?\n\n[YES]\n[NO ]\n\n");
-	return (char)getch();
+	int loop = 0;
+	int pos_y = 9; int pos_x = 6;
+	while (loop == 0) {
+		move(pos_y, pos_x); printw("<");
+		refresh();
+		switch (getch()) {
+			case 'q':
+                curs_set(1);
+				#ifdef _WIN32
+					system("pause");
+				#else
+                	system("stty sane");
+				#endif
+				exit(0);
+                break;
+            case 's':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 10) {
+					pos_y = 9;
+				} else { pos_y += 1; }
+                break;
+            case 'w':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 9) {
+					pos_y = 10;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+				mvdelch(pos_y, pos_x);
+                loop = 1;
+                break;
+			default:
+                break;
+		}
+	}
+	return pos_y;
 }
 
 void new_game_manager() {
-	if (board_again_screen() == '1') {
+	if (board_again_screen() == 9) {
 		stats_deploy();
-		board_screen();
+		board2(8, 7);
 	} else { 
-                printw("\n"); 
-                #ifdef _WIN32
+        printw("\n"); 
+        #ifdef _WIN32
 			system("pause");
 		#else
-                        system("stty sane");
-                #endif
-                exit(0);
-        }
+	    	system("stty sane");
+        #endif
+        exit(0);
+    }
 }
 
 void board_header_screen(int fake_options) {
@@ -69,7 +104,7 @@ void board_header_screen(int fake_options) {
 
 void item_options_screen() {
 	int * sav = save_reader();
-	printw("%dx POTION [1] (restore 10HP)\n%dx SPEAR  [2] (deal 9 damage)\n%dx POISON [3] (damage over 3 turns)\nBACK      [4]\n\n",sav[7],sav[8],sav[9]);
+	printw("[%dx POTION]\n[%dx SPEAR ]\n[%dx POISON]\n[BACK     ]\n\n",sav[7],sav[8],sav[9]);
 }
 
 void board_screen() {
@@ -171,6 +206,7 @@ void board2(int pos_x, int pos_y) {
 				} else { pos_y -= 1; }
                 break;
             case '\n':
+				mvdelch(pos_y, pos_x);
                 loop = 1;
                 break;
 			default:
@@ -180,6 +216,7 @@ void board2(int pos_x, int pos_y) {
 	if (loop == 1) {
 		switch (pos_y) {
 			case 7:
+				move(pos_y+5, 0);
 				if (sav[1] >= sav[4]) {
 					attack(0);
 					if (sav[4] > 0) { attack(1); }
@@ -189,6 +226,7 @@ void board2(int pos_x, int pos_y) {
 				}
 				break;
 			case 8:
+				move(pos_y+4, 0);
 				items();
 				break;
 			case 9:
@@ -207,12 +245,11 @@ void board2(int pos_x, int pos_y) {
 }
 
 void reset_screen() {
-	int pos_x = 8;
+	int pos_x = 6;
 	int pos_y = 15;
 	int loop = 0;
-	printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
+	printw("Just to verify, you want to reset your save files?\n\n[YES]\n[NO ]\n\n");
 	while (loop == 0) {
-		move(13, 0);
 		move(pos_y, pos_x); printw("<");
 		refresh();
 		switch (getch()) {

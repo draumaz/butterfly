@@ -32,71 +32,106 @@ int spare() {
 int items() {
     int item_used = 1;
     int * sav = save_reader();
+    int loop = 0;
     item_options_screen();
-    switch (getch()) {
-        case '1':
-            if (sav[7] > 0) { // use potion
-                item_used = 0;
-                save_writer(7, 0);
-                save_writer(1, (sav[1]+10));
-                clear();
-                board_header_screen(0);
-                item_options_screen();
-                printw("You drink the potion, recovering 10HP!");
-            } else { // no potions
-                item_used = 1;
-                printw("\nYou don't have any potions left.");
-            }
-            break;
-        case '2':
-            if (sav[8] > 0) { // use spear
-                item_used = 0;
-                save_writer(8, 0);
-                save_writer(4, (sav[4]-9));
-                clear();
-                board_header_screen(0);
-                item_options_screen();
-                printw("You throw the spear, dealing 9HP!");
-            } else { // no spears
-                item_used = 1;
-                printw("\nYou don't have any spears left.");
-            }
-            break;
-        case '3':
-            if (sav[9] > 0) { // use poison
-                item_used = 0;
-                save_writer(9, 0); // poison thrown
-                save_writer(10, 1); // poison loop active
-                clear();
-                board_header_screen(0);
-                item_options_screen();
-                printw("You throw the poison! The %s feels the pain", 
-                race_display(sav[3],1,1));
-                for (int i = 0; i < 3; i++) {
-                    printw(".");
-                    refresh();
-                    game_sleep(300);
+    int pos_x = 12; int pos_y = 12;
+    while (loop == 0) {
+        move(pos_y, pos_x); printw("<");
+        refresh();
+		switch (getch()) {
+			case 'q':
+                curs_set(1);
+				#ifdef _WIN32
+					system("pause");
+				#else
+                	system("stty sane");
+				#endif
+				exit(0);
+                break;
+            case 's':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 15) {
+					pos_y = 12;
+				} else { pos_y += 1; }
+                break;
+            case 'w':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 12) {
+					pos_y = 15;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+                loop = 1;
+                break;
+			default:
+                break;
+		}
+    }
+    if (loop == 1) {
+        switch (pos_y) {
+            case 12:
+                move(pos_y+5, 0);
+                if (sav[7] > 0) { // use potion
+                    item_used = 0;
+                    save_writer(7, 0);
+                    save_writer(1, (sav[1]+10));
+                    printw("You drink the potion, recovering 10HP!");
+                } else { // no potions
+                    item_used = 1;
+                    printw("\nYou don't have any potions left.");
                 }
-            } else {
-                item_used = 1;
-                puts("\nYou don't have any more poison.");
-            }
-            break;
-        case '4': // leave now
-            return item_used;
-    } refresh(); game_sleep(1000); return item_used;
+                refresh();
+                game_sleep(1000);
+                break;
+            case 13:
+                move(pos_y+4, 0);
+                if (sav[8] > 0) { // use spear
+                    item_used = 0;
+                    save_writer(8, 0);
+                    save_writer(4, (sav[4]-9));
+                    printw("You throw the spear, dealing 9HP!");
+                } else { // no spears
+                    item_used = 1;
+                    printw("You don't have any spears left.");
+                }
+                refresh();
+                game_sleep(1000);
+                break;
+            case 14:
+                if (sav[9] > 0) {
+                    item_used = 0;
+                    save_writer(9, 0); // poison thrown
+                    save_writer(10, 1); // poison loop active
+                    move(pos_y+2, 0);
+                    printw("\nYou throw the poison! The %s feels the pain", 
+                    race_display(sav[3],1,1));
+                    refresh();
+                    for (int i = 0; i < 3; i++) {
+                        printw(".");
+                        refresh();
+                        game_sleep(300);
+                    }
+                } else {
+                    item_used = 1;
+                    puts("\nYou don't have any more poison.");
+                    refresh();
+                }
+                break;
+            case 15:
+                break;
+        }
+    } return item_used;
 }
 
 void attack(int dir) {
     srand(time(0));
     float ran = ((float)rand())/(float)RAND_MAX;
-    clear();
     int * sav = save_reader();
     switch (dir) {
         case 0: { // attack enemy
             int dam_to_enemy = round(sav[2]/(ran*(4.1-3.2)+3.2)); // math is kinda weird
             save_writer(4, sav[4]-dam_to_enemy);
-            board_header_screen(0);
+            //board_header_screen(0);
             if (sav[4] <= 0) {
                 printw("You deal the death blow, attacking with %dHP!\n"
                 ,dam_to_enemy);
@@ -107,7 +142,7 @@ void attack(int dir) {
         case 1: { // get attacked
             int dam_to_player = round(sav[5]/(ran*(4.1-3.2)+3.2)); // should probably be fixed lol
             save_writer(1, sav[1]-dam_to_player);
-            board_header_screen(0);
+            //board_header_screen(0);
             if (sav[1] <= 0) {
                 printw("The %s deals the death blow, attacking with %dHP!\n",
                 race_display(sav[3],1,1),dam_to_player);
