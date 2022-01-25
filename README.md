@@ -7,7 +7,15 @@
 
   Play as a strange creature, and fight off endless hordes of equally odd beings!
 
-# Play
+# Controls
+
+```W, I, UP``` - move up
+
+```S, K, DOWN``` - move down
+
+```ENTER``` - confirm
+
+# Download
 
 ## Grab a binary!
   You can find these <a href="https://github.com/draumaz/butterfly/releases/latest">here</a>.
