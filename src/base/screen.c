@@ -37,10 +37,9 @@ char in_prog_warn() {
 }
 
 int board_again_screen() {
-	clear();
-	printw("\nPlay again?\n\n[YES]\n[NO ]\n\n");
+	int pos_y = 9; int pos_x = 6;
+	printw("Play again?\n\n[YES]\n[NO ]\n\n");
 	int loop = 0;
-	int pos_y = 3; int pos_x = 6;
 	while (loop == 0) {
 		move(pos_y, pos_x); printw("<");
 		refresh();
@@ -57,14 +56,14 @@ int board_again_screen() {
                 break;
             case 's':
 				mvdelch(pos_y, pos_x);
-				if (pos_y == 4) {
-					pos_y = 3;
+				if (pos_y == 10) {
+					pos_y = 9;
 				} else { pos_y += 1; }
                 break;
             case 'w':
 				mvdelch(pos_y, pos_x);
-				if (pos_y == 3) {
-					pos_y = 4;
+				if (pos_y == 9) {
+					pos_y = 10;
 				} else { pos_y -= 1; }
                 break;
             case '\n':
@@ -79,17 +78,11 @@ int board_again_screen() {
 }
 
 void new_game_manager() {
-	if (board_again_screen() == 3) {
+	if (board_again_screen() == 9) {
 		stats_deploy();
 		board_screen(8, 7);
 	} else { 
-        printw("\n"); 
-        #ifdef _WIN32
-			system("pause");
-		#else
-	    	system("stty sane");
-        #endif
-        exit(0);
+        splash_screen(10, 8);
     }
 }
 
@@ -144,12 +137,16 @@ void board_screen(int pos_x, int pos_y) {
 			game_sleep(1000);
 	}
 	if (entity_alive(0) == 1) {
+		clear(); board_header_screen(1); move(pos_y, 0);
 		printw("You died!\n"); record_writer(1); refresh();
 		game_sleep(1000);
+		move(pos_y, 0);
 		new_game_manager();
 	} if (entity_alive(1) == 1) {
+		clear(); board_header_screen(1); move(pos_y, 0);
 		printw("You win!\n"); record_writer(0); refresh();
 		game_sleep(1000);
+		move(pos_y, 0);
 		new_game_manager();
 	}
 	while (loop == 0) {
@@ -211,6 +208,7 @@ void board_screen(int pos_x, int pos_y) {
 				if (spare() == 0 || sav[4] < 2) {
 					clear();
 					board_header_screen(1);
+					move(pos_y-2, 0);
 					new_game_manager();
 				} else { attack(1); } break;
 				break;
