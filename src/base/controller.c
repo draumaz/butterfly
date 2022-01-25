@@ -6,7 +6,7 @@
 
 void joystick() {
 	initscr(); noecho(); raw(); curs_set(0);
-	splash2(12, 8);
+	splash2(10, 8);
 	clear(); curs_set(1);
 	#ifdef _WIN32
 		system("pause");

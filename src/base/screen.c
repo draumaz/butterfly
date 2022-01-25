@@ -11,7 +11,7 @@
 
 #include "./../header/screen.h" // self-referential
 
-const char* board_screen_prompt = "\n\nFIGHT [1]\nITEMS [2]\nSPARE [3]\nEXIT  [4]\n\n";
+const char* board_screen_prompt = "\n\n[FIGHT]\n[ITEMS]\n[SPARE]\n[EXIT ]\n\n";
 
 const char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __",
 	"| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \\ \\ / /",
@@ -37,7 +37,7 @@ char in_prog_warn() {
 }
 
 char board_again_screen() {
-	printw("\n\nPlay again?\n\nYES [1]\nNO [2]\n\n");
+	printw("\n\nPlay again?\n\n[YES]\n[NO ]\n\n");
 	return (char)getch();
 }
 
@@ -138,6 +138,74 @@ void board_screen() {
 	board_screen();
 }
 
+void board2(int pos_x, int pos_y) {
+	int * sav = save_reader();
+	int loop = 0;
+	clear();
+	move(0, 0);
+	board_header_screen(1);
+	printw("%s", board_screen_prompt);
+	while (loop == 0) {
+		move(pos_y, pos_x); printw("<");
+		refresh();
+		switch (getch()) {
+			case 'q':
+                curs_set(1);
+				#ifdef _WIN32
+					system("pause");
+				#else
+                	system("stty sane");
+				#endif
+				exit(0);
+                break;
+            case 's':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 10) {
+					pos_y = 7;
+				} else { pos_y += 1; }
+                break;
+            case 'w':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 7) {
+					pos_y = 10;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+                loop = 1;
+                break;
+			default:
+                break;
+		}
+	}
+	if (loop == 1) {
+		switch (pos_y) {
+			case 7:
+				if (sav[1] >= sav[4]) {
+					attack(0);
+					if (sav[4] > 0) { attack(1); }
+				} else {
+					attack(1);
+					if (sav[1] > 0) { attack(0); }
+				}
+				break;
+			case 8:
+				items();
+				break;
+			case 9:
+				move(pos_y+2, 0);
+				if (spare() == 0 || sav[4] < 2) {
+					clear();
+					board_header_screen(1);
+					new_game_manager();
+				} else { attack(1); } break;
+				break;
+			case 10:
+				return;
+				break;
+		}
+	} board2(pos_x, pos_y);
+}
+
 void reset_screen() {
 	int pos_x = 8;
 	int pos_y = 15;
@@ -220,7 +288,7 @@ void splash2(int pos_x, int pos_y) {
     record_exists();
 	clear();
 	for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); }
-	printw("\nPLAY    [1]\nRESET   [2]\nCREDITS [3]\nEXIT    [4]\n\n");
+	printw("\n[PLAY   ]\n[RESET  ]\n[CREDITS]\n[EXIT   ]\n\n");
 	while (game == 0) {
         move(pos_y, pos_x); printw("<");
         refresh();
@@ -253,7 +321,8 @@ void splash2(int pos_x, int pos_y) {
     }
 	move(14, 12);
     if (pos_y == 8) {
-        printw(" You said yes!\n"); refresh(); sleep(1);
+		stats_deploy();
+        board2(8, 7);
     } else if (pos_y == 9) {
         move(13, 0); reset_screen();
     } else if (pos_y == 10) {

@@ -98,10 +98,10 @@ void attack(int dir) {
             save_writer(4, sav[4]-dam_to_enemy);
             board_header_screen(0);
             if (sav[4] <= 0) {
-                printw("\nYou deal the death blow, attacking with %dHP!\n"
+                printw("You deal the death blow, attacking with %dHP!\n"
                 ,dam_to_enemy);
             } else {
-                printw("\nYou attack the %s, dealing %dHP!\n",
+                printw("You attack the %s, dealing %dHP!\n",
                 race_display(sav[3],1,1),dam_to_enemy);
             } break; }
         case 1: { // get attacked
@@ -109,10 +109,10 @@ void attack(int dir) {
             save_writer(1, sav[1]-dam_to_player);
             board_header_screen(0);
             if (sav[1] <= 0) {
-                printw("\nThe %s deals the death blow, attacking with %dHP!\n",
+                printw("The %s deals the death blow, attacking with %dHP!\n",
                 race_display(sav[3],1,1),dam_to_player);
             } else {
-                printw("\nThe %s attacks you, dealing %dHP!\n",
+                printw("The %s attacks you, dealing %dHP!\n",
                 race_display(sav[3],1,1),dam_to_player);
             } break; }
     } refresh(); game_sleep(1000);
