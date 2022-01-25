@@ -15,6 +15,8 @@
 
 ```ENTER``` - confirm
 
+```(CTRL-)C, Q``` - close game
+
 # Download
 
 ## Grab a binary!
