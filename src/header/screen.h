@@ -4,6 +4,7 @@ void new_game_manager();
 void board_header_screen(int fake_options);
 void item_options_screen();
 void board_screen();
+void board2(int pos_x, int pos_y);
 void reset_screen();
 void credits_screen();
 void splash2(int pos_x, int pos_y);
