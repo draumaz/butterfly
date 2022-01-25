@@ -21,8 +21,8 @@
 
 # Acknowledgments
 
-<a href="https://github.com/catboy6969">catboy6969</a> - playtest, game design, armv8 testing
-
-<a href="https://carbon.now.sh/">Carbon</a> - beautiful screenshots
+catboy6969 - playtest, game design, armv8 testing
 
 Bryce Cano - character design, inspiration
+
+<a href="https://carbon.now.sh/">Carbon</a> - text displays
