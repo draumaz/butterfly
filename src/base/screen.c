@@ -11,7 +11,7 @@
 
 #include "./../header/screen.h" // self-referential
 
-const char* board_screen_prompt = "\n\nFIGHT [1]\nITEMS [2]\nSPARE [3]\nEXIT  [4]\n\n";
+const char* board_screen_prompt = "\n\n[FIGHT]\n[ITEMS]\n[SPARE]\n[EXIT ]\n\n";
 
 const char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __",
 	"| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \\ \\ / /",
@@ -36,24 +36,59 @@ char in_prog_warn() {
 	} return 'a';
 }
 
-char board_again_screen() {
-	printw("\n\nPlay again?\n\nYES [1]\nNO [2]\n\n");
-	return (char)getch();
+int board_again_screen() {
+	int pos_y = 9; int pos_x = 6;
+	printw("Play again?\n\n[YES]\n[NO ]\n\n");
+	int loop = 0;
+	while (loop == 0) {
+		move(pos_y, pos_x); printw("<");
+		refresh();
+		int ipu; ipu = getch();
+		switch (ipu) {
+			case 'q':
+                curs_set(1);
+				clear();
+				#ifdef _WIN32
+					system("pause");
+				#else
+                	system("stty sane");
+				#endif
+				exit(0);
+                break;
+			case KEY_DOWN:
+            case 's':
+			case 'k':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 10) {
+					pos_y = 9;
+				} else { pos_y += 1; }
+                break;
+			case KEY_UP:
+            case 'w':
+			case 'i':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 9) {
+					pos_y = 10;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+				mvdelch(pos_y, pos_x);
+                loop = 1;
+                break;
+			default:
+                break;
+		}
+	}
+	return pos_y;
 }
 
 void new_game_manager() {
-	if (board_again_screen() == '1') {
+	if (board_again_screen() == 9) {
 		stats_deploy();
-		board_screen();
+		board_screen(8, 7);
 	} else { 
-                printw("\n"); 
-                #ifdef _WIN32
-			system("pause");
-		#else
-                        system("stty sane");
-                #endif
-                exit(0);
-        }
+        splash_screen(10, 8);
+    }
 }
 
 void board_header_screen(int fake_options) {
@@ -69,160 +104,264 @@ void board_header_screen(int fake_options) {
 
 void item_options_screen() {
 	int * sav = save_reader();
-	printw("%dx POTION [1] (restore 10HP)\n%dx SPEAR  [2] (deal 9 damage)\n%dx POISON [3] (damage over 3 turns)\nBACK      [4]\n\n",sav[7],sav[8],sav[9]);
+	printw("[%dx POTION]\n[%dx SPEAR ]\n[%dx POISON]\n[BACK     ]\n\n",sav[7],sav[8],sav[9]);
 }
 
-void board_screen() {
-	srand(time(0));
+int entity_alive(int kind) {
 	int * sav = save_reader();
+	if (kind == 0) {
+		if (sav[1] > 0) { return 0; }
+		if (sav[1] <= 0) { return 1; }
+	} else if (kind == 1) {
+		if (sav[4] > 0) { return 0; }
+		if (sav[4] <= 0) { return 1;}
+	}
+	return 2;
+}
+
+void board_screen(int pos_x, int pos_y) {
+	int * sav = save_reader();
+	int loop = 0;
 	clear();
+	move(0, 0);
+	board_header_screen(1);
+	printw("%s", board_screen_prompt);
 	if (sav[10] >= 1 && sav[10] <= 4) {
-		if (sav[0] > 0 || sav[4] > 0) {
-			if (sav[10] == 4) {
-				save_writer(10, 0); // set poison effects back to 0 (disabled)
-				clear();
-				board_header_screen(0);
-				printw("\nThe %s shakes off the poison.",race_display(sav[3],1,1));
-			} else {
-				int dam = (rand()%4)+1;
-				save_writer(10, sav[10]+1); // increment
-				save_writer(4, sav[4]-dam); // damage
-				clear();
-				board_header_screen(0);
-				printw("\nThe %s loses %dHP from the poison!", race_display(sav[3],1,1), dam);
+			if (sav[0] > 0 || sav[4] > 0) {
+				if (sav[10] == 4) {
+					save_writer(10, 0); // set poison effects back to 0 (disabled)
+					printw("The %s shakes off the poison.",race_display(sav[3],1,1));
+				} else {
+					int dam = (rand()%4)+1;
+					save_writer(10, sav[10]+1); // increment
+					save_writer(4, sav[4]-dam); // damage
+					printw("The %s lost %dHP from the poison!", race_display(sav[3],1,1), dam);
+				}
 			}
+			refresh();
+			game_sleep(1000);
+	}
+	if (entity_alive(0) == 1) {
+		clear(); board_header_screen(1); move(pos_y, 0);
+		printw("You died!\n"); record_writer(1); refresh();
+		game_sleep(1000);
+		move(pos_y, 0);
+		new_game_manager();
+	} if (entity_alive(1) == 1) {
+		clear(); board_header_screen(1); move(pos_y, 0);
+		printw("You win!\n"); record_writer(0); refresh();
+		game_sleep(1000);
+		move(pos_y, 0);
+		new_game_manager();
+	}
+	while (loop == 0) {
+		move(pos_y, pos_x); printw("<");
+		refresh();
+		int ipu; ipu = getch();
+		switch (ipu) {
+			case 'q':
+                curs_set(1);
+				clear();
+				#ifdef _WIN32
+					system("pause");
+				#else
+                	system("stty sane");
+				#endif
+				exit(0);
+                break;
+			case KEY_DOWN:
+            case 's':
+			case 'k':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 10) {
+					pos_y = 7;
+				} else { pos_y += 1; }
+                break;
+			case KEY_UP:
+            case 'w':
+			case 'i':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 7) {
+					pos_y = 10;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+                loop = 1;
+                break;
+			default:
+                break;
+		}
+	}
+	if (loop == 1) {
+		switch (pos_y) {
+			case 7:
+				move(pos_y+5, 0);
+				if (sav[1] >= sav[4]) {
+					attack(0);
+					if (sav[4] > 0) { attack(1); }
+				} else {
+					attack(1);
+					if (sav[1] > 0) { attack(0); }
+				}
+				break;
+			case 8:
+				move(pos_y+4, 0);
+				if (items() == 0) {
+					if (sav[4] > 0) {
+						move(pos_y+10, 0);
+						attack(1);
+					}
+				}
+				break;
+			case 9:
+				move(pos_y+2, 0);
+				if (spare() == 0 || sav[4] < 2) {
+					clear();
+					board_header_screen(1);
+					move(pos_y-2, 0);
+					new_game_manager();
+				} else { attack(1); } break;
+				break;
+			case 10:
+				return;
+				break;
+		}
+	} board_screen(pos_x, pos_y);
+}
+
+void reset_screen() {
+	int pos_x = 6;
+	int pos_y = 15;
+	int loop = 0;
+	printw("Just to verify, you want to reset your save files?\n\n[YES]\n[NO ]\n\n");
+	while (loop == 0) {
+		move(pos_y, pos_x); printw("<");
+		refresh();
+		int ipu; ipu = getch();
+		switch (ipu) {
+			case 'q':
+                curs_set(1);
+				clear();
+				#ifdef _WIN32
+					system("pause");
+				#else
+                	system("stty sane");
+				#endif
+				exit(0);
+                break;
+			case KEY_UP:
+            case 'w':
+			case 'i':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 16) {
+					pos_y -= 1;
+				} else { pos_y += 1; }
+                break;
+			case KEY_DOWN:
+            case 's':
+			case 'k':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 15) {
+					pos_y += 1;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+                loop = 1;
+                break;
+			default:
+                break;
+		}
+	}
+	if (pos_y == 15) {
+		move(18, 0);
+		if (remove("data.txt") != 0 || remove("record.txt") != 0) {
+			printw("Failed to delete temp files.");
+		} else {
+			printw("Successfully deleted.");
 		}
 		refresh();
-		game_sleep(1000);
-		clear();
+		game_sleep(200);
 	}
-	board_header_screen(1);
-	if (sav[1] <= 0) {
-		printw("\n\nYou died!\n"); record_writer(1); refresh();
-		game_sleep(1000);
-		new_game_manager();
-	} else if (sav[4] <= 0) {
-		printw("\n\nYou win!\n"); record_writer(0); refresh();
-		game_sleep(1000);
-		new_game_manager();
-	}
-	printw("%s",board_screen_prompt);
-	switch (getch()) {
-		case '1':
-			if (sav[1] >= sav[4]) {
-				attack(0);
-				if (sav[4] > 0) { attack(1); }
-			} else {
-				attack(1);
-				if (sav[1] > 0) { attack(0); }
-			} break;
-		case '2':
-			if (items() == 0) {
-				if (sav[4] > 0) {
-					attack(1);
-				}
-			} break;
-		case '3':
-			if (spare() == 0 || sav[4] < 2) {
-				clear();
-				board_header_screen(1);
-				new_game_manager();
-			} else { attack(1); } break;
-		case '4':
-			splash_screen();
-			break;
-		default:
-			break;
-	}
-	refresh();
-	board_screen();
 }
 
-void splash_screen() {
-        clear();
-        save_exists();
-        record_exists();
+void credits_screen() {
+	clear();
+	printw("\n");
+	lbl_reader("Butterfly",30);
+	game_sleep(500);
+	printw(" v"); fflush(stdout);
+	lbl_reader(version(),10);
+	game_sleep(1000);
+	printw("\n\n");
+	lbl_reader("Developed by draumaz",35);
+	game_sleep(500);
+	lbl_reader(" in C!",20);
+	game_sleep(750);
+	lbl_reader(" (with the lovely curses library)", 10);
+	game_sleep(1000);
+	printw("\n\n");
+	lbl_reader("Special thanks to:",35);
+	game_sleep(500);
+	printw("\n\ncatboy6969!",25);
+	refresh();
+	game_sleep(750);
+	printw("\nBryce Cano!", 25);
+	refresh();
+	game_sleep(1000);
+}
+
+void splash_screen(int pos_x, int pos_y) {
+	int game = 0;
+	save_exists();
+    record_exists();
+	clear();
 	for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); }
-        printw("\nPLAY  [1] | CREDITS [3]\nRESET [2] | EXIT    [4]\n\n");
+	printw("\n[PLAY   ]\n[RESET  ]\n[CREDITS]\n[EXIT   ]\n\n");
+	while (game == 0) {
+        move(pos_y, pos_x); printw("<");
         refresh();
-        switch (getch()) {
-                case '1': {
-                        switch (in_prog_warn()) {
-                                case '1':
-                                        stats_deploy();
-                                        board_screen();
-                                        break;
-                                case '2':
-                                        break;
-                                case '3':
-                                        splash_screen();
-                                        break;
-                        }
-                        stats_deploy();
-                        board_screen();
-                        break; }
-                case '2': {
-                        printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
-			switch (getch()) {
-				case '1':
-					if (remove("data.txt") != 0 || remove("record.txt") != 0) {
-						printw("Failed to delete temp files.");
-					} else {
-						printw("Successfully deleted.");
-					}
-					refresh();
-					game_sleep(200);
-					break;
-				case '2':
-					splash_screen();
-					break;
-			} break; }
-                case '3': {
-                        clear();
-                        printw("\n");
-			lbl_reader("Butterfly",30);
-			game_sleep(500);
-			printw(" v"); fflush(stdout);
-			lbl_reader(version(),10);
-			game_sleep(1000);
-			printw("\n\n");
-			lbl_reader("Developed by draumaz",35);
-			game_sleep(500);
-			lbl_reader(" in C!",20);
-			game_sleep(750);
-                        lbl_reader(" (with the lovely curses library)", 10);
-                        game_sleep(1000);
-			printw("\n\n");
-			lbl_reader("Special thanks to:",35);
-			game_sleep(500);
-			printw("\n\ncatboy6969!",25);
-                        refresh();
-			game_sleep(750);
-			printw("\nBryce Cano!", 25);
-                        refresh();
-			game_sleep(1000);
-                        break; }
-                case '4': {
-                        clear();
-                        printw("\nThanks for playing my game!\n\nKeep up with development at ");
-                        lbl_reader("https://github.com/draumaz/butterfly.", 10);
-                        printw("\n\n");
-                        refresh();
-                        #ifdef _WIN32
-				system("pause");
-			#else
-                                system("stty sane");
-                        #endif
-                        exit(0);
-                        break; }
-                default: {
-                        printw("Did you mean something else?");
-                        refresh();
-                        game_sleep(200);
-                        clear();
-                        splash_screen();
-                        break; }
+		int ipu; ipu = getch();
+        switch (ipu) {
+            case 'q':
+                return;
+                break;
+            case KEY_DOWN:
+			case 's':
+			case 'k':
+				mvdelch(pos_y, pos_x);
+                if (pos_y < 11 || ! pos_y > 8) {
+                    pos_y += 1;
+                } else if (pos_y == 11) {
+                    pos_y = 8;
+                }
+                break;
+            case KEY_UP:
+			case 'w':
+			case 'i':
+				mvdelch(pos_y, pos_x);
+                if (pos_y > 8) {
+                    pos_y -= 1;
+                } else if (pos_y == 8) {
+                    pos_y = 11;
+                }
+                break;
+            case '\n':
+                game = 1;
+                break;
+            default:
+                break;
         }
-        refresh();
-        splash_screen();
+    }
+	move(14, 12);
+    if (pos_y == 8) {
+		stats_deploy();
+        board_screen(8, 7);
+    } else if (pos_y == 9) {
+        move(13, 0); reset_screen();
+    } else if (pos_y == 10) {
+        credits_screen();
+    } else if (pos_y == 11) {
+		return;
+	}
+	splash_screen(pos_x, pos_y);
 }
