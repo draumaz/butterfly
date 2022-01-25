@@ -6,9 +6,9 @@
 #include "./../header/screen.h"
 
 void joystick() {
-	initscr(); noecho(); raw(); curs_set(0);
+	initscr(); noecho(); raw(); curs_set(0); keypad(stdscr, true);
 	splash_screen(10, 8);
-	clear(); curs_set(1); endwin();
+	clear(); curs_set(1); endwin(); keypad(stdscr, false);
 	#ifdef _WIN32
 		system("pause");
 	#else

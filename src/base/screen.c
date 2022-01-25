@@ -43,7 +43,8 @@ int board_again_screen() {
 	while (loop == 0) {
 		move(pos_y, pos_x); printw("<");
 		refresh();
-		switch (getch()) {
+		int ipu; ipu = getch();
+		switch (ipu) {
 			case 'q':
                 curs_set(1);
 				clear();
@@ -54,13 +55,17 @@ int board_again_screen() {
 				#endif
 				exit(0);
                 break;
+			case KEY_DOWN:
             case 's':
+			case 'k':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 10) {
 					pos_y = 9;
 				} else { pos_y += 1; }
                 break;
+			case KEY_UP:
             case 'w':
+			case 'i':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 9) {
 					pos_y = 10;
@@ -152,7 +157,8 @@ void board_screen(int pos_x, int pos_y) {
 	while (loop == 0) {
 		move(pos_y, pos_x); printw("<");
 		refresh();
-		switch (getch()) {
+		int ipu; ipu = getch();
+		switch (ipu) {
 			case 'q':
                 curs_set(1);
 				clear();
@@ -163,13 +169,17 @@ void board_screen(int pos_x, int pos_y) {
 				#endif
 				exit(0);
                 break;
+			case KEY_DOWN:
             case 's':
+			case 'k':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 10) {
 					pos_y = 7;
 				} else { pos_y += 1; }
                 break;
+			case KEY_UP:
             case 'w':
+			case 'i':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 7) {
 					pos_y = 10;
@@ -227,7 +237,8 @@ void reset_screen() {
 	while (loop == 0) {
 		move(pos_y, pos_x); printw("<");
 		refresh();
-		switch (getch()) {
+		int ipu; ipu = getch();
+		switch (ipu) {
 			case 'q':
                 curs_set(1);
 				clear();
@@ -238,13 +249,17 @@ void reset_screen() {
 				#endif
 				exit(0);
                 break;
-            case 's':
+			case KEY_UP:
+            case 'w':
+			case 'i':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 16) {
 					pos_y -= 1;
 				} else { pos_y += 1; }
                 break;
-            case 'w':
+			case KEY_DOWN:
+            case 's':
+			case 'k':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 15) {
 					pos_y += 1;
@@ -305,11 +320,14 @@ void splash_screen(int pos_x, int pos_y) {
 	while (game == 0) {
         move(pos_y, pos_x); printw("<");
         refresh();
-        switch ((char)getch()) {
+		int ipu; ipu = getch();
+        switch (ipu) {
             case 'q':
                 return;
                 break;
-            case 's':
+            case KEY_DOWN:
+			case 's':
+			case 'k':
 				mvdelch(pos_y, pos_x);
                 if (pos_y < 11 || ! pos_y > 8) {
                     pos_y += 1;
@@ -317,7 +335,9 @@ void splash_screen(int pos_x, int pos_y) {
                     pos_y = 8;
                 }
                 break;
-            case 'w':
+            case KEY_UP:
+			case 'w':
+			case 'i':
 				mvdelch(pos_y, pos_x);
                 if (pos_y > 8) {
                     pos_y -= 1;

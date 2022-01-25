@@ -38,7 +38,8 @@ int items() {
     while (loop == 0) {
         move(pos_y, pos_x); printw("<");
         refresh();
-		switch (getch()) {
+        int ipu; ipu = getch();
+		switch (ipu) {
 			case 'q':
                 curs_set(1);
                 clear();
@@ -49,13 +50,17 @@ int items() {
 				#endif
 				exit(0);
                 break;
+            case KEY_DOWN:
             case 's':
+            case 'k':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 15) {
 					pos_y = 12;
 				} else { pos_y += 1; }
                 break;
+            case KEY_UP:
             case 'w':
+            case 'i':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 12) {
 					pos_y = 15;
