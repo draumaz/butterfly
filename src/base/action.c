@@ -10,6 +10,10 @@
 #include "./../header/stat_gen.h"
 #include "./../header/screen.h"
 
+#ifndef CTRL
+#define CTRL(c) ((c) & 037)
+#endif
+
 int spare() {
     int result = 1;
     int * sav = save_reader();
@@ -41,8 +45,11 @@ int items() {
         int ipu; ipu = getch();
 		switch (ipu) {
 			case 'q':
+            case CTRL('q'):
+            case CTRL('c'):
                 curs_set(1);
                 clear();
+                endwin();
 				#ifdef _WIN32
 					system("pause");
 				#else

@@ -11,6 +11,10 @@
 
 #include "./../header/screen.h" // self-referential
 
+#ifndef CTRL
+#define CTRL(c) ((c) & 037)
+#endif
+
 const char* board_screen_prompt = "\n\n[FIGHT]\n[ITEMS]\n[SPARE]\n[EXIT ]\n\n";
 
 const char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __",
@@ -46,8 +50,11 @@ int board_again_screen() {
 		int ipu; ipu = getch();
 		switch (ipu) {
 			case 'q':
+			case CTRL('q'):
+            case CTRL('c'):
                 curs_set(1);
 				clear();
+				endwin();
 				#ifdef _WIN32
 					system("pause");
 				#else
@@ -160,8 +167,11 @@ void board_screen(int pos_x, int pos_y) {
 		int ipu; ipu = getch();
 		switch (ipu) {
 			case 'q':
+			case CTRL('q'):
+            case CTRL('c'):
                 curs_set(1);
 				clear();
+				endwin();
 				#ifdef _WIN32
 					system("pause");
 				#else
@@ -240,8 +250,11 @@ void reset_screen() {
 		int ipu; ipu = getch();
 		switch (ipu) {
 			case 'q':
+			case CTRL('q'):
+            case CTRL('c'):
                 curs_set(1);
 				clear();
+				endwin();
 				#ifdef _WIN32
 					system("pause");
 				#else
@@ -331,6 +344,8 @@ void splash_screen(int pos_x, int pos_y) {
 		int ipu; ipu = getch();
         switch (ipu) {
             case 'q':
+			case CTRL('q'):
+			case CTRL('c'):
                 return;
                 break;
             case KEY_DOWN:
@@ -362,7 +377,12 @@ void splash_screen(int pos_x, int pos_y) {
     }
 	move(14, 12);
     if (pos_y == 8) {
-		stats_deploy();
+		int * sav = save_reader();
+		for (int i = 0; i < 5; i++) {
+			if (sav[i] == 0) {
+				stats_deploy();
+			}
+		}
         board_screen(8, 7);
     } else if (pos_y == 9) {
         move(13, 0); reset_screen();
