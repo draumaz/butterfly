@@ -37,9 +37,10 @@ char in_prog_warn() {
 }
 
 int board_again_screen() {
-	printw("\n\nPlay again?\n\n[YES]\n[NO ]\n\n");
+	clear();
+	printw("\nPlay again?\n\n[YES]\n[NO ]\n\n");
 	int loop = 0;
-	int pos_y = 9; int pos_x = 6;
+	int pos_y = 3; int pos_x = 6;
 	while (loop == 0) {
 		move(pos_y, pos_x); printw("<");
 		refresh();
@@ -55,14 +56,14 @@ int board_again_screen() {
                 break;
             case 's':
 				mvdelch(pos_y, pos_x);
-				if (pos_y == 10) {
-					pos_y = 9;
+				if (pos_y == 4) {
+					pos_y = 3;
 				} else { pos_y += 1; }
                 break;
             case 'w':
 				mvdelch(pos_y, pos_x);
-				if (pos_y == 9) {
-					pos_y = 10;
+				if (pos_y == 3) {
+					pos_y = 4;
 				} else { pos_y -= 1; }
                 break;
             case '\n':
@@ -77,9 +78,9 @@ int board_again_screen() {
 }
 
 void new_game_manager() {
-	if (board_again_screen() == 9) {
+	if (board_again_screen() == 3) {
 		stats_deploy();
-		board2(8, 7);
+		board_screen(8, 7);
 	} else { 
         printw("\n"); 
         #ifdef _WIN32
@@ -107,79 +108,49 @@ void item_options_screen() {
 	printw("[%dx POTION]\n[%dx SPEAR ]\n[%dx POISON]\n[BACK     ]\n\n",sav[7],sav[8],sav[9]);
 }
 
-void board_screen() {
-	srand(time(0));
+int entity_alive(int kind) {
 	int * sav = save_reader();
-	clear();
-	if (sav[10] >= 1 && sav[10] <= 4) {
-		if (sav[0] > 0 || sav[4] > 0) {
-			if (sav[10] == 4) {
-				save_writer(10, 0); // set poison effects back to 0 (disabled)
-				clear();
-				board_header_screen(0);
-				printw("\nThe %s shakes off the poison.",race_display(sav[3],1,1));
-			} else {
-				int dam = (rand()%4)+1;
-				save_writer(10, sav[10]+1); // increment
-				save_writer(4, sav[4]-dam); // damage
-				clear();
-				board_header_screen(0);
-				printw("\nThe %s loses %dHP from the poison!", race_display(sav[3],1,1), dam);
-			}
-		}
-		refresh();
-		game_sleep(1000);
-		clear();
+	if (kind == 0) {
+		if (sav[1] > 0) { return 0; }
+		if (sav[1] <= 0) { return 1; }
+	} else if (kind == 1) {
+		if (sav[4] > 0) { return 0; }
+		if (sav[4] <= 0) { return 1;}
 	}
-	board_header_screen(1);
-	if (sav[1] <= 0) {
-		printw("\n\nYou died!\n"); record_writer(1); refresh();
-		game_sleep(1000);
-		new_game_manager();
-	} else if (sav[4] <= 0) {
-		printw("\n\nYou win!\n"); record_writer(0); refresh();
-		game_sleep(1000);
-		new_game_manager();
-	}
-	printw("%s",board_screen_prompt);
-	switch (getch()) {
-		case '1':
-			if (sav[1] >= sav[4]) {
-				attack(0);
-				if (sav[4] > 0) { attack(1); }
-			} else {
-				attack(1);
-				if (sav[1] > 0) { attack(0); }
-			} break;
-		case '2':
-			if (items() == 0) {
-				if (sav[4] > 0) {
-					attack(1);
-				}
-			} break;
-		case '3':
-			if (spare() == 0 || sav[4] < 2) {
-				clear();
-				board_header_screen(1);
-				new_game_manager();
-			} else { attack(1); } break;
-		case '4':
-			splash_screen();
-			break;
-		default:
-			break;
-	}
-	refresh();
-	board_screen();
+	return 2;
 }
 
-void board2(int pos_x, int pos_y) {
+void board_screen(int pos_x, int pos_y) {
 	int * sav = save_reader();
 	int loop = 0;
 	clear();
 	move(0, 0);
 	board_header_screen(1);
 	printw("%s", board_screen_prompt);
+	if (sav[10] >= 1 && sav[10] <= 4) {
+			if (sav[0] > 0 || sav[4] > 0) {
+				if (sav[10] == 4) {
+					save_writer(10, 0); // set poison effects back to 0 (disabled)
+					printw("The %s shakes off the poison.",race_display(sav[3],1,1));
+				} else {
+					int dam = (rand()%4)+1;
+					save_writer(10, sav[10]+1); // increment
+					save_writer(4, sav[4]-dam); // damage
+					printw("The %s lost %dHP from the poison!", race_display(sav[3],1,1), dam);
+				}
+			}
+			refresh();
+			game_sleep(1000);
+	}
+	if (entity_alive(0) == 1) {
+		printw("You died!\n"); record_writer(1); refresh();
+		game_sleep(1000);
+		new_game_manager();
+	} if (entity_alive(1) == 1) {
+		printw("You win!\n"); record_writer(0); refresh();
+		game_sleep(1000);
+		new_game_manager();
+	}
 	while (loop == 0) {
 		move(pos_y, pos_x); printw("<");
 		refresh();
@@ -206,7 +177,6 @@ void board2(int pos_x, int pos_y) {
 				} else { pos_y -= 1; }
                 break;
             case '\n':
-				mvdelch(pos_y, pos_x);
                 loop = 1;
                 break;
 			default:
@@ -227,7 +197,12 @@ void board2(int pos_x, int pos_y) {
 				break;
 			case 8:
 				move(pos_y+4, 0);
-				items();
+				if (items() == 0) {
+					if (sav[4] > 0) {
+						move(pos_y+10, 0);
+						attack(1);
+					}
+				}
 				break;
 			case 9:
 				move(pos_y+2, 0);
@@ -241,7 +216,7 @@ void board2(int pos_x, int pos_y) {
 				return;
 				break;
 		}
-	} board2(pos_x, pos_y);
+	} board_screen(pos_x, pos_y);
 }
 
 void reset_screen() {
@@ -319,7 +294,7 @@ void credits_screen() {
 	game_sleep(1000);
 }
 
-void splash2(int pos_x, int pos_y) {
+void splash_screen(int pos_x, int pos_y) {
 	int game = 0;
 	save_exists();
     record_exists();
@@ -359,7 +334,7 @@ void splash2(int pos_x, int pos_y) {
 	move(14, 12);
     if (pos_y == 8) {
 		stats_deploy();
-        board2(8, 7);
+        board_screen(8, 7);
     } else if (pos_y == 9) {
         move(13, 0); reset_screen();
     } else if (pos_y == 10) {
@@ -367,96 +342,5 @@ void splash2(int pos_x, int pos_y) {
     } else if (pos_y == 11) {
 		return;
 	}
-	splash2(pos_x, pos_y);
-}
-
-void splash_screen() {
-        save_exists();
-        record_exists();
-		int x = 0;
-		while (x == 0) {
-			for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); }
-			printw("\nPLAY    [1] | CREDITS   [3]\nRESET [2] | EXIT    [4]\n\n");
-			refresh();
-			switch (getch()) {
-					case '1': {
-							switch (in_prog_warn()) {
-									case '1':
-											stats_deploy();
-											board_screen();
-											break;
-									case '2':
-											break;
-									case '3':
-											splash_screen();
-											break;
-							}
-							stats_deploy();
-							board_screen();
-							break; }
-					case '2': {
-							printw("Just to verify, you want to reset your save files?\n\nYES [1]\nNO  [2]\n\n");
-				switch (getch()) {
-					case '1':
-						if (remove("data.txt") != 0 || remove("record.txt") != 0) {
-							printw("Failed to delete temp files.");
-						} else {
-							printw("Successfully deleted.");
-						}
-						refresh();
-						game_sleep(200);
-						break;
-					case '2':
-						splash_screen();
-						break;
-				} break; }
-					case '3': {
-							clear();
-							printw("\n");
-				lbl_reader("Butterfly",30);
-				game_sleep(500);
-				printw(" v"); fflush(stdout);
-				lbl_reader(version(),10);
-				game_sleep(1000);
-				printw("\n\n");
-				lbl_reader("Developed by draumaz",35);
-				game_sleep(500);
-				lbl_reader(" in C!",20);
-				game_sleep(750);
-							lbl_reader(" (with the lovely curses library)", 10);
-							game_sleep(1000);
-				printw("\n\n");
-				lbl_reader("Special thanks to:",35);
-				game_sleep(500);
-				printw("\n\ncatboy6969!",25);
-							refresh();
-				game_sleep(750);
-				printw("\nBryce Cano!", 25);
-							refresh();
-				game_sleep(1000);
-							break; }
-					case '4': {
-							clear();
-							printw("\nThanks for playing my game!\n\nKeep up with development at ");
-							lbl_reader("https://github.com/draumaz/butterfly.", 10);
-							printw("\n\n");
-							refresh();
-							#ifdef _WIN32
-					system("pause");
-				#else
-									system("stty sane");
-							#endif
-							exit(0);
-							break; }
-					default: {
-							printw("Did you mean something else?");
-							refresh();
-							game_sleep(200);
-							clear();
-							splash_screen();
-							break; }
-			}
-        refresh();
-		}
-        splash_screen();
+	splash_screen(pos_x, pos_y);
 }
