@@ -45,33 +45,33 @@ int board_again_screen() {
 		refresh();
 		switch (getch()) {
 			case 'q':
-                curs_set(1);
+                		curs_set(1);
 				clear();
 				#ifdef _WIN32
 					system("pause");
 				#else
-                	system("stty sane");
+                			system("stty sane");
 				#endif
 				exit(0);
-                break;
-            case 's':
+                	break;
+            		case 's':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 10) {
 					pos_y = 9;
 				} else { pos_y += 1; }
-                break;
-            case 'w':
+                		break;
+            		case 'w':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 9) {
 					pos_y = 10;
 				} else { pos_y -= 1; }
-                break;
-            case '\n':
+                		break;
+            		case '\n':
 				mvdelch(pos_y, pos_x);
-                loop = 1;
-                break;
+                		loop = 1;
+                		break;
 			default:
-                break;
+                		break;
 		}
 	}
 	return pos_y;
@@ -154,32 +154,32 @@ void board_screen(int pos_x, int pos_y) {
 		refresh();
 		switch (getch()) {
 			case 'q':
-                curs_set(1);
+                		curs_set(1);
 				clear();
 				#ifdef _WIN32
 					system("pause");
 				#else
-                	system("stty sane");
+                			system("stty sane");
 				#endif
 				exit(0);
-                break;
-            case 's':
+                		break;
+            		case 's':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 10) {
 					pos_y = 7;
 				} else { pos_y += 1; }
-                break;
-            case 'w':
+                		break;
+            		case 'w':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 7) {
 					pos_y = 10;
 				} else { pos_y -= 1; }
-                break;
-            case '\n':
-                loop = 1;
-                break;
+                		break;
+            		case '\n':
+                		loop = 1;
+                		break;
 			default:
-                break;
+                		break;
 		}
 	}
 	if (loop == 1) {
@@ -229,32 +229,32 @@ void reset_screen() {
 		refresh();
 		switch (getch()) {
 			case 'q':
-                curs_set(1);
+                		curs_set(1);
 				clear();
 				#ifdef _WIN32
 					system("pause");
 				#else
-                	system("stty sane");
+                			system("stty sane");
 				#endif
 				exit(0);
-                break;
-            case 's':
+                		break;
+            		case 's':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 16) {
 					pos_y -= 1;
 				} else { pos_y += 1; }
-                break;
-            case 'w':
+                		break;
+           		 case 'w':
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 15) {
 					pos_y += 1;
 				} else { pos_y -= 1; }
-                break;
-            case '\n':
-                loop = 1;
-                break;
+                		break;
+            		case '\n':
+                		loop = 1;
+                		break;
 			default:
-                break;
+                		break;
 		}
 	}
 	if (pos_y == 15) {
@@ -310,7 +310,7 @@ void splash_screen(int pos_x, int pos_y) {
                 return;
                 break;
             case 's':
-				mvdelch(pos_y, pos_x);
+		mvdelch(pos_y, pos_x);
                 if (pos_y < 11 || ! pos_y > 8) {
                     pos_y += 1;
                 } else if (pos_y == 11) {
@@ -318,7 +318,7 @@ void splash_screen(int pos_x, int pos_y) {
                 }
                 break;
             case 'w':
-				mvdelch(pos_y, pos_x);
+		mvdelch(pos_y, pos_x);
                 if (pos_y > 8) {
                     pos_y -= 1;
                 } else if (pos_y == 8) {
@@ -332,9 +332,9 @@ void splash_screen(int pos_x, int pos_y) {
                 break;
         }
     }
-	move(14, 12);
+    move(14, 12);
     if (pos_y == 8) {
-		stats_deploy();
+	stats_deploy();
         board_screen(8, 7);
     } else if (pos_y == 9) {
         move(13, 0); reset_screen();
@@ -342,6 +342,5 @@ void splash_screen(int pos_x, int pos_y) {
         credits_screen();
     } else if (pos_y == 11) {
 		return;
-	}
-	splash_screen(pos_x, pos_y);
+    } splash_screen(pos_x, pos_y); // loop
 }
