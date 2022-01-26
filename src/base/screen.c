@@ -104,11 +104,46 @@ void board_header_update(int x, int y, int m) {
 void scr_board() {
     int pos_x = 0; int pos_y = 0;
     save_writer(2, 95);
+    clear();
     board_header(pos_x, pos_y);
     for (int i = 0; i < 9; i++) { board_header_update(pos_x, pos_y, i); }
     sleep(1);
     board_header_update(pos_x, pos_y, 5); refresh();
     sleep(2);
+}
+
+void landing_credits() {
+	const char* catboy_contribs[] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Playtest"};
+	const char* a[] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
+	int b[] = {500, 500, 100}; int c[] = {35, 20, 10};
+	clear();
+	int pos = 1;
+	move(1, 0);
+	scr_popwrite("Butterfly", 30); printw(","); refresh(); scr_sleep(500); printw(" v");
+	scr_popwrite(version(), 15);
+	scr_sleep(500);
+	pos += 2; move(pos, 0);
+	for (int i = 0 ; i < 3; i++) {
+		scr_popwrite(a[i], c[i]);
+		scr_sleep(b[i]);
+	} scr_sleep(1000);
+	pos += 2; move(pos, 0);
+	scr_popwrite("Special thanks to:",35);
+	scr_sleep(500);
+	pos += 2; move(pos, 0);
+	printw("catboy6969!", 30);
+	pos += 2; move(pos, 0);
+	for (int i = 0; i < 4; i++) {
+		scr_popwrite(catboy_contribs[i], 25);
+		pos += 1; move(pos, 0); refresh();
+	} scr_sleep(500); pos+= 1; move(pos, 0);
+	printw("Bryce Cano!");
+	pos += 2; move(pos, 0);
+	scr_popwrite("Character design", 25);
+	pos += 1; move(pos, 0);
+	scr_popwrite("Inspiration", 25);
+	refresh();
+	scr_sleep(1000);
 }
 
 void landing_reset() {
@@ -168,20 +203,10 @@ void landing_reset() {
             scr_sleep(200);
             break;
     }
-    move(pos_y-3, 0);
-    printw("\n");
-    move(pos_y-2, 0);
-    printw("\n");
-    move(pos_y-1, 0);
-    printw("\n");
-    move(pos_y, 0);
-    printw("\n");
-    move(pos_y+1, 0);
-    printw("\n");
-    move(pos_y+2, 0);
-    printw("\n");
-    move(pos_y+3, 0);
-    printw("\n");
+    for (int i = 0; i < 10; i++) {
+        move(pos_y-(i-6),0);
+        printw("\n");
+    }
     refresh();
 }
 
@@ -241,7 +266,7 @@ void scr_landing() {
             }
         } switch (pos_y) {
                 case 8:
-                    printw("play opt");
+                    game_o = 1;
                     break;
                 case 9:
                     landing_reset();
@@ -252,5 +277,8 @@ void scr_landing() {
                 case 11:
                     return;
         } refresh();
+    }
+    if (game_o == 1) {
+        scr_board();
     }
 }
