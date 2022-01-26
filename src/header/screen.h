@@ -1,10 +1,4 @@
-char in_prog_warn();
-int board_again_screen();
-void new_game_manager();
-void board_header_screen(int fake_options);
-void item_options_screen();
-int entity_alive(int kind);
-void board_screen(int pos_x, int pos_y);
-void reset_screen();
-void credits_screen();
-void splash_screen(int pos_x, int pos_y);
+void board_header(int x, int y);
+void board_header_update(int x, int y, int m);
+void scr_board();
+void scr_landing();
