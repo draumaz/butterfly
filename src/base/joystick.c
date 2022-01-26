@@ -5,6 +5,7 @@
 
 #include "./../header/screen.h"
 
+
 void screen_up() {
     initscr();
     noecho();
@@ -15,9 +16,14 @@ void screen_up() {
 
 void screen_down() {
     clear();
-    curs_set(1);
     keypad(stdscr, false);
     endwin();
+    curs_set(1);
+    #ifdef _WIN32
+        system("pause");
+    #else
+        system("stty sane");
+    #endif
 }
 
 void joystick() {

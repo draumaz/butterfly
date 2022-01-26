@@ -5,12 +5,13 @@
 #include <curses.h>
 
 #include "./../header/save_io.h"
+#include "./../header/gdata.h"
 #include "./../header/record_io.h"
 #include "./../header/joystick.h"
 #include "./../header/wires.h"
 #include "./../header/gdata.h"
 
-//#include "./../header/screen.h"
+#include "./../header/screen.h"
 
 #ifndef CTRL
 #define CTRL(c) ((c) & 037)
@@ -58,7 +59,7 @@ void board_header_update(int x, int y, int m) {
             move(1, 53);
             printw("%d", rec[2]);
             if (rec[2] < 10) {
-                move(1, 53); printw(" ");
+                move(1, 54); printw(" ");
             }
             break;
         case 3: // player race
@@ -101,23 +102,95 @@ void board_header_update(int x, int y, int m) {
     refresh();
 }
 
+int entity_alive(int kind) {
+	int * sav = save_reader();
+	if (kind == 0) {
+		if (sav[1] > 0) { return 0; }
+		if (sav[1] <= 0) { return 1; }
+	} else if (kind == 1) {
+		if (sav[4] > 0) { return 0; }
+		if (sav[4] <= 0) { return 1;}
+	}
+	return 2;
+}
+
 void scr_board() {
     int pos_x = 0; int pos_y = 0;
-    save_writer(2, 95);
+    int game = 0; int game_o = 0;
     clear();
     board_header(pos_x, pos_y);
     for (int i = 0; i < 9; i++) { board_header_update(pos_x, pos_y, i); }
-    sleep(1);
-    board_header_update(pos_x, pos_y, 5); refresh();
-    sleep(2);
+    board_header_update(pos_x, pos_y, 5);
+    pos_y += 6;
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[FIGHT  ]"); // 7
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[ITEMS  ]"); // 8
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[SPARE  ]"); // 9
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[EXIT   ]"); // 10
+    refresh();
+    pos_y = 7; pos_x = 10;
+    while (game_o == 0) {
+        while (game == 0) {
+            move(pos_y, pos_x); printw("<");
+            refresh();
+            int ipu = getch();
+            switch (ipu) {
+                case 'q':
+                case CTRL('q'):
+                case CTRL('c'):
+                    screen_down();
+                    exit(0);
+                    break;
+                case KEY_DOWN:
+                case 's':
+                case 'k':
+                    mvdelch(pos_y, pos_x);
+                    if (pos_y == 10) {
+                        pos_y = 7;
+                    } else { pos_y += 1; }
+                    break;
+                case KEY_UP:
+                case 'w':
+                case 'i':
+                    mvdelch(pos_y, pos_x);
+                    if (pos_y == 7) {
+                        pos_y = 10;
+                    } else { pos_y -= 1; }
+                    break;
+                case '\n':
+                    game = 1;
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (game == 1) {
+            switch (pos_y) {
+                case 7:
+                    game = 0; // temporary loopers
+                    break;
+                case 8:
+                    game = 0;
+                    break;
+                case 9:
+                    game = 0;
+                    break;
+                case 10:
+                    scr_landing();
+                    break;
+            }
+        } refresh();
+    }
 }
 
 void landing_credits() {
 	const char* catboy_contribs[] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Playtest"};
 	const char* a[] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
-	int b[] = {500, 500, 100}; int c[] = {35, 20, 10};
+	int b[] = {500, 500, 100}; int c[] = {35, 20, 10}; int pos = 1;
 	clear();
-	int pos = 1;
 	move(1, 0);
 	scr_popwrite("Butterfly", 30); printw(","); refresh(); scr_sleep(500); printw(" v");
 	scr_popwrite(version(), 15);
@@ -165,6 +238,7 @@ void landing_reset() {
             case CTRL('q'):
             case CTRL('c'):
                 screen_down();
+                exit(0);
                 return;
             case KEY_UP:
             case 'w':
@@ -213,6 +287,8 @@ void landing_reset() {
 void scr_landing() {
     clear();
     int pos_x = 0; int pos_y = 0;
+    save_exists(); record_exists();
+    int * sav = save_reader();
     move(pos_y, pos_x);
     for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); pos_y += 1; move(pos_y, pos_x); } refresh();
     pos_y += 1; move(pos_y, pos_x);
@@ -226,7 +302,6 @@ void scr_landing() {
     pos_y = 8; pos_x = 10; // position at PLAY
     int game_o = 0;
     while (game_o == 0) {
-        save_exists(); record_exists();
         int game = 0;
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
@@ -237,6 +312,7 @@ void scr_landing() {
                 case CTRL('q'):
                 case CTRL('c'):
                     screen_down();
+                    exit(0);
                     return;
                 case KEY_UP:
                 case 'w':
@@ -270,15 +346,21 @@ void scr_landing() {
                     break;
                 case 9:
                     landing_reset();
+                    scr_landing();
                     break;
                 case 10:
-                    printw("creds opt");
+                    landing_credits();
+                    scr_landing();
                     break;
                 case 11:
-                    return;
+                    screen_down();
+                    exit(0);
+                    break;
         } refresh();
     }
     if (game_o == 1) {
+        save_exists();
+        stats_deploy();
         scr_board();
     }
 }
