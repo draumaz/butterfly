@@ -6,6 +6,7 @@
 
 #include "./../header/save_io.h"
 #include "./../header/record_io.h"
+#include "./../header/joystick.h"
 #include "./../header/wires.h"
 #include "./../header/gdata.h"
 
@@ -110,8 +111,82 @@ void scr_board() {
     sleep(2);
 }
 
+void landing_reset() {
+    int pos_x = 0; int pos_y = 13;
+    move(pos_y, pos_x);
+    printw("Just to verify, you want to reset your save files?");
+    pos_y += 2; move(pos_y, pos_x);
+    printw("[YES]");
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[NO ]");
+    pos_y = 15; pos_x = 6;
+    int game = 0;
+    while (game == 0) {
+        move(pos_y, pos_x); printw("<");
+        refresh();
+        int ipu = getch();
+        switch (ipu) {
+            case 'q':
+            case CTRL('q'):
+            case CTRL('c'):
+                screen_down();
+                return;
+            case KEY_UP:
+            case 'w':
+            case 'i':
+                mvdelch(pos_y, pos_x);
+                if (pos_y == 16) {
+                    pos_y -= 1;
+                } else {
+                    pos_y += 1;
+                }
+                break;
+            case KEY_DOWN:
+            case 's':
+			case 'k':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 15) {
+					pos_y += 1;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+                game = 1;
+                break;
+			default:
+                break;
+        }
+    }
+    switch (pos_y) {
+        case 15:
+            move(18, 0);
+            if (remove("data.txt") != 0 || remove("record.txt") != 0) {
+                printw("Failed to delete temp files.");
+            } else {
+                printw("Successfully deleted.");
+            }
+            refresh();
+            scr_sleep(200);
+            break;
+    }
+    move(pos_y-3, 0);
+    printw("\n");
+    move(pos_y-2, 0);
+    printw("\n");
+    move(pos_y-1, 0);
+    printw("\n");
+    move(pos_y, 0);
+    printw("\n");
+    move(pos_y+1, 0);
+    printw("\n");
+    move(pos_y+2, 0);
+    printw("\n");
+    move(pos_y+3, 0);
+    printw("\n");
+    refresh();
+}
+
 void scr_landing() {
-    clear(); save_exists(); record_exists();
+    clear();
     int pos_x = 0; int pos_y = 0;
     move(pos_y, pos_x);
     for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); pos_y += 1; move(pos_y, pos_x); } refresh();
@@ -123,45 +198,59 @@ void scr_landing() {
     printw("[CREDITS]");
     pos_y += 1; move(pos_y, pos_x);
     printw("[EXIT   ]");
-    pos_y -= 3; pos_x = 10; // position at PLAY
-    int game = 0;
-    while (game == 0) {
-        move(pos_y, pos_x); printw("<");
-        refresh();
-        int ipu = getch();
-        switch (ipu) {
-            case 'q':
-            case CTRL('q'):
-            case CTRL('c'):
-                return;
-                break;
-            case KEY_UP:
-            case 'w':
-            case 'i':
-                mvdelch(pos_y, pos_x);
-                if (pos_y > 8) {
-                    pos_y -= 1;
-                } else if (pos_y == 8) {
-                    pos_y = 11;
-                }
-                break;
-            case KEY_DOWN:
-            case 's':
-            case 'k':
-                mvdelch(pos_y, pos_x);
-                if (pos_y < 11 || ! pos_y > 8) {
-                    pos_y += 1;
-                } else if (pos_y == 11) {
-                    pos_y = 8;
-                }
-                break;
-            case '\n':
-                game = 1;
-                break;
-            default:
-                break;
-        }
+    pos_y = 8; pos_x = 10; // position at PLAY
+    int game_o = 0;
+    while (game_o == 0) {
+        save_exists(); record_exists();
+        int game = 0;
+        while (game == 0) {
+            move(pos_y, pos_x); printw("<");
+            refresh();
+            int ipu = getch();
+            switch (ipu) {
+                case 'q':
+                case CTRL('q'):
+                case CTRL('c'):
+                    screen_down();
+                    return;
+                case KEY_UP:
+                case 'w':
+                case 'i':
+                    mvdelch(pos_y, pos_x);
+                    if (pos_y > 8) {
+                        pos_y -= 1;
+                    } else if (pos_y == 8) {
+                        pos_y = 11;
+                    }
+                    break;
+                case KEY_DOWN:
+                case 's':
+                case 'k':
+                    mvdelch(pos_y, pos_x);
+                    if (pos_y < 11 || ! pos_y > 8) {
+                        pos_y += 1;
+                    } else if (pos_y == 11) {
+                        pos_y = 8;
+                    }
+                    break;
+                case '\n':
+                    game = 1;
+                    break;
+                default:
+                    break;
+            }
+        } switch (pos_y) {
+                case 8:
+                    printw("play opt");
+                    break;
+                case 9:
+                    landing_reset();
+                    break;
+                case 10:
+                    printw("creds opt");
+                    break;
+                case 11:
+                    return;
+        } refresh();
     }
-    printw("h"); refresh();
-    sleep(1);
 }
