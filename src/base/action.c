@@ -80,21 +80,45 @@ int items(int x, int y) {
                 printw("You drink the potion, recovering 10HP!");
             } else { 
                 printw("You don't have any potions left.");
-            }
+            } refresh();
+            scr_sleep(750);
             break;
         case 13:
+            if (sav[8] > 0) {
+                item_used = 0;
+                save_writer(8, 0);
+                save_writer(4, sav[4]-9);
+            }
             board_header_update(pos_x, pos_y, 10);
+            board_header_update(pos_x, pos_y, 7);
             move(17, 0); refresh();
+            if (item_used == 0) {
+                printw("You throw the spear, dealing 9HP!");
+            } else {
+                printw("You don't have any spears left.");
+            } refresh();
+            scr_sleep(750);
             break;
         case 14:
+            if (sav[9] > 0) {
+                item_used = 0;
+                save_writer(9, 0); // poison throw
+                save_writer(10, 1); // activate poison loop
+            }
             board_header_update(pos_x, pos_y, 11);
             move(17, 0); refresh();
+            if (item_used == 0) {
+                printw("You throw the poison! The %s feels the pain...", race_display(sav[3], 1, 1));
+            } else {
+                printw("You don't have any poison left.");
+            } refresh();
+            scr_sleep(750);
             break;
         case 15:
+            item_used = 1;
             break;
     }
-    move(y, x);
-    refresh(); scr_sleep(750);
+    move(y, x); refresh();
     for (int i = 0; i < 6; i++) {
         move(i+12,0);
         printw("\n");
