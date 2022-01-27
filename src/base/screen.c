@@ -99,6 +99,18 @@ void board_header_update(int x, int y, int m) {
                 move(5, 31); printw(" ");
             }
             break;
+        case 9: // potion ct
+            move(12, 1);
+            printw("%d", sav[7]);
+            break;
+        case 10: // spear ct
+            move(13, 1);
+            printw("%d", sav[7]);
+            break;
+        case 11: // poison ct
+            move(14, 1);
+            printw("%d", sav[7]);
+            break;
     } move(y, x);
     refresh();
 }
@@ -182,17 +194,20 @@ void scr_board() {
                     printw("\n");
                     move(pos_y, pos_x);
                     refresh();
-                    game = 0; // temporary loopers
+                    game = 0; // re-enter game loop
                     break;
                 case 8:
+                    items(pos_x, pos_y);
                     game = 0;
                     break;
                 case 9:
                     if (spare(pos_y, pos_x) == 1) {
-                        move(12, 0); refresh();
-                        // enemy attacks player
-                    } refresh();
-                    game = 0; // re-enter game loop
+                        attack(0, 12, 1);
+                    }
+                    move(12, 0);
+                    printw("\n");
+                    move(pos_y, pos_x); refresh();
+                    game = 0;
                     break;
                 case 10:
                     scr_landing();
@@ -375,6 +390,7 @@ void scr_landing() {
     }
     if (game_o == 1) {
         save_exists();
+        record_exists();
         stats_deploy();
         scr_board();
     }

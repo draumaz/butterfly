@@ -9,10 +9,98 @@
 #include "./../header/gdata.h"
 #include "./../header/wires.h"
 #include "./../header/screen.h"
+#include "./../header/joystick.h"
 
 #ifndef CTRL
 #define CTRL(c) ((c) & 037)
 #endif
+
+int items(int x, int y) {
+    int pos_x = 0; int pos_y = 12; int item_used = 1;
+    int * sav = save_reader();
+    move(pos_y, pos_x);
+    printw("[%dx POTION]", sav[7]);
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[%dx SPEAR ]", sav[8]);
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[%dx POISON]", sav[9]);
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[BACK     ]");
+    pos_y = 12; pos_x = 12;
+    int game = 0;
+    while (game == 0) {
+        move(pos_y, pos_x); printw("<");
+        refresh();
+        int ipu = getch();
+        switch (ipu) {
+            case 'q':
+            case CTRL('q'):
+            case CTRL('c'):
+                screen_down();
+                exit(0);
+                break;
+            case KEY_UP:
+            case 'w':
+            case 'i':
+                mvdelch(pos_y, pos_x);
+                if (pos_y == 12) {
+                    pos_y = 15;
+                } else {
+                    pos_y -= 1;
+                }
+                break;
+            case KEY_DOWN:
+            case 's':
+			case 'k':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 15) {
+					pos_y = 12;
+				} else { 
+                    pos_y += 1; 
+                }
+                break;
+            case '\n':
+                game = 1;
+                break;
+			default:
+                break;
+        }
+    }
+    switch (pos_y) {
+        case 12:
+            if (sav[7] > 0) {
+                item_used = 0;
+                save_writer(7, 0);
+                save_writer(1, sav[1]+10);
+            }
+            board_header_update(pos_x, pos_y, 9);
+            board_header_update(pos_x, pos_y, 4);
+            move(17, 0); refresh();
+            if (item_used == 0) {
+                printw("You drink the potion, recovering 10HP!");
+            } else { 
+                printw("You don't have any potions left.");
+            }
+            break;
+        case 13:
+            board_header_update(pos_x, pos_y, 10);
+            move(17, 0); refresh();
+            break;
+        case 14:
+            board_header_update(pos_x, pos_y, 11);
+            move(17, 0); refresh();
+            break;
+        case 15:
+            break;
+    }
+    move(y, x);
+    refresh(); scr_sleep(750);
+    for (int i = 0; i < 6; i++) {
+        move(i+12,0);
+        printw("\n");
+    }
+    return item_used;
+}
 
 void attack(int x, int y, int way) {
     move(y, x);
