@@ -15,7 +15,7 @@
 
 ```ENTER``` - confirm
 
-```(CTRL-)C, Q``` - close game
+```CTRL-Q, CTRL-C, Q``` - close game
 
 # Download
 
