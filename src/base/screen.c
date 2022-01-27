@@ -10,6 +10,7 @@
 #include "./../header/joystick.h"
 #include "./../header/wires.h"
 #include "./../header/gdata.h"
+#include "./../header/action.h"
 
 #include "./../header/screen.h"
 
@@ -176,7 +177,11 @@ void scr_board() {
                     game = 0;
                     break;
                 case 9:
-                    game = 0;
+                    if (spare(pos_y, pos_x) == 1) {
+                        move(12, 0); refresh();
+                        // enemy attacks player
+                    } refresh();
+                    game = 0; // re-enter game loop
                     break;
                 case 10:
                     scr_landing();
