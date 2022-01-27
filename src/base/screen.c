@@ -99,7 +99,7 @@ void board_header_update(int x, int y, int m) {
                 move(5, 31); printw(" ");
             }
             break;
-    }
+    } move(y, x);
     refresh();
 }
 
@@ -171,6 +171,17 @@ void scr_board() {
         if (game == 1) {
             switch (pos_y) {
                 case 7:
+                    attack(0, 12, 0);
+                    int * sav = save_reader();
+                    if (sav[1] > 0 && sav[4] > 0) {
+                        attack(0, 13, 1);
+                    }
+                    move(pos_y+5, 0);
+                    printw("\n");
+                    move(pos_y+6, 0);
+                    printw("\n");
+                    move(pos_y, pos_x);
+                    refresh();
                     game = 0; // temporary loopers
                     break;
                 case 8:

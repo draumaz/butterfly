@@ -14,6 +14,39 @@
 #define CTRL(c) ((c) & 037)
 #endif
 
+void attack(int x, int y, int way) {
+    move(y, x);
+    int * sav = save_reader();
+    srand(time(0));
+    float ran = ((float)rand())/(float)RAND_MAX;
+    switch (way) {
+        case 0: { // to enemy
+            int dam_to_enemy = round(sav[2]/(ran*(4.1-3.2)+3.2)); // math is kinda weird
+            save_writer(4, sav[4]-dam_to_enemy);
+            board_header_update(x, y, 7);
+            if (sav[4] <= 0) {
+                printw("You deal the death blow, attacking with %dHP!\n"
+                ,dam_to_enemy);
+            } else {
+                printw("You attack the %s, dealing %dHP!\n",
+                race_display(sav[3],1,1),dam_to_enemy);
+            }
+            break; }
+        case 1: { // to player
+            int dam_to_player = round(sav[5]/(ran*(4.1-3.2)+3.2)); // should probably be fixed lol
+            save_writer(1, sav[1]-dam_to_player);
+            board_header_update(x, y, 4);
+            if (sav[1] <= 0) {
+                printw("The %s deals the death blow, attacking with %dHP!\n",
+                race_display(sav[3],1,1),dam_to_player);
+            } else {
+                printw("The %s attacks you, dealing %dHP!\n",
+                race_display(sav[3],1,1),dam_to_player);
+            }
+            break; }
+    } refresh(); scr_sleep(750);
+}
+
 int spare(int x, int y) {
     int result = 1;
     int * sav = save_reader();

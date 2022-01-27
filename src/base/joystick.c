@@ -5,7 +5,6 @@
 
 #include "./../header/screen.h"
 
-
 void screen_up() {
     initscr();
     noecho();
