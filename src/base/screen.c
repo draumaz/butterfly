@@ -87,15 +87,15 @@ void board_header_update(int x, int y, int m) {
         case 7: // enemy hp
             move(5, 20);
             printw("%d", sav[4]);
-            if (sav[5] < 10) {
-                move(3, 21); printw(" ");
+            if (sav[4] < 10) {
+                move(5, 21); printw(" ");
             }
             break;
         case 8: // enemy str
             move(5, 30);
             printw("%d", sav[5]);
             if (sav[5] < 10) {
-                move(3, 31); printw(" ");
+                move(5, 31); printw(" ");
             }
             break;
     }
