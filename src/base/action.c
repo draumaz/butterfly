@@ -19,13 +19,13 @@ int items(int x, int y) {
     int pos_x = 0; int pos_y = 12; int item_used = 1;
     int * sav = save_reader();
     move(pos_y, pos_x);
-    printw("[%dx POTION]", sav[7]);
+    printw("[%dx POTION]", sav[7]); // 12
     pos_y += 1; move(pos_y, pos_x);
-    printw("[%dx SPEAR ]", sav[8]);
+    printw("[%dx SPEAR ]", sav[8]); // 13
     pos_y += 1; move(pos_y, pos_x);
-    printw("[%dx POISON]", sav[9]);
+    printw("[%dx POISON]", sav[9]); // 14
     pos_y += 1; move(pos_y, pos_x);
-    printw("[BACK     ]");
+    printw("[BACK     ]"); // 15
     pos_y = 12; pos_x = 12;
     int game = 0;
     while (game == 0) {
@@ -95,6 +95,7 @@ int items(int x, int y) {
             if (item_used == 0) {
                 printw("You throw the spear, dealing 9HP!");
             } else {
+                item_used = 1;
                 printw("You don't have any spears left.");
             } refresh();
             scr_sleep(750);
@@ -110,6 +111,7 @@ int items(int x, int y) {
             if (item_used == 0) {
                 printw("You throw the poison! The %s feels the pain...", race_display(sav[3], 1, 1));
             } else {
+                item_used = 1;
                 printw("You don't have any poison left.");
             } refresh();
             scr_sleep(750);

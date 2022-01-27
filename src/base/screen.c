@@ -127,6 +127,69 @@ int entity_alive(int kind) {
 	return 2;
 }
 
+void scr_newgame(int x, int y) {
+    for (int i = 6; i < 11; i++) {
+        move(i, 0); printw("\n");
+    } refresh();
+    int pos_y = 7; int pos_x = 6;
+    move(pos_y, 0);
+    printw("Play again?");
+    pos_y += 2; move(pos_y, 0); // 9
+    printw("[YES]");
+    pos_y += 1; move(pos_y, 0); // 10
+    printw("[NO ]");
+	int loop = 0; pos_y -= 1;
+	while (loop == 0) {
+		move(pos_y, pos_x); printw("<");
+		refresh();
+		int ipu; ipu = getch();
+		switch (ipu) {
+			case 'q':
+			case CTRL('q'):
+            case CTRL('c'):
+                curs_set(1);
+				clear();
+				endwin();
+				#ifdef _WIN32
+					system("pause");
+				#else
+                	system("stty sane");
+				#endif
+				exit(0);
+                break;
+			case KEY_DOWN:
+            case 's':
+			case 'k':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 10) {
+					pos_y = 9;
+				} else { pos_y += 1; }
+                break;
+			case KEY_UP:
+            case 'w':
+			case 'i':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 9) {
+					pos_y = 10;
+				} else { pos_y -= 1; }
+                break;
+            case '\n':
+				mvdelch(pos_y, pos_x);
+                loop = 1;
+                break;
+			default:
+                break;
+		}
+	}
+    if (pos_y == 9) {
+        stats_deploy();
+        scr_board();
+    } else if (pos_y == 10) {
+        screen_down();
+        exit(0);
+    }
+}
+
 void scr_board() {
     int pos_x = 0; int pos_y = 0;
     int game = 0; int game_o = 0;
@@ -148,6 +211,28 @@ void scr_board() {
     while (game_o == 0) {
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
+            if (entity_alive(0) == 0 && entity_alive(1) == 1) {
+                record_writer(0);
+                board_header_update(pos_x, pos_y, 0);
+                for (int i = 7; i < 11; i++) {
+                    move(i, 0); printw("\n");
+                }
+                move(7, 0);
+                printw("You win!"); refresh(); scr_sleep(750);
+                move(pos_y, 0);
+                scr_newgame(pos_x, pos_y);
+            }
+            if (entity_alive(0) == 1 && entity_alive(1) == 0) {
+                record_writer(1);
+                board_header_update(pos_x, pos_y, 0);
+                for (int i = 7; i < 11; i++) {
+                    move(i, 0); printw("\n");
+                }
+                move(pos_y, 0);
+                printw("You died!"); refresh(); scr_sleep(750);
+                move(pos_y, 0);
+                scr_newgame(pos_x, pos_y);
+            }
             refresh();
             int ipu = getch();
             switch (ipu) {
@@ -188,7 +273,7 @@ void scr_board() {
                     if (sav[1] > 0 && sav[4] > 0) {
                         attack(0, 13, 1);
                     }
-                    move(pos_y+5, 0);
+                    move(pos_y+5, 0); // clear popup
                     printw("\n");
                     move(pos_y+6, 0);
                     printw("\n");
@@ -198,25 +283,31 @@ void scr_board() {
                     break;
                 case 8:
                     if (items(pos_x, pos_y) == 0) {
-                        attack(0, 12, 1);
-                        move(12, 0); printw("\n"); move(pos_y, pos_x);
+                        if (sav[4] > 0) {
+                            attack(0, 12, 1);
+                        }
+                        move(12, 0); printw("\n");  // clear popup
+                        move(pos_y, pos_x);
                     }
+                    refresh();
                     game = 0;
                     break;
                 case 9:
                     if (spare(pos_y, pos_x) == 1) {
                         attack(0, 12, 1);
+                    } else {
+                        move(12, 0); // clear popup
+                        printw("\n");
+                        move(pos_y, pos_x);
+                        refresh();
+                        scr_newgame(pos_x, pos_y);
                     }
-                    move(12, 0);
-                    printw("\n");
-                    move(pos_y, pos_x); refresh();
-                    game = 0;
                     break;
                 case 10:
                     scr_landing();
                     break;
             }
-        } refresh();
+        }
     }
 }
 
@@ -399,7 +490,6 @@ void scr_landing() {
                 stats_deploy();
                 break;
             }
-        }
-        scr_board();
+        } scr_board();
     }
 }
