@@ -346,7 +346,6 @@ void scr_landing() {
                     break;
                 case 9:
                     landing_reset();
-                    scr_landing();
                     break;
                 case 10:
                     landing_credits();
