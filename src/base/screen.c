@@ -255,7 +255,7 @@ void scr_board() {
     refresh();
     pos_y = 7; pos_x = 10;
     while (game_o == 0) {
-        scr_poison(pos_x, pos_y); // FIX THIS: causes re-check every loop, particularly nasty for items()
+        // FIX THIS: causes re-check every loop, particularly nasty for items()
         scr_result(pos_x, pos_y); // this one's okay tho
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
@@ -305,6 +305,7 @@ void scr_board() {
                     printw("\n");
                     move(pos_y, pos_x);
                     refresh();
+                    scr_poison(pos_x, pos_y); 
                     game = 0; // re-enter game loop
                     break;
                 case 8:
@@ -314,6 +315,9 @@ void scr_board() {
                         }
                         move(12, 0); printw("\n");
                         move(pos_y, pos_x);
+                        if (sav[4] > 0) {
+                            scr_poison(pos_x, pos_y);
+                        }
                     }
                     refresh();
                     game = 0;
