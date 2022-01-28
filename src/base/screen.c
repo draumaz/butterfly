@@ -381,7 +381,7 @@ void landing_credits() {
 void landing_reset() {
     int pos_x = 0; int pos_y = 13;
     move(pos_y, pos_x);
-    printw("Just to verify, you want to reset your save files?");
+    printw("Just to verify, you want to reset your save and record files?");
     pos_y += 2; move(pos_y, pos_x);
     printw("[YES]"); // 15
     pos_y += 1; move(pos_y, pos_x);
