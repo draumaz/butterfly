@@ -33,7 +33,7 @@ void record_generate() {
 	FILE *generate = fopen(record_name, "w");
 	for (int i = 0; i < 4; i++) {
 		fprintf(generate, "%d\n", 0);
-	}
+	} fclose(generate);
 }
 
 void record_exists() {

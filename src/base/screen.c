@@ -445,7 +445,6 @@ void scr_landing() {
     clear();
     int pos_x = 0; int pos_y = 0;
     save_exists(); record_exists();
-    int * sav = save_reader();
     move(pos_y, pos_x);
     for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); pos_y += 1; move(pos_y, pos_x); } refresh();
     pos_y += 1; move(pos_y, pos_x);
@@ -460,6 +459,8 @@ void scr_landing() {
     int game_o = 0;
     while (game_o == 0) {
         int game = 0;
+        save_exists();
+        record_exists();
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
             refresh();
@@ -514,13 +515,11 @@ void scr_landing() {
                     break;
         } refresh();
     }
+    int * sav = save_reader();
     if (game_o == 1) {
-        save_exists();
-        record_exists();
         for (int i = 0; i < 5; i++) {
             if (sav[i] == 0) {
                 stats_deploy();
-                break;
             }
         } scr_board();
     }

@@ -44,7 +44,7 @@ void save_generate() {
 	FILE *generate = fopen(save_name, "w");
 	for (int i = 0; i < 12; i++) {
 		fprintf(generate, "%d\n", 0);
-	}
+	} fclose(generate);
 }
 
 void save_exists() {
