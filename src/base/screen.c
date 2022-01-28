@@ -325,6 +325,8 @@ void scr_board() {
                 case 9:
                     if (spare(pos_y, pos_x) == 1) {
                         attack(0, 12, 1);
+                        move(12, 0);
+                        printw("\n");
                     } else {
                         move(12, 0);
                         printw("\n");
@@ -332,6 +334,8 @@ void scr_board() {
                         refresh();
                         scr_newgame(pos_x, pos_y);
                     }
+                    refresh();
+                    game = 0;
                     break;
                 case 10:
                     scr_landing();

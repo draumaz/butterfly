@@ -174,7 +174,10 @@ int spare(int x, int y) {
     } scr_sleep(750);
     if (sav[1] >= sav[4]) {
         record_writer(2);
-        printw("\n\nIt worked!");
+        board_header_update(0, y, 2);
+        y += 2;
+        move(y, 0);
+        printw("It worked!");
         result = 0;
     } else if (sav[1] <= sav[4]) {
         printw("\n\nIt didn't work.");
