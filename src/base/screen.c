@@ -255,8 +255,8 @@ void scr_board() {
     refresh();
     pos_y = 7; pos_x = 10;
     while (game_o == 0) {
-        scr_poison(pos_x, pos_y);
-        scr_result(pos_x, pos_y);
+        scr_poison(pos_x, pos_y); // FIX THIS: causes re-check every loop, particularly nasty for items()
+        scr_result(pos_x, pos_y); // this one's okay tho
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
             refresh();
@@ -312,7 +312,7 @@ void scr_board() {
                         if (sav[4] > 0) {
                             attack(0, 12, 1);
                         }
-                        move(12, 0); printw("\n");  // clear popup
+                        move(12, 0); printw("\n");
                         move(pos_y, pos_x);
                     }
                     refresh();
@@ -322,7 +322,7 @@ void scr_board() {
                     if (spare(pos_y, pos_x) == 1) {
                         attack(0, 12, 1);
                     } else {
-                        move(12, 0); // clear popup
+                        move(12, 0);
                         printw("\n");
                         move(pos_y, pos_x);
                         refresh();
@@ -375,9 +375,9 @@ void landing_reset() {
     move(pos_y, pos_x);
     printw("Just to verify, you want to reset your save files?");
     pos_y += 2; move(pos_y, pos_x);
-    printw("[YES]");
+    printw("[YES]"); // 15
     pos_y += 1; move(pos_y, pos_x);
-    printw("[NO ]");
+    printw("[NO ]"); // 16
     pos_y = 15; pos_x = 6;
     int game = 0;
     while (game == 0) {
@@ -426,6 +426,8 @@ void landing_reset() {
             }
             refresh();
             scr_sleep(200);
+            break;
+        case 16:
             break;
     }
     for (int i = 0; i < 10; i++) {
