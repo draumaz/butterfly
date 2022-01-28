@@ -6,23 +6,172 @@
 
 #include "./../header/save_io.h"
 #include "./../header/record_io.h"
-#include "./../header/gtool.h"
-#include "./../header/stat_gen.h"
+#include "./../header/gdata.h"
+#include "./../header/wires.h"
 #include "./../header/screen.h"
+#include "./../header/joystick.h"
 
 #ifndef CTRL
 #define CTRL(c) ((c) & 037)
 #endif
 
-int spare() {
+int items(int x, int y) {
+    int pos_x = 0; int pos_y = 12; int item_used = 1;
+    int * sav = save_reader();
+    move(pos_y, pos_x);
+    printw("[%dx POTION]", sav[7]); // 12
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[%dx SPEAR ]", sav[8]); // 13
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[%dx POISON]", sav[9]); // 14
+    pos_y += 1; move(pos_y, pos_x);
+    printw("[BACK     ]"); // 15
+    pos_y = 12; pos_x = 12;
+    int game = 0;
+    while (game == 0) {
+        move(pos_y, pos_x); printw("<");
+        refresh();
+        int ipu = getch();
+        switch (ipu) {
+            case 'q':
+            case CTRL('q'):
+            case CTRL('c'):
+                screen_down();
+                exit(0);
+                break;
+            case KEY_UP:
+            case 'w':
+            case 'i':
+                mvdelch(pos_y, pos_x);
+                if (pos_y == 12) {
+                    pos_y = 15;
+                } else {
+                    pos_y -= 1;
+                }
+                break;
+            case KEY_DOWN:
+            case 's':
+			case 'k':
+				mvdelch(pos_y, pos_x);
+				if (pos_y == 15) {
+					pos_y = 12;
+				} else { 
+                    pos_y += 1; 
+                }
+                break;
+            case '\n':
+                game = 1;
+                break;
+			default:
+                break;
+        }
+    }
+    switch (pos_y) {
+        case 12:
+            if (sav[7] > 0) {
+                item_used = 0;
+                save_writer(7, 0);
+                save_writer(1, sav[1]+10);
+            }
+            board_header_update(pos_x, pos_y, 9);
+            board_header_update(pos_x, pos_y, 4);
+            move(17, 0); refresh();
+            if (item_used == 0) {
+                printw("You drink the potion, recovering 10HP!");
+            } else { 
+                printw("You don't have any potions left.");
+            } refresh();
+            scr_sleep(750);
+            break;
+        case 13:
+            if (sav[8] > 0) {
+                item_used = 0;
+                save_writer(8, 0);
+                save_writer(4, sav[4]-9);
+            }
+            board_header_update(pos_x, pos_y, 10);
+            board_header_update(pos_x, pos_y, 7);
+            move(17, 0); refresh();
+            if (item_used == 0) {
+                printw("You throw the spear, dealing 9HP!");
+            } else {
+                item_used = 1;
+                printw("You don't have any spears left.");
+            } refresh();
+            scr_sleep(750);
+            break;
+        case 14:
+            if (sav[9] > 0) {
+                item_used = 0;
+                save_writer(9, 0); // poison throw
+                save_writer(10, 1); // activate poison loop
+            }
+            board_header_update(pos_x, pos_y, 11);
+            move(17, 0); refresh();
+            if (item_used == 0) {
+                printw("You throw the poison! The %s feels the pain...", race_display(sav[3], 1, 1));
+            } else {
+                item_used = 1;
+                printw("You don't have any poison left.");
+            } refresh();
+            scr_sleep(750);
+            break;
+        case 15:
+            item_used = 1;
+            break;
+    }
+    move(y, x); refresh();
+    for (int i = 0; i < 6; i++) {
+        move(i+12,0);
+        printw("\n");
+    }
+    return item_used;
+}
+
+void attack(int x, int y, int way) {
+    move(y, x);
+    int * sav = save_reader();
+    srand(time(0));
+    float ran = ((float)rand())/(float)RAND_MAX;
+    switch (way) {
+        case 0: { // to enemy
+            int dam_to_enemy = round(sav[2]/(ran*(4.1-3.2)+3.2)); // math is kinda weird
+            save_writer(4, sav[4]-dam_to_enemy);
+            board_header_update(x, y, 7);
+            if (sav[4] <= 0) {
+                printw("You deal the death blow, attacking with %dHP!\n"
+                ,dam_to_enemy);
+            } else {
+                printw("You attack the %s, dealing %dHP!\n",
+                race_display(sav[3],1,1),dam_to_enemy);
+            }
+            break; }
+        case 1: { // to player
+            int dam_to_player = round(sav[5]/(ran*(4.1-3.2)+3.2)); // should probably be fixed lol
+            save_writer(1, sav[1]-dam_to_player);
+            board_header_update(x, y, 4);
+            if (sav[1] <= 0) {
+                printw("The %s deals the death blow, attacking with %dHP!\n",
+                race_display(sav[3],1,1),dam_to_player);
+            } else {
+                printw("The %s attacks you, dealing %dHP!\n",
+                race_display(sav[3],1,1),dam_to_player);
+            }
+            break; }
+    } refresh(); scr_sleep(750);
+}
+
+int spare(int x, int y) {
     int result = 1;
     int * sav = save_reader();
-    printw("\nYou attempt to spare the %s", race_display(sav[3],1,1));
+    y += 2; move(y, 0);
+    printw("You attempt to spare the %s", race_display(sav[3],1,1));
+    refresh();
     for (int i = 0; i < 3; i++) {
         printw(".");
         refresh();
-        game_sleep(500);
-    } game_sleep(750);
+        scr_sleep(500);
+    } scr_sleep(750);
     if (sav[1] >= sav[4]) {
         record_writer(2);
         printw("\n\nIt worked!");
@@ -30,138 +179,14 @@ int spare() {
     } else if (sav[1] <= sav[4]) {
         printw("\n\nIt didn't work.");
         result = 1;
-    } refresh(); game_sleep(1000); return result;
-}
-
-int items() {
-    int item_used = 1;
-    int * sav = save_reader();
-    int loop = 0;
-    item_options_screen();
-    int pos_x = 12; int pos_y = 12;
-    while (loop == 0) {
-        move(pos_y, pos_x); printw("<");
-        refresh();
-        int ipu; ipu = getch();
-		switch (ipu) {
-			case 'q':
-            case CTRL('q'):
-            case CTRL('c'):
-                curs_set(1);
-                clear();
-                endwin();
-				#ifdef _WIN32
-					system("pause");
-				#else
-                	system("stty sane");
-				#endif
-				exit(0);
-                break;
-            case KEY_DOWN:
-            case 's':
-            case 'k':
-				mvdelch(pos_y, pos_x);
-				if (pos_y == 15) {
-					pos_y = 12;
-				} else { pos_y += 1; }
-                break;
-            case KEY_UP:
-            case 'w':
-            case 'i':
-				mvdelch(pos_y, pos_x);
-				if (pos_y == 12) {
-					pos_y = 15;
-				} else { pos_y -= 1; }
-                break;
-            case '\n':
-                loop = 1;
-                break;
-			default:
-                break;
-		}
-    }
-    if (loop == 1) {
-        switch (pos_y) {
-            case 12:
-                move(pos_y+5, 0);
-                if (sav[7] > 0) { // use potion
-                    item_used = 0;
-                    save_writer(7, 0);
-                    save_writer(1, (sav[1]+10));
-                    printw("You drink the potion, recovering 10HP!");
-                } else { // no potions
-                    item_used = 1;
-                    printw("\nYou don't have any potions left.");
-                }
-                refresh();
-                game_sleep(1000);
-                break;
-            case 13:
-                move(pos_y+4, 0);
-                if (sav[8] > 0) { // use spear
-                    item_used = 0;
-                    save_writer(8, 0);
-                    save_writer(4, (sav[4]-9));
-                    printw("You throw the spear, dealing 9HP!");
-                } else { // no spears
-                    item_used = 1;
-                    printw("You don't have any spears left.");
-                }
-                refresh();
-                game_sleep(1000);
-                break;
-            case 14:
-                if (sav[9] > 0) {
-                    item_used = 0;
-                    save_writer(9, 0); // poison thrown
-                    save_writer(10, 1); // poison loop active
-                    move(pos_y+2, 0);
-                    printw("\nYou throw the poison! The %s feels the pain", 
-                    race_display(sav[3],1,1));
-                    refresh();
-                    for (int i = 0; i < 3; i++) {
-                        printw(".");
-                        refresh();
-                        game_sleep(300);
-                    }
-                } else {
-                    item_used = 1;
-                    puts("\nYou don't have any more poison.");
-                    refresh();
-                }
-                break;
-            case 15:
-                break;
-        }
-    } return item_used;
-}
-
-void attack(int dir) {
-    srand(time(0));
-    float ran = ((float)rand())/(float)RAND_MAX;
-    int * sav = save_reader();
-    switch (dir) {
-        case 0: { // attack enemy
-            int dam_to_enemy = round(sav[2]/(ran*(4.1-3.2)+3.2)); // math is kinda weird
-            save_writer(4, sav[4]-dam_to_enemy);
-            //board_header_screen(0);
-            if (sav[4] <= 0) {
-                printw("You deal the death blow, attacking with %dHP!\n"
-                ,dam_to_enemy);
-            } else {
-                printw("You attack the %s, dealing %dHP!\n",
-                race_display(sav[3],1,1),dam_to_enemy);
-            } break; }
-        case 1: { // get attacked
-            int dam_to_player = round(sav[5]/(ran*(4.1-3.2)+3.2)); // should probably be fixed lol
-            save_writer(1, sav[1]-dam_to_player);
-            //board_header_screen(0);
-            if (sav[1] <= 0) {
-                printw("The %s deals the death blow, attacking with %dHP!\n",
-                race_display(sav[3],1,1),dam_to_player);
-            } else {
-                printw("The %s attacks you, dealing %dHP!\n",
-                race_display(sav[3],1,1),dam_to_player);
-            } break; }
-    } refresh(); game_sleep(1000);
+    } refresh(); scr_sleep(1000); 
+    move(y, 0);
+    printw("\n");
+    move(y+1, 0);
+    printw("\n");
+    move(y+2, 0);
+    printw("\n");
+    move(y+3, x);
+    refresh();
+    return result;
 }

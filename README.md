@@ -1,5 +1,3 @@
-# Butterfly
-
 ![Screenie](https://github.com/draumaz/butterfly/raw/main/media/eleven-main.png "Game screen")
 
   A randomly-generated, turn-based TUI battle game. Fantasy elements, buff dragons, in your terminal today!
