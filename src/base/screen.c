@@ -190,6 +190,52 @@ void scr_newgame(int x, int y) {
     }
 }
 
+void scr_poison(int x, int y) {
+    int * sav = save_reader();
+    if (sav[10] >= 1 && sav[10] <= 4) {
+        move(12, 0);
+        if (sav[10] == 4) {
+			save_writer(10, 0); // set poison effects back to 0 (disabled)
+			printw("The %s shakes off the poison.",race_display(sav[3],1,1));
+            refresh();
+            scr_sleep(750);
+		} else {
+			int dam = (rand()%4)+1;
+			save_writer(10, sav[10]+1); // increment
+			save_writer(4, sav[4]-dam); // damage
+            board_header_update(0, 12, 7);
+			printw("The %s lost %dHP from the poison!", race_display(sav[3],1,1), dam);
+            refresh();
+            scr_sleep(750);
+		}
+    } move(12,0); printw("\n"); refresh(); move(y, x);
+}
+
+void scr_result(int x, int y) {
+    if (entity_alive(0) == 0 && entity_alive(1) == 1) {
+        record_writer(0);
+        board_header_update(x, y, 0);
+        for (int i = 7; i < 11; i++) {
+            move(i, 0); printw("\n");
+        }
+        move(7, 0);
+        printw("You win!"); refresh(); scr_sleep(750);
+        move(y, 0);
+        scr_newgame(x, y);
+    }
+    if (entity_alive(0) == 1 && entity_alive(1) == 0) {
+        record_writer(1);
+        board_header_update(x, y, 0);
+        for (int i = 7; i < 11; i++) {
+            move(i, 0); printw("\n");
+        }
+        move(y, 0);
+        printw("You died!"); refresh(); scr_sleep(750);
+        move(y, 0);
+        scr_newgame(x, y);
+    }
+}
+
 void scr_board() {
     int pos_x = 0; int pos_y = 0;
     int game = 0; int game_o = 0;
@@ -209,30 +255,10 @@ void scr_board() {
     refresh();
     pos_y = 7; pos_x = 10;
     while (game_o == 0) {
+        scr_poison(pos_x, pos_y);
+        scr_result(pos_x, pos_y);
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
-            if (entity_alive(0) == 0 && entity_alive(1) == 1) {
-                record_writer(0);
-                board_header_update(pos_x, pos_y, 0);
-                for (int i = 7; i < 11; i++) {
-                    move(i, 0); printw("\n");
-                }
-                move(7, 0);
-                printw("You win!"); refresh(); scr_sleep(750);
-                move(pos_y, 0);
-                scr_newgame(pos_x, pos_y);
-            }
-            if (entity_alive(0) == 1 && entity_alive(1) == 0) {
-                record_writer(1);
-                board_header_update(pos_x, pos_y, 0);
-                for (int i = 7; i < 11; i++) {
-                    move(i, 0); printw("\n");
-                }
-                move(pos_y, 0);
-                printw("You died!"); refresh(); scr_sleep(750);
-                move(pos_y, 0);
-                scr_newgame(pos_x, pos_y);
-            }
             refresh();
             int ipu = getch();
             switch (ipu) {
