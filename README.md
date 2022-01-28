@@ -30,6 +30,10 @@
 
 ```./butterfly-debug```
 
+### Compile notes
+
+- If you're compiling on macOS, remove the ```-ltinfo``` line from the Makefile.
+
 # Acknowledgments
 
 catboy6969 - playtest, game design, armv8 testing
