@@ -32,7 +32,7 @@
 
 ### Compile notes
 
-- If you're compiling on macOS, remove the ```-ltinfo``` line from the Makefile.
+- If you're compiling on macOS or musl-based Linux, remove the ```-ltinfo``` line from the Makefile.
 
 # Acknowledgments
 
