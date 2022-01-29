@@ -31,8 +31,7 @@ int items(int x, int y) {
     while (game == 0) {
         move(pos_y, pos_x); printw("<");
         refresh();
-        int ipu = getch();
-        switch (ipu) {
+        switch (getch()) {
             case 'q':
             case CTRL('q'):
             case CTRL('c'):

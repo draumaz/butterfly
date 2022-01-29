@@ -28,13 +28,12 @@ const char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __
 };
 
 void board_header(int x, int y) {
-    int * rec = record_reader();
     move(1, 0);
     printw("Butterfly v%s | KILLS:     | DEATHS:     | SPARES:   ", version()); // 25, 39, 53
     move(3, 0);
     printw("PLAYR:        | HP:    | STR:    "); // 7, 20, 30
     move(5, 0);
-    printw("ENEMY:        | HP:    | STR:    "); // 7, 20, 30
+    printw("ENEMY:        | HP:    | STR:    ");
     move(y, x);
 }
 
@@ -142,8 +141,7 @@ void scr_newgame(int x, int y) {
 	while (loop == 0) {
 		move(pos_y, pos_x); printw("<");
 		refresh();
-		int ipu; ipu = getch();
-		switch (ipu) {
+		switch (getch()) {
 			case 'q':
 			case CTRL('q'):
             case CTRL('c'):
@@ -242,7 +240,6 @@ void scr_board() {
     clear();
     board_header(pos_x, pos_y);
     for (int i = 0; i < 9; i++) { board_header_update(pos_x, pos_y, i); }
-    board_header_update(pos_x, pos_y, 5);
     pos_y += 6;
     pos_y += 1; move(pos_y, pos_x);
     printw("[FIGHT  ]"); // 7
@@ -255,12 +252,11 @@ void scr_board() {
     refresh();
     pos_y = 7; pos_x = 10;
     while (game_o == 0) {
-        scr_result(pos_x, pos_y); // this one's okay tho
+        scr_result(pos_x, pos_y); // did somebody win?
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
             refresh();
-            int ipu = getch();
-            switch (ipu) {
+            switch (getch()) {
                 case 'q':
                 case CTRL('q'):
                 case CTRL('c'):
@@ -304,7 +300,7 @@ void scr_board() {
                     printw("\n");
                     move(pos_y, pos_x);
                     refresh();
-                    scr_poison(pos_x, pos_y); 
+                    scr_poison(pos_x, pos_y);  // check if poison loop is active
                     game = 0; // re-enter game loop
                     break;
                 case 8:
@@ -362,7 +358,7 @@ void landing_credits() {
 	scr_popwrite("Special thanks to:",35);
 	scr_sleep(500);
 	pos += 2; move(pos, 0);
-	printw("catboy6969!", 30);
+	printw("catboy6969!");
 	pos += 2; move(pos, 0);
 	for (int i = 0; i < 4; i++) {
 		scr_popwrite(catboy_contribs[i], 25);
@@ -390,8 +386,7 @@ void landing_reset() {
     while (game == 0) {
         move(pos_y, pos_x); printw("<");
         refresh();
-        int ipu = getch();
-        switch (ipu) {
+        switch (getch()) {
             case 'q':
             case CTRL('q'):
             case CTRL('c'):
@@ -467,8 +462,7 @@ void scr_landing() {
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
             refresh();
-            int ipu = getch();
-            switch (ipu) {
+            switch (getch()) {
                 case 'q':
                 case CTRL('q'):
                 case CTRL('c'):
@@ -489,7 +483,7 @@ void scr_landing() {
                 case 's':
                 case 'k':
                     mvdelch(pos_y, pos_x);
-                    if (pos_y < 11 || ! pos_y > 8) {
+                    if (pos_y < 11) {
                         pos_y += 1;
                     } else if (pos_y == 11) {
                         pos_y = 8;

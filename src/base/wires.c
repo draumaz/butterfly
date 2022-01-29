@@ -7,7 +7,7 @@
 #include <curses.h>
 
 const char* version() {
-    return "0.12";
+    return "0.13";
 }
 
 void scr_sleep(int ms) {
