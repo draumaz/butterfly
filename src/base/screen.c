@@ -255,7 +255,6 @@ void scr_board() {
     refresh();
     pos_y = 7; pos_x = 10;
     while (game_o == 0) {
-        // FIX THIS: causes re-check every loop, particularly nasty for items()
         scr_result(pos_x, pos_y); // this one's okay tho
         while (game == 0) {
             move(pos_y, pos_x); printw("<");
