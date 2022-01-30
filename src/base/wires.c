@@ -10,14 +10,6 @@ char* version() {
     return "0.13";
 }
 
-void game_ender() {
-    #ifdef _WIN32
-		system("pause");
-	#else
-        system("stty sane");
-	#endif
-}
-
 void scr_sleep(int ms) {
     struct timespec ts;
     int res;
