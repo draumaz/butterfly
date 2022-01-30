@@ -31,7 +31,11 @@ int items(int x, int y) {
     pos_y += 1;
     move(pos_y, pos_x);
     printw("[BACK     ]"); // 15
-    pos_y = 12; // position at POTION
+    if (sav[6] == 0) {
+        pos_y = 12; // position at POTION
+    } else {
+        pos_y = sav[6]; // position at last saved
+    }
     pos_x = 12;
     int game = 0;
     while (game == 0) {
@@ -72,6 +76,7 @@ int items(int x, int y) {
                 break;
         }
     }
+    save_writer(6, pos_y);
     switch (pos_y) {
         case 12:
             if (sav[7] > 0) {

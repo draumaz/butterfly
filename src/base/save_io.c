@@ -10,7 +10,7 @@ char* save_name = "data.txt";
 // 3 enemy race
 // 4 enemy health
 // 5 enemy strength
-// 6 empty
+// 6 last item position
 // 7 potion qty
 // 8 spear qty
 // 9 poison qty
