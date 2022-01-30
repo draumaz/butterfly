@@ -76,7 +76,9 @@ int items(int x, int y) {
                 break;
         }
     }
-    save_writer(6, pos_y);
+    if (pos_y != sav[6]) {
+        save_writer(6, pos_y);
+    }
     switch (pos_y) {
         case 12:
             if (sav[7] > 0) {
