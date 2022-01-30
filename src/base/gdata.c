@@ -4,8 +4,8 @@
 
 #include "./../header/save_io.h"
 
-const char* race_display(int race, int type, int cap) {
-    const char* out = NULL;
+char* race_display(int race, int type, int cap) {
+    char* out = NULL;
     if (type == 0) {
         switch (race) {
             case 1:
@@ -82,7 +82,9 @@ int * player_stats_gen(int i) {
         case 5: {
             static int jodum[3] = {5, 24, 16};
             return jodum; }
-    } static int err[3] = {0, 0, 0}; return err;
+    }
+    static int err[3] = {0, 0, 0};
+    return err;
 }
 
 int * enemy_stats_gen(int i) {
@@ -102,15 +104,17 @@ int * enemy_stats_gen(int i) {
         case 5: {
             static int wimble[3] = {6, 27, 10};
             return wimble; }
-    } static int err[3] = {0, 0, 0}; return err;
+    }
+    static int err[3] = {0, 0, 0};
+    return err;
 }
 
 void stats_deploy() {
-    int * stat = save_reader();
     srand(time(0));
+    int * stat = save_reader();
     float ran = ((float)rand())/(float)RAND_MAX;
-    int * p_stat = player_stats_gen((rand()%4)+1);
     int * e_stat = enemy_stats_gen((rand()%4)+1);
+    int * p_stat = player_stats_gen((rand()%4)+1);
     for (int i = 0; i < 6; i++) {
         if (i <= 2) {
             save_writer(i, p_stat[i]);

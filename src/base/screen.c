@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <time.h>
 #include <curses.h>
 
@@ -18,20 +19,20 @@
 #define CTRL(c) ((c) & 037)
 #endif
 
-const char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __",
-	"| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \\ \\ / /",
-        "| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \\ V /  (.\\\\//.)",
-        "| ___ | | | | | |   | | |  __||    /|  _| | |    \\ /    \\ () /",
-        "| |_/ | |_| | | |   | | | |___| |\\ \\| |   | |____| |    (_/\\_)",
-        "\\____/ \\___/  \\_/   \\_/ \\____/\\_| \\_\\_|   \\_____/\\_/  ",
-        "------------------------------------------------------------------"
+char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __",
+	                    "| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \\ \\ / /",
+                        "| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \\ V /  (.\\\\//.)",
+                        "| ___ | | | | | |   | | |  __||    /|  _| | |    \\ /    \\ () /",
+                        "| |_/ | |_| | | |   | | | |___| |\\ \\| |   | |____| |    (_/\\_)",
+                        "\\____/ \\___/  \\_/   \\_/ \\____/\\_| \\_\\_|   \\_____/\\_/  ",
+                        "------------------------------------------------------------------"
 };
 
 void board_header(int x, int y) {
     move(1, 0);
-    printw("Butterfly v%s | KILLS:     | DEATHS:     | SPARES:   ", version()); // 25, 39, 53
+    printw("Butterfly v%s | KILLS:     | DEATHS:     | SPARES:   ", version());
     move(3, 0);
-    printw("PLAYR:        | HP:    | STR:    "); // 7, 20, 30
+    printw("PLAYR:        | HP:    | STR:    ");
     move(5, 0);
     printw("ENEMY:        | HP:    | STR:    ");
     move(y, x);
@@ -40,77 +41,88 @@ void board_header(int x, int y) {
 void board_header_update(int x, int y, int m) {
     int * rec = record_reader();
     int * sav = save_reader();
+    int panel_main[] = {25, 39, 53}; // x positions
+    int panel_ent[] = {7, 20, 30}; // x positions (equal positions for player/enemy)
+    int panel_itm[] = {12, 13, 14}; // y positions
     switch (m) {
         case 0: // kill count
-            move(1, 25);
+            move(1, panel_main[0]);
             printw("%d", rec[0]);
             if (rec[0] < 10) {
-                move(1, 26); printw(" ");
+                move(1, 26);
+                printw(" ");
             }
             break;
         case 1: // death count
-            move(1, 39);
+            move(1, panel_main[1]);
             printw("%d", rec[1]);
             if (rec[1] < 10) {
-                move(1, 40); printw(" ");
+                move(1, 40);
+                printw(" ");
             }
             break;
         case 2: // spare count
-            move(1, 53);
+            move(1, panel_main[2]);
             printw("%d", rec[2]);
             if (rec[2] < 10) {
-                move(1, 54); printw(" ");
+                move(1, 54);
+                printw(" ");
             }
             break;
         case 3: // player race
-            move(3, 7);
+            move(3, panel_ent[0]);
             printw("%s", race_display(sav[0],0,0));
             break;
         case 4: // player hp
-            move(3, 20);
+            move(3, panel_ent[1]);
             printw("%d", sav[1]);
             if (sav[1] < 10) {
-                move(3, 21); printw(" ");
+                move(3, 21);
+                printw(" ");
             }
             break;
         case 5: // player str
-            move(3, 30);
+            move(3, panel_ent[2]);
             printw("%d", sav[2]);
             if (sav[2] < 10) {
-                move(3, 31); printw(" ");
+                move(3, 31);
+                printw(" ");
             }
             break;
         case 6: // enemy race
-            move(5, 7);
+            move(5, panel_ent[0]);
             printw("%s", race_display(sav[3],1,0));
             break;
         case 7: // enemy hp
-            move(5, 20);
+            move(5, panel_ent[1]);
             printw("%d", sav[4]);
             if (sav[4] < 10) {
-                move(5, 21); printw(" ");
+                move(5, 21);
+                printw(" ");
             }
             break;
         case 8: // enemy str
-            move(5, 30);
+            move(5, panel_ent[2]);
             printw("%d", sav[5]);
             if (sav[5] < 10) {
-                move(5, 31); printw(" ");
+                move(5, 31); 
+                printw(" ");
             }
             break;
         case 9: // potion ct
-            move(12, 1);
+            move(panel_itm[0], 1);
             printw("%d", sav[7]);
             break;
         case 10: // spear ct
-            move(13, 1);
+            move(panel_itm[1], 1);
             printw("%d", sav[8]);
             break;
         case 11: // poison ct
-            move(14, 1);
+            move(panel_itm[2], 1);
             printw("%d", sav[9]);
             break;
-    } move(y, x);
+    }
+    move(y, x);
     refresh();
 }
 
@@ -129,17 +141,21 @@ int entity_alive(int kind) {
 void scr_newgame(int x, int y) {
     for (int i = 6; i < 11; i++) {
         move(i, 0); printw("\n");
-    } refresh();
-    int pos_y = 7; int pos_x = 6;
+    }
+    refresh();
+    int pos_y = 7;
+    int pos_x = 6;
     move(pos_y, 0);
     printw("Play again?");
     pos_y += 2; move(pos_y, 0); // 9
     printw("[YES]");
     pos_y += 1; move(pos_y, 0); // 10
     printw("[NO ]");
-	int loop = 0; pos_y -= 1;
+	int loop = 0;
+    pos_y = 9; // position at YES
 	while (loop == 0) {
-		move(pos_y, pos_x); printw("<");
+		move(pos_y, pos_x);
+        printw("<");
 		refresh();
 		switch (getch()) {
 			case 'q':
@@ -161,7 +177,9 @@ void scr_newgame(int x, int y) {
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 10) {
 					pos_y = 9;
-				} else { pos_y += 1; }
+				} else {
+                    pos_y += 1;
+                }
                 break;
 			case KEY_UP:
             case 'w':
@@ -169,7 +187,9 @@ void scr_newgame(int x, int y) {
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 9) {
 					pos_y = 10;
-				} else { pos_y -= 1; }
+				} else {
+                    pos_y -= 1;
+                }
                 break;
             case '\n':
 				mvdelch(pos_y, pos_x);
@@ -214,10 +234,13 @@ void scr_result(int x, int y) {
         record_writer(0);
         board_header_update(x, y, 0);
         for (int i = 7; i < 11; i++) {
-            move(i, 0); printw("\n");
+            move(i, 0);
+            printw("\n");
         }
         move(7, 0);
-        printw("You win!"); refresh(); scr_sleep(750);
+        printw("You win!");
+        refresh();
+        scr_sleep(750);
         move(y, 0);
         scr_newgame(x, y);
     }
@@ -225,36 +248,49 @@ void scr_result(int x, int y) {
         record_writer(1);
         board_header_update(x, y, 0);
         for (int i = 7; i < 11; i++) {
-            move(i, 0); printw("\n");
+            move(i, 0);
+            printw("\n");
         }
         move(y, 0);
-        printw("You died!"); refresh(); scr_sleep(750);
+        printw("You died!");
+        refresh();
+        scr_sleep(750);
         move(y, 0);
         scr_newgame(x, y);
     }
 }
 
 void scr_board() {
-    int pos_x = 0; int pos_y = 0;
-    int game = 0; int game_o = 0;
+    int pos_x = 0;
+    int pos_y = 0;
+    int game = 0;
+    int game_o = 0;
     clear();
     board_header(pos_x, pos_y);
-    for (int i = 0; i < 9; i++) { board_header_update(pos_x, pos_y, i); }
+    for (int i = 0; i < 9; i++) {
+        board_header_update(pos_x, pos_y, i);
+    }
     pos_y += 6;
-    pos_y += 1; move(pos_y, pos_x);
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[FIGHT  ]"); // 7
-    pos_y += 1; move(pos_y, pos_x);
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[ITEMS  ]"); // 8
-    pos_y += 1; move(pos_y, pos_x);
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[SPARE  ]"); // 9
-    pos_y += 1; move(pos_y, pos_x);
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[EXIT   ]"); // 10
     refresh();
-    pos_y = 7; pos_x = 10;
-    while (game_o == 0) {
+    pos_y = 7; // position at FIGHT
+    pos_x = 10;
+    while (game_o == 0) { // begin main loop
         scr_result(pos_x, pos_y); // did somebody win?
-        while (game == 0) {
-            move(pos_y, pos_x); printw("<");
+        while (game == 0) { // begin play loop
+            move(pos_y, pos_x);
+            printw("<");
             refresh();
             switch (getch()) {
                 case 'q':
@@ -269,7 +305,9 @@ void scr_board() {
                     mvdelch(pos_y, pos_x);
                     if (pos_y == 10) {
                         pos_y = 7;
-                    } else { pos_y += 1; }
+                    } else {
+                        pos_y += 1;
+                    }
                     break;
                 case KEY_UP:
                 case 'w':
@@ -277,10 +315,12 @@ void scr_board() {
                     mvdelch(pos_y, pos_x);
                     if (pos_y == 7) {
                         pos_y = 10;
-                    } else { pos_y -= 1; }
+                    } else {
+                        pos_y -= 1;
+                    }
                     break;
                 case '\n':
-                    game = 1;
+                    game = 1; // newline causes game loop break
                     break;
                 default:
                     break;
@@ -301,7 +341,7 @@ void scr_board() {
                     move(pos_y, pos_x);
                     refresh();
                     scr_poison(pos_x, pos_y);  // check if poison loop is active
-                    game = 0; // re-enter game loop
+                    game = 0; // re-enter main loop
                     break;
                 case 8:
                     if (items(pos_x, pos_y) == 0) {
@@ -341,50 +381,73 @@ void scr_board() {
 }
 
 void landing_credits() {
-	const char* catboy_contribs[] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Playtest"};
-	const char* a[] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
+	char* catboy_contribs[] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Playtest"};
+	char* draumaz_contribs[] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
+    char* cano_contribs[] = {"Character design", "Inspiration"};
 	int b[] = {500, 500, 100}; int c[] = {35, 20, 10}; int pos = 1;
 	clear();
 	move(1, 0);
-	scr_popwrite("Butterfly", 30); printw(","); refresh(); scr_sleep(500); printw(" v");
+	scr_popwrite("Butterfly", 30); printw(",");
+    refresh();
+    scr_sleep(500);
+    printw(" v");
 	scr_popwrite(version(), 15);
 	scr_sleep(500);
-	pos += 2; move(pos, 0);
+	pos += 2;
+    move(pos, 0);
 	for (int i = 0 ; i < 3; i++) {
-		scr_popwrite(a[i], c[i]);
+		scr_popwrite(draumaz_contribs[i], c[i]);
 		scr_sleep(b[i]);
-	} scr_sleep(1000);
-	pos += 2; move(pos, 0);
+	}
+    scr_sleep(1000);
+	pos += 2;
+    move(pos, 0);
 	scr_popwrite("Special thanks to:",35);
 	scr_sleep(500);
-	pos += 2; move(pos, 0);
+	pos += 2;
+    move(pos, 0);
 	printw("catboy6969!");
-	pos += 2; move(pos, 0);
+	pos += 2;
+    move(pos, 0);
 	for (int i = 0; i < 4; i++) {
 		scr_popwrite(catboy_contribs[i], 25);
-		pos += 1; move(pos, 0); refresh();
-	} scr_sleep(500); pos+= 1; move(pos, 0);
+		pos += 1;
+        move(pos, 0);
+        refresh();
+	} 
+    scr_sleep(500);
+    pos+= 1;
+    move(pos, 0);
 	printw("Bryce Cano!");
-	pos += 2; move(pos, 0);
-	scr_popwrite("Character design", 25);
-	pos += 1; move(pos, 0);
-	scr_popwrite("Inspiration", 25);
+    pos += 2;
+    move(pos, 0);
+    for (int i = 0; i < 2; i++) {
+        scr_popwrite(cano_contribs[i], 25);
+        pos +=1;
+        move(pos, 0);
+        refresh();
+    }
 	refresh();
 	scr_sleep(1000);
 }
 
 void landing_reset() {
-    int pos_x = 0; int pos_y = 13;
+    int pos_x = 0;
+    int pos_y = 13;
     move(pos_y, pos_x);
     printw("Just to verify, you want to reset your save and record files?");
-    pos_y += 2; move(pos_y, pos_x);
+    pos_y += 2;
+    move(pos_y, pos_x);
     printw("[YES]"); // 15
-    pos_y += 1; move(pos_y, pos_x);
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[NO ]"); // 16
-    pos_y = 15; pos_x = 6;
+    pos_y = 15; // position at YES
+    pos_x = 6;
     int game = 0;
     while (game == 0) {
-        move(pos_y, pos_x); printw("<");
+        move(pos_y, pos_x);
+        printw("<");
         refresh();
         switch (getch()) {
             case 'q':
@@ -409,7 +472,9 @@ void landing_reset() {
 				mvdelch(pos_y, pos_x);
 				if (pos_y == 15) {
 					pos_y += 1;
-				} else { pos_y -= 1; }
+				} else {
+                    pos_y -= 1;
+                }
                 break;
             case '\n':
                 game = 1;
@@ -441,19 +506,30 @@ void landing_reset() {
 
 void scr_landing() {
     clear();
-    int pos_x = 0; int pos_y = 0;
+    int pos_x = 0;
+    int pos_y = 0;
     save_exists(); record_exists();
     move(pos_y, pos_x);
-    for (int i = 0; i < 7; i++) { printw("%s\n",splash_ascii[i]); pos_y += 1; move(pos_y, pos_x); } refresh();
-    pos_y += 1; move(pos_y, pos_x);
+    for (int i = 0; i < 7; i++) {
+        printw("%s\n",splash_ascii[i]);
+        pos_y += 1;
+        move(pos_y, pos_x);
+    }
+    refresh();
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[PLAY   ]");
-    pos_y += 1; move(pos_y, pos_x);
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[RESET  ]");
-    pos_y += 1; move(pos_y, pos_x);
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[CREDITS]");
-    pos_y += 1; move(pos_y, pos_x);
+    pos_y += 1;
+    move(pos_y, pos_x);
     printw("[EXIT   ]");
-    pos_y = 8; pos_x = 10; // position at PLAY
+    pos_y = 8;
+    pos_x = 10; // position at PLAY
     int game_o = 0;
     while (game_o == 0) {
         int game = 0;
@@ -510,7 +586,8 @@ void scr_landing() {
                     screen_down();
                     exit(0);
                     break;
-        } refresh();
+        }
+        refresh();
     }
     int * sav = save_reader();
     if (game_o == 1) {
@@ -518,6 +595,7 @@ void scr_landing() {
             if (sav[i] == 0) {
                 stats_deploy();
             }
-        } scr_board();
+        }
+        scr_board();
     }
 }

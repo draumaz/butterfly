@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-const char* save_name = "data.txt";
+char* save_name = "data.txt";
 
 // save positions
 // 0 player race
@@ -19,12 +19,13 @@ const char* save_name = "data.txt";
 int * save_reader() {
 	static int array[12];
 	FILE *read_in = fopen(save_name, "r");
-	int i = 0; int j = 0; int x = 0;
-	j = fscanf(read_in, "%d", &i);
+	int i = 0;
+	int x = 0;
+	fscanf(read_in, "%d", &i);
 	while (!feof (read_in)) {
 		array[x] = i; x += 1;
-		j = fscanf(read_in, "%d", &i);
-	} j += 1; return array;
+		fscanf(read_in, "%d", &i);
+	} return array;
 }
 
 void save_writer(int line, int state) {

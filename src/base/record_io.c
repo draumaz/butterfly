@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-const char* record_name = "record.txt";
+char* record_name = "record.txt";
 
 // record positions
 // 0 kills
@@ -11,12 +11,14 @@ const char* record_name = "record.txt";
 int * record_reader() {
 	static int array[4];
 	FILE *read_in = fopen(record_name, "r");
-	int i = 0; int j = 0; int x = 0;
-	j = fscanf(read_in, "%d", &i);
+	int i = 0;
+	int x = 0;
+	fscanf(read_in, "%d", &i);
 	while (!feof (read_in)) {
-		array[x] = i; x += 1;
-		j = fscanf(read_in, "%d", &i);
-	} j += 1; return array;
+		array[x] = i;
+		x += 1;
+		fscanf(read_in, "%d", &i);
+	} return array;
 }
 
 void record_writer(int line) {
