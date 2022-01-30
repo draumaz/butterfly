@@ -18,7 +18,8 @@ int * record_reader() {
 		array[x] = i;
 		x += 1;
 		fscanf(read_in, "%d", &i);
-	} return array;
+	}
+	return array;
 }
 
 void record_writer(int line) {
@@ -28,14 +29,16 @@ void record_writer(int line) {
 		if (i == line) {
 			record_in[i] += 1;
 		} fprintf(record_out, "%d\n", record_in[i]);
-	} fclose(record_out);
+	}
+	fclose(record_out);
 }
 
 void record_generate() {
 	FILE *generate = fopen(record_name, "w");
 	for (int i = 0; i < 4; i++) {
 		fprintf(generate, "%d\n", 0);
-	} fclose(generate);
+	}
+	fclose(generate);
 }
 
 void record_exists() {

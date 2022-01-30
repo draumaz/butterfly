@@ -129,17 +129,23 @@ void board_header_update(int x, int y, int m) {
 int entity_alive(int kind) {
 	int * sav = save_reader();
 	if (kind == 0) {
-		if (sav[1] > 0) { return 0; }
-		if (sav[1] <= 0) { return 1; }
+		if (sav[1] > 0) {
+            return 0;
+        } else if (sav[1] <= 0) {
+            return 1;
+        }
 	} else if (kind == 1) {
-		if (sav[4] > 0) { return 0; }
-		if (sav[4] <= 0) { return 1;}
+		if (sav[4] > 0) { 
+            return 0; 
+        } else if (sav[4] <= 0) { 
+            return 1;
+        }
 	}
 	return 2;
 }
 
 void scr_newgame(int x, int y) {
-    for (int i = 6; i < 11; i++) {
+    for (int i = 6; i < 11; i++) { // destroy anything below header
         move(i, 0); printw("\n");
     }
     refresh();
@@ -161,14 +167,7 @@ void scr_newgame(int x, int y) {
 			case 'q':
 			case CTRL('q'):
             case CTRL('c'):
-                curs_set(1);
-				clear();
-				endwin();
-				#ifdef _WIN32
-					system("pause");
-				#else
-                	system("stty sane");
-				#endif
+                screen_down();
 				exit(0);
                 break;
 			case KEY_DOWN:

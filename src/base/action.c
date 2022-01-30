@@ -18,7 +18,7 @@
 int items(int x, int y) {
     int pos_x = 0; 
     int pos_y = 12; 
-    int item_used = 1;
+    int item_used;
     int * sav = save_reader();
     move(pos_y, pos_x);
     printw("[%dx POTION]", sav[7]); // 12
@@ -81,7 +81,7 @@ int items(int x, int y) {
         case 12:
             if (sav[7] > 0) {
                 item_used = 0;
-                save_writer(7, 0);
+                save_writer(7, sav[7]-1);
                 save_writer(1, sav[1]+10);
             }
             board_header_update(pos_x, pos_y, 9);
@@ -99,7 +99,7 @@ int items(int x, int y) {
         case 13:
             if (sav[8] > 0) {
                 item_used = 0;
-                save_writer(8, 0);
+                save_writer(8, sav[8]-1);
                 save_writer(4, sav[4]-9);
             }
             board_header_update(pos_x, pos_y, 10);
@@ -117,7 +117,7 @@ int items(int x, int y) {
         case 14:
             if (sav[9] > 0) {
                 item_used = 0;
-                save_writer(9, 0); // poison throw
+                save_writer(9, sav[9]-1); // poison throw
                 save_writer(10, 1); // activate poison loop
             }
             board_header_update(pos_x, pos_y, 11);
@@ -179,7 +179,7 @@ void attack(int x, int y, int way) {
 }
 
 int spare(int x, int y) {
-    int result = 1;
+    int result;
     int * sav = save_reader();
     y += 2;
     move(y, 0);
@@ -190,17 +190,19 @@ int spare(int x, int y) {
         refresh();
         scr_sleep(500);
     } scr_sleep(750);
-    if (sav[1] >= sav[4]) {
+    y += 2;
+    move(y, 0);
+    if (sav[1] <= sav[4]){
+        printw("It didn't work.");
+        result = 1;
+    } else {
         record_writer(2);
         board_header_update(0, y, 2);
-        y += 2;
-        move(y, 0);
         printw("It worked!");
         result = 0;
-    } else if (sav[1] <= sav[4]) {
-        printw("\n\nIt didn't work.");
-        result = 1;
-    } refresh(); scr_sleep(1000); 
+    }
+    refresh();
+    scr_sleep(1000);
     move(y, 0);
     printw("\n");
     move(y+1, 0);

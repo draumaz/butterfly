@@ -25,7 +25,8 @@ int * save_reader() {
 	while (!feof (read_in)) {
 		array[x] = i; x += 1;
 		fscanf(read_in, "%d", &i);
-	} return array;
+	}
+	return array;
 }
 
 void save_writer(int line, int state) {
@@ -38,14 +39,16 @@ void save_writer(int line, int state) {
 		} else {
 			fprintf(read_out, "%d\n", save_in[i]);
 		}
-	} fclose(read_out);
+	}
+	fclose(read_out);
 }
 
 void save_generate() {
 	FILE *generate = fopen(save_name, "w");
 	for (int i = 0; i < 12; i++) {
 		fprintf(generate, "%d\n", 0);
-	} fclose(generate);
+	}
+	fclose(generate);
 }
 
 void save_exists() {

@@ -11,27 +11,37 @@ char* race_display(int race, int type, int cap) {
             case 1:
                 if (cap == 0) {
                     out = "Vuleen";
-                } else { out = "vuleen"; }
+                } else {
+                    out = "vuleen";
+                }
                 break;
             case 2:
                 if (cap == 0) {
                     out = "Aradi";
-                } else { out = "aradi"; }
+                } else { 
+                    out = "aradi"; 
+                }
                 break;
             case 3:
                 if (cap == 0) {
                     out = "Human";
-                } else { out = "human"; }
+                } else {
+                    out = "human";
+                }
                 break;
             case 4:
                 if (cap == 0) {
                     out = "Lycan";
-                } else { out = "lycan"; }
+                } else {
+                    out = "lycan";
+                }
                 break;
             case 5:
                 if (cap == 0) {
                     out = "Jodum";
-                } else { out = "jodum"; }
+                } else {
+                    out = "jodum";
+                }
                 break;
         }
     } else if (type == 1) {
@@ -39,27 +49,37 @@ char* race_display(int race, int type, int cap) {
             case 1:
                 if (cap == 0) {
                     out = "Darak";
-                } else { out = "darak"; }
+                } else {
+                    out = "darak";
+                }
                 break;
             case 2:
                 if (cap == 0) {
                     out = "Goblin";
-                } else { out = "Goblin"; }
+                } else { 
+                    out = "Goblin";
+                }
                 break;
             case 3:
                 if (cap == 0) {
                     out = "Arcran";
-                } else { out = "arcran"; }
+                } else {
+                    out = "arcran";
+                }
                 break;
             case 4:
                 if (cap == 0) {
                     out = "Sleech";
-                } else { out = "sleech"; }
+                } else {
+                    out = "sleech";
+                }
                 break;
             case 5:
                 if (cap == 0) {
                     out = "Wimble";
-                } else { out = "wimble"; }
+                } else {
+                    out = "wimble";
+                }
                 break;
         }
     } return out;
@@ -127,8 +147,8 @@ void stats_deploy() {
             save_writer(i, round(stat[i]/(ran*(1.12-0.96)+0.96)));
         }
     }
-    save_writer(7, 1); // potion set to 1x
-    save_writer(8, 1); // spear set to 1x
-    save_writer(9, 1); // poison set to 1x
+    save_writer(7, rand()%3+1); // potion 
+    save_writer(8, 1); // spear
+    save_writer(9, rand()%3+1); // poison
     save_writer(10, 0); // reset poison effects
 }
