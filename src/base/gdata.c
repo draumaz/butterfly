@@ -147,8 +147,8 @@ void stats_deploy() {
             save_writer(i, round(stat[i]/(ran*(1.12-0.96)+0.96)));
         }
     }
-    save_writer(7, rand()%3+1); // potion 
+    save_writer(7, 1); // potion 
     save_writer(8, 1); // spear
-    save_writer(9, rand()%3+1); // poison
+    save_writer(9, 1); // poison
     save_writer(10, 0); // reset poison effects
 }
