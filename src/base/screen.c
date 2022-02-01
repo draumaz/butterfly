@@ -167,8 +167,8 @@ void scr_newgame(int x, int y) {
             case 's':
 			case 'k':
 				mvdelch(pos_y, pos_x);
-				if (pos_y == 10) {
-					pos_y = 9;
+				if (pos_y == NG_NO) {
+					pos_y = NG_YES;
 				} else {
                     pos_y += 1;
                 }
@@ -177,8 +177,8 @@ void scr_newgame(int x, int y) {
             case 'w':
 			case 'i':
 				mvdelch(pos_y, pos_x);
-				if (pos_y == 9) {
-					pos_y = 10;
+				if (pos_y == NG_YES) {
+					pos_y = NG_NO;
 				} else {
                     pos_y -= 1;
                 }
@@ -289,8 +289,8 @@ void scr_board() {
                 case 's':
                 case 'k':
                     mvdelch(pos_y, pos_x);
-                    if (pos_y == 10) {
-                        pos_y = 7;
+                    if (pos_y == BRD_EXIT) {
+                        pos_y = BRD_FIGHT;
                     } else {
                         pos_y += 1;
                     }
@@ -299,8 +299,8 @@ void scr_board() {
                 case 'w':
                 case 'i':
                     mvdelch(pos_y, pos_x);
-                    if (pos_y == 7) {
-                        pos_y = 10;
+                    if (pos_y == BRD_FIGHT) {
+                        pos_y = BRD_EXIT;
                     } else {
                         pos_y -= 1;
                     }
@@ -426,10 +426,10 @@ void landing_reset() {
     move(pos_y, pos_x);
     printw("Just to verify, you want to reset your save and record files?");
     move(RT_YES, pos_x);
-    printw("[YES]"); // 15
+    printw("[YES]");
     move(RT_NO, pos_x);
-    printw("[NO ]"); // 16
-    pos_y = 15; // position at YES
+    printw("[NO ]");
+    pos_y = RT_YES;
     pos_x = 6;
     while (game == 0) {
         move(pos_y, pos_x);
@@ -446,7 +446,7 @@ void landing_reset() {
             case 'w':
             case 'i':
                 mvdelch(pos_y, pos_x);
-                if (pos_y == 16) {
+                if (pos_y == RT_NO) {
                     pos_y -= 1;
                 } else {
                     pos_y += 1;
@@ -456,7 +456,7 @@ void landing_reset() {
             case 's':
 			case 'k':
 				mvdelch(pos_y, pos_x);
-				if (pos_y == 15) {
+				if (pos_y == RT_YES) {
 					pos_y += 1;
 				} else {
                     pos_y -= 1;
@@ -508,7 +508,7 @@ void scr_landing() {
         move(sel_int[i], pos_x);
         printw("%s", sel_txt[i]);
     }
-    pos_y = 8; // position at PLAY
+    pos_y = LND_PLAY;
     pos_x = 10;
     int game_o = 0;
     while (game_o == 0) {
@@ -529,20 +529,20 @@ void scr_landing() {
                 case 'w':
                 case 'i':
                     mvdelch(pos_y, pos_x);
-                    if (pos_y > 8) {
+                    if (pos_y == LND_PLAY) {
+                        pos_y = LND_EXIT;
+                    } else {
                         pos_y -= 1;
-                    } else if (pos_y == 8) {
-                        pos_y = 11;
                     }
                     break;
                 case KEY_DOWN:
                 case 's':
                 case 'k':
                     mvdelch(pos_y, pos_x);
-                    if (pos_y < 11) {
+                    if (pos_y == LND_EXIT) {
+                        pos_y = LND_PLAY;
+                    } else {
                         pos_y += 1;
-                    } else if (pos_y == 11) {
-                        pos_y = 8;
                     }
                     break;
                 case '\n':
@@ -574,6 +574,7 @@ void scr_landing() {
         for (int i = 0; i < 5; i++) {
             if (sav[i] == 0) {
                 stats_deploy();
+                break;
             }
         }
         scr_board();

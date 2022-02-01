@@ -47,8 +47,8 @@ int items(int x, int y) {
             case 'w':
             case 'i':
                 mvdelch(pos_y, pos_x);
-                if (pos_y == 12) {
-                    pos_y = 15;
+                if (pos_y == ITM_POTION) {
+                    pos_y = ITM_BACK;
                 } else {
                     pos_y -= 1;
                 }
@@ -57,8 +57,8 @@ int items(int x, int y) {
             case 's':
 			case 'k':
 				mvdelch(pos_y, pos_x);
-				if (pos_y == 15) {
-					pos_y = 12;
+				if (pos_y == ITM_BACK) {
+					pos_y = ITM_POTION;
 				} else { 
                     pos_y += 1; 
                 }

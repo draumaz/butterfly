@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 #define save_length 11
-char* save_name = "data.txt";
+#define save_name "data.txt"
 
 // save positions
 // 0 player race

@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 #define record_length 3
-char* record_name = "record.txt";
+#define record_name "record.txt"
 
 // record positions
 // 0 kills
