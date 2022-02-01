@@ -19,13 +19,39 @@
 #define CTRL(c) ((c) & 037)
 #endif
 
-char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __",
-	                    "| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \\ \\ / /",
-                        "| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \\ V /  (.\\\\//.)",
-                        "| ___ | | | | | |   | | |  __||    /|  _| | |    \\ /    \\ () /",
-                        "| |_/ | |_| | | |   | | | |___| |\\ \\| |   | |____| |    (_/\\_)",
-                        "\\____/ \\___/  \\_/   \\_/ \\____/\\_| \\_\\_|   \\_____/\\_/  ",
-                        "------------------------------------------------------------------"
+#define NG_YES 9
+#define NG_NO 10
+
+#define RT_YES 15
+#define RT_NO 16
+
+#define BRD_FIGHT 7
+#define BRD_ITEMS 8
+#define BRD_SPARE 9
+#define BRD_EXIT 10
+
+#define LND_PLAY 8
+#define LND_RESET 9
+#define LND_CREDITS 10
+#define LND_EXIT 11
+
+#define HDR_KILL 25
+#define HDR_DEATH 39
+#define HDR_SPARE 53
+#define HDR_RACE 7
+#define HDR_HP 20
+#define HDR_STR 30
+#define HDR_ITM_POTION 12
+#define HDR_ITM_SPEAR 13
+#define HDR_ITM_POISON 14
+
+char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __ |",
+	                    "| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \\ \\ / / |",
+                        "| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \\ V /  |",
+                        "| ___ | | | | | |   | | |  __||    /|  _| | |    \\ /   |",
+                        "| |_/ | |_| | | |   | | | |___| |\\ \\| |   | |____| |   |",
+                        "\\____/ \\___/  \\_/   \\_/ \\____/\\_| \\_\\_|   \\_____/\\_/   |",
+                        "-------------------------------------------------------|"
 };
 
 void board_header(int x, int y) {
@@ -41,84 +67,81 @@ void board_header(int x, int y) {
 void board_header_update(int x, int y, int m) {
     int * rec = record_reader();
     int * sav = save_reader();
-    int panel_main[] = {25, 39, 53}; // x positions
-    int panel_ent[] = {7, 20, 30}; // x positions (equal positions for player/enemy)
-    int panel_itm[] = {12, 13, 14}; // y positions
     switch (m) {
-        case 0: // kill count
-            move(1, panel_main[0]);
+        case 0:
+            move(1, HDR_KILL);
             printw("%d", rec[0]);
             if (rec[0] < 10) {
-                move(1, 26);
+                move(1, HDR_KILL+1);
                 printw(" ");
             }
             break;
-        case 1: // death count
-            move(1, panel_main[1]);
+        case 1:
+            move(1, HDR_DEATH);
             printw("%d", rec[1]);
             if (rec[1] < 10) {
-                move(1, 40);
+                move(1, HDR_DEATH+1);
                 printw(" ");
             }
             break;
-        case 2: // spare count
-            move(1, panel_main[2]);
+        case 2:
+            move(1, HDR_SPARE);
             printw("%d", rec[2]);
             if (rec[2] < 10) {
-                move(1, 54);
+                move(1, HDR_SPARE+1);
                 printw(" ");
             }
             break;
-        case 3: // player race
-            move(3, panel_ent[0]);
+        case 3:
+            move(3, HDR_RACE);
             printw("%s", race_display(sav[0],0,0));
             break;
-        case 4: // player hp
-            move(3, panel_ent[1]);
+        case 4:
+            move(3, HDR_HP);
             printw("%d", sav[1]);
             if (sav[1] < 10) {
-                move(3, 21);
+                move(3, HDR_HP+1);
                 printw(" ");
             }
             break;
-        case 5: // player str
-            move(3, panel_ent[2]);
+        case 5:
+            move(3, HDR_STR);
             printw("%d", sav[2]);
             if (sav[2] < 10) {
-                move(3, 31);
+                move(3, HDR_STR+1);
                 printw(" ");
             }
             break;
-        case 6: // enemy race
-            move(5, panel_ent[0]);
+        case 6:
+            move(5, HDR_RACE);
             printw("%s", race_display(sav[3],1,0));
             break;
-        case 7: // enemy hp
-            move(5, panel_ent[1]);
+        case 7:
+            move(5, HDR_HP);
             printw("%d", sav[4]);
             if (sav[4] < 10) {
-                move(5, 21);
+                move(5, HDR_HP+1);
                 printw(" ");
             }
             break;
-        case 8: // enemy str
-            move(5, panel_ent[2]);
+        case 8:
+            move(5, HDR_STR);
             printw("%d", sav[5]);
             if (sav[5] < 10) {
-                move(5, 31); 
+                move(5, HDR_STR+1); 
                 printw(" ");
             }
             break;
-        case 9: // potion ct
-            move(panel_itm[0], 1);
+        case 9:
+            move(HDR_ITM_POTION, 1);
             printw("%d", sav[7]);
             break;
-        case 10: // spear ct
-            move(panel_itm[1], 1);
+        case 10:
+            move(HDR_ITM_SPEAR, 1);
             printw("%d", sav[8]);
             break;
-        case 11: // poison ct
-            move(panel_itm[2], 1);
+        case 11:
+            move(HDR_ITM_POISON, 1);
             printw("%d", sav[9]);
             break;
     }
@@ -264,24 +287,17 @@ void scr_board() {
     int pos_y = 0;
     int game = 0;
     int game_o = 0;
+    int sel_int[] = {BRD_FIGHT, BRD_ITEMS, BRD_SPARE, BRD_EXIT};
+    char* sel_txt[] = {"[FIGHT  ]", "[ITEMS  ]", "[SPARE  ]", "[EXIT   ]"};
     clear();
     board_header(pos_x, pos_y);
     for (int i = 0; i < 9; i++) {
         board_header_update(pos_x, pos_y, i);
     }
-    pos_y += 6;
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[FIGHT  ]"); // 7
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[ITEMS  ]"); // 8
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[SPARE  ]"); // 9
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[EXIT   ]"); // 10
+    for (int i = 0; i < 4; i++) {
+        move(sel_int[i], pos_x);
+        printw("%s", sel_txt[i]);
+    }
     refresh();
     pos_y = 7; // position at FIGHT
     pos_x = 10;
@@ -383,7 +399,9 @@ void landing_credits() {
 	char* catboy_contribs[] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Playtest"};
 	char* draumaz_contribs[] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
     char* cano_contribs[] = {"Character design", "Inspiration"};
-	int b[] = {500, 500, 100}; int c[] = {35, 20, 10}; int pos = 1;
+	int b[] = {500, 500, 100};
+    int c[] = {35, 20, 10};
+    int pos = 1;
 	clear();
 	move(1, 0);
 	scr_popwrite("Butterfly", 30); printw(",");
@@ -433,17 +451,15 @@ void landing_credits() {
 void landing_reset() {
     int pos_x = 0;
     int pos_y = 13;
+    int game = 0;
     move(pos_y, pos_x);
     printw("Just to verify, you want to reset your save and record files?");
-    pos_y += 2;
-    move(pos_y, pos_x);
+    move(RT_YES, pos_x);
     printw("[YES]"); // 15
-    pos_y += 1;
-    move(pos_y, pos_x);
+    move(RT_NO, pos_x);
     printw("[NO ]"); // 16
     pos_y = 15; // position at YES
     pos_x = 6;
-    int game = 0;
     while (game == 0) {
         move(pos_y, pos_x);
         printw("<");
@@ -509,26 +525,20 @@ void scr_landing() {
     int pos_y = 0;
     save_exists(); record_exists();
     move(pos_y, pos_x);
+    int sel_int[] = {LND_PLAY, LND_RESET, LND_CREDITS, LND_EXIT};
+    char* sel_txt[] = {"[PLAY   ]", "[RESET  ]", "[CREDITS]", "[EXIT   ]"};
     for (int i = 0; i < 7; i++) {
         printw("%s\n",splash_ascii[i]);
         pos_y += 1;
         move(pos_y, pos_x);
     }
     refresh();
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[PLAY   ]");
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[RESET  ]");
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[CREDITS]");
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[EXIT   ]");
-    pos_y = 8;
-    pos_x = 10; // position at PLAY
+    for (int i = 0; i < 4; i++) {
+        move(sel_int[i], pos_x);
+        printw("%s", sel_txt[i]);
+    }
+    pos_y = 8; // position at PLAY
+    pos_x = 10;
     int game_o = 0;
     while (game_o == 0) {
         int game = 0;
