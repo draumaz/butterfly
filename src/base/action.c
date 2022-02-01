@@ -10,15 +10,7 @@
 #include "./../header/wires.h"
 #include "./../header/screen.h"
 #include "./../header/joystick.h"
-
-#ifndef CTRL
-#define CTRL(c) ((c) & 037)
-#endif
-
-#define ITM_POTION 12
-#define ITM_SPEAR 13
-#define ITM_POISON 14
-#define ITM_BACK 15
+#include "./../header/selections.h"
 
 int items(int x, int y) {
     int pos_x = 0; 
