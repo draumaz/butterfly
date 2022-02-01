@@ -37,10 +37,14 @@ A text-based TBBS, written by draumaz.
 
 ```./butterfly-debug```
 
-### Compile notes
+### Notes for non-GNU C compilers
 
-- If you're compiling on macOS or musl-based Linux, remove the ```-ltinfo``` line from the Makefile.
-- If you're compiling on BSD, remove the ```-ltinfo``` line from the Makefile, and change the mkdir argument from ```-pv``` to ```-p```.
+- Clang handles Butterfly slightly differently than GCC. To successfuly compile using clang, apply patches/build_clang.patch to the root of the cloned repo.
+
+```
+cd butterfly
+patch -ruN < patches/build_clang.patch
+```
 
 #### If you encounter anything in your builds that feel like bugs, report them and I'll fix it as soon as possible!
 
