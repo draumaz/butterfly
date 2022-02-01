@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#define save_length 11
 char* save_name = "data.txt";
 
 // save positions
@@ -17,7 +18,7 @@ char* save_name = "data.txt";
 // 10 poison incrementer
 
 int * save_reader() {
-	static int array[12];
+	static int array[save_length];
 	FILE *read_in = fopen(save_name, "r");
 	int i = 0;
 	int x = 0;
@@ -33,7 +34,7 @@ void save_writer(int line, int state) {
 	if (state < 0) { state = 0; }
 	int * save_in = save_reader();
 	FILE *read_out = fopen(save_name, "w");
-	for (int i = 0; i < 12; i++) {
+	for (int i = 0; i < save_length; i++) {
 		if (i == line) {
 			fprintf(read_out, "%d\n", state);
 		} else {
@@ -45,7 +46,7 @@ void save_writer(int line, int state) {
 
 void save_generate() {
 	FILE *generate = fopen(save_name, "w");
-	for (int i = 0; i < 12; i++) {
+	for (int i = 0; i < save_length; i++) {
 		fprintf(generate, "%d\n", 0);
 	}
 	fclose(generate);
