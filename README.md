@@ -1,9 +1,8 @@
 # Butterfly
+This is a text-based TBBS with fantasy creatures, projectile weapons, poisonous elixirs, and more.
 
-A text-based TBBS with fantasy creatures, projectile weapons, and more.
-
-![Screenie](https://github.com/draumaz/butterfly/raw/main/media/btf-main.svg "Game screen")
-![Weapon](https://github.com/draumaz/butterfly/raw/main/media/btf-item.svg "Item screen")
+![Main board](https://github.com/draumaz/butterfly/raw/main/media/btf-main.svg "Game screen")
+![Item board](https://github.com/draumaz/butterfly/raw/main/media/btf-item.svg "Item screen")
 
 # Controls
 
