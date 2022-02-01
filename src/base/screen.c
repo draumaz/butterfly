@@ -151,7 +151,7 @@ void scr_newgame(int x, int y) {
     pos_y += 1; move(pos_y, 0); // 10
     printw("[NO ]");
 	int loop = 0;
-    pos_y = 9; // position at YES
+    pos_y = NG_YES;
 	while (loop == 0) {
 		move(pos_y, pos_x);
         printw("<");
@@ -232,7 +232,7 @@ void scr_result(int x, int y) {
         move(7, 0);
         printw("You win!");
         refresh();
-        scr_sleep(750);
+        scr_sleep(450);
         move(y, 0);
         scr_newgame(x, y);
     }
@@ -246,7 +246,7 @@ void scr_result(int x, int y) {
         move(y, 0);
         printw("You died!");
         refresh();
-        scr_sleep(750);
+        scr_sleep(450);
         move(y, 0);
         scr_newgame(x, y);
     }
@@ -270,7 +270,7 @@ void scr_board() {
         printw("%s", sel_txt[i]);
     }
     refresh();
-    pos_y = 7; // position at FIGHT
+    pos_y = BRD_FIGHT;
     pos_x = 10;
     while (game_o == 0) { // begin main loop
         scr_result(pos_x, pos_y); // did somebody win?
@@ -423,8 +423,34 @@ void landing_reset() {
     int pos_x = 0;
     int pos_y = 13;
     int game = 0;
+    int * sav = save_reader();
+    int * rec = record_reader();
     move(pos_y, pos_x);
-    printw("Just to verify, you want to reset your save and record files?");
+    if (sav[0] == 0 &&
+        sav[1] == 0 &&
+        sav[2] == 0 &&
+        sav[3] == 0 &&
+        sav[4] == 0 &&
+        sav[5] == 0 &&
+        sav[6] == 0 &&
+        sav[7] == 0 &&
+        sav[8] == 0 &&
+        sav[9] == 0 &&
+        sav[10] == 0 &&
+        sav[11] == 0 &&
+        rec[0] == 0 &&
+        rec[1] == 0 &&
+        rec[2] == 0) {
+        printw("No need to reset, your files are already blank.");
+        refresh();
+        scr_sleep(500);
+        for (int i = 0; i < 7; i++) {
+            move(pos_y-(i-6),0);
+            printw("\n");
+        }
+        return;
+    }
+    printw("Just to verify, you want to reset your save & record files?");
     move(RT_YES, pos_x);
     printw("[YES]");
     move(RT_NO, pos_x);
@@ -494,12 +520,19 @@ void scr_landing() {
     clear();
     int pos_x = 0;
     int pos_y = 0;
-    save_exists(); record_exists();
+    save_exists();
+    record_exists();
     move(pos_y, pos_x);
-    int sel_int[] = {LND_PLAY, LND_RESET, LND_CREDITS, LND_EXIT};
-    char* sel_txt[] = {"[PLAY   ]", "[RESET  ]", "[CREDITS]", "[EXIT   ]"};
+    int sel_int[] = {LND_PLAY,
+                     LND_RESET,
+                     LND_CREDITS,
+                     LND_EXIT};
+    char* sel_txt[] = {"[PLAY   ]",
+                       "[RESET  ]",
+                       "[CREDITS]",
+                       "[EXIT   ]"};
     for (int i = 0; i < 7; i++) {
-        printw("%s\n",splash_ascii[i]);
+        printw("%s\n", splash_ascii[i]);
         pos_y += 1;
         move(pos_y, pos_x);
     }
@@ -516,7 +549,8 @@ void scr_landing() {
         save_exists();
         record_exists();
         while (game == 0) {
-            move(pos_y, pos_x); printw("<");
+            move(pos_y, pos_x);
+            printw("<");
             refresh();
             switch (getch()) {
                 case 'q':
