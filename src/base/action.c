@@ -15,29 +15,31 @@
 #define CTRL(c) ((c) & 037)
 #endif
 
+#define ITM_POTION 12
+#define ITM_SPEAR 13
+#define ITM_POISON 14
+#define ITM_BACK 15
+
 int items(int x, int y) {
     int pos_x = 0; 
     int pos_y = 12; 
+    int game = 0;
     int item_used;
     int * sav = save_reader();
-    move(pos_y, pos_x);
-    printw("[%dx POTION]", sav[7]); // 12
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[%dx SPEAR ]", sav[8]); // 13
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[%dx POISON]", sav[9]); // 14
-    pos_y += 1;
-    move(pos_y, pos_x);
-    printw("[BACK     ]"); // 15
+    move(ITM_POTION, pos_x);
+    printw("[%dx POTION]", sav[7]);
+    move(ITM_SPEAR, pos_x);
+    printw("[%dx SPEAR ]", sav[8]);
+    move(ITM_POISON, pos_x);
+    printw("[%dx POISON]", sav[9]);
+    move(ITM_BACK, pos_x);
+    printw("[BACK     ]");
     if (sav[6] == 0) {
         pos_y = 12; // position at POTION
     } else {
         pos_y = sav[6]; // position at last saved
     }
     pos_x = 12;
-    int game = 0;
     while (game == 0) {
         move(pos_y, pos_x);
         printw("<");
