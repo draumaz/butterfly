@@ -1,13 +1,13 @@
---- Makefile-std	2022-02-01 08:34:48.972560768 -0800
-+++ Makefile	2022-02-01 08:35:42.807883966 -0800
+--- Makefile-std	2022-02-01 10:24:33.126881446 -0800
++++ Makefile	2022-02-01 10:25:01.251527871 -0800
 @@ -1,10 +1,10 @@
  butterfly:
 -	cd ./src/base; mkdir -pv build; cd build; \
--        $(CC) $(CFLAGS) -Wall -c -lncurses -ltinfo -lm ../main.c \
 +	cd ./src/base; mkdir -p build; cd build; \
-+        $(CC) $(CFLAGS) -Wall -c -lncurses -lm ../main.c \
-         ../main.c ../gdata.c ../wires.c ../joystick.c ../screen.c \
-         ../record_io.c ../save_io.c ../action.c
+         $(CC) $(CFLAGS) -Wall -c -lm ../gdata.c ../main.c; \
+         $(CC) $(CFLAGS) -Wall -c ../save_io.c ../record_io.c ../main.c; \
+-        $(CC) $(CFLAGS) -Wall -c -lncurses -ltinfo ../wires.c ../joystick.c ../screen.c ../action.c
++        $(CC) $(CFLAGS) -Wall -c -lncurses ../wires.c ../joystick.c ../screen.c ../action.c
  	mv ./src/base/build ./build
 -	cd build; $(CC) $(CFLAGS) -Wall -lncurses -ltinfo -lm \
 +	cd build; $(CC) $(CFLAGS) -Wall -lncurses -lm \
