@@ -43,7 +43,7 @@ A text-based TBBS, written by draumaz.
 
 ```
 cd butterfly
-patch -ruN < patches/build_clang.patch
+patch -ruN < patches/clang_make.patch
 ```
 
 #### If you encounter anything in your builds that feel like bugs, report them and I'll fix it as soon as possible!
