@@ -31,24 +31,25 @@ A text-based TBBS, written by draumaz.
 
 ## Build from source! (it won't take long, I promise)
 
-```git clone https://github.com/draumaz/butterfly; cd butterfly```
+- ```git clone https://github.com/draumaz/butterfly```
 
-```make```
+- ```cd butterfly```
 
-```./butterfly-debug```
+- ```make```
+
+- ```./butterfly-debug```
 
 ### Notes for non-GNU C compilers
 
 - Clang handles Butterfly slightly differently than GCC. To successfuly compile using clang, apply patches/build_clang.patch to the root of the cloned repo.
 
-```
-cd butterfly
-patch -ruN < patches/clang_make.patch
-```
+- ```cd butterfly```
+
+- ```patch -ruN < patches/clang_make.patch```
 
 #### If you encounter anything in your builds that feel like bugs, report them and I'll fix it as soon as possible!
 
-# Thanks!
+# Acknowledgements
 
 catboy6969 - playtest, game design, armv8 testing
 
