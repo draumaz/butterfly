@@ -257,6 +257,7 @@ void scr_board() {
     int pos_y = 0;
     int game = 0;
     int game_o = 0;
+    int * sav = save_reader();
     int sel_int[] = {BRD_FIGHT, BRD_ITEMS, BRD_SPARE, BRD_EXIT};
     char* sel_txt[] = {"[FIGHT  ]", "[ITEMS  ]", "[SPARE  ]", "[EXIT   ]"};
     clear();
@@ -315,7 +316,7 @@ void scr_board() {
             switch (pos_y) {
                 case 7:
                     attack(0, 12, 0);
-                    int * sav = save_reader();
+                    sav = save_reader();
                     if (sav[1] > 0 && sav[4] > 0) {
                         attack(0, 13, 1);
                     }
@@ -330,14 +331,14 @@ void scr_board() {
                     break;
                 case 8:
                     if (items(pos_x, pos_y) == 0) {
+                        sav = save_reader();
                         if (sav[4] > 0) {
                             attack(0, 12, 1);
                         }
-                        move(12, 0); printw("\n");
+                        move(12, 0);
+                        printw("\n");
                         move(pos_y, pos_x);
-                        if (sav[4] > 0) {
-                            scr_poison(pos_x, pos_y);
-                        }
+                        scr_poison(pos_x, pos_y);
                     }
                     refresh();
                     game = 0;

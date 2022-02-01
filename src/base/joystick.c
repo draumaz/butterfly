@@ -3,6 +3,12 @@
 #include <unistd.h>
 #include <curses.h>
 
+#ifdef _WIN32
+    #define STOP_CMD "pause"
+#else
+    #define STOP_CMD "stty sane"
+#endif
+
 #include "./../header/screen.h"
 
 void screen_up() {
@@ -18,11 +24,7 @@ void screen_down() {
     keypad(stdscr, false);
     endwin();
     curs_set(1);
-    #ifdef _WIN32
-        system("pause");
-    #else
-        system("stty sane");
-    #endif
+    system(STOP_CMD);
 }
 
 void joystick() {

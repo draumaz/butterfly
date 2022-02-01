@@ -16,7 +16,7 @@ int items(int x, int y) {
     int pos_x = 0; 
     int pos_y = 12; 
     int game = 0;
-    int item_used = 0;
+    int item_used = 2;
     int * sav = save_reader();
     move(ITM_POTION, pos_x);
     printw("[%dx POTION]", sav[7]);
@@ -26,8 +26,8 @@ int items(int x, int y) {
     printw("[%dx POISON]", sav[9]);
     move(ITM_BACK, pos_x);
     printw("[BACK     ]");
-    if (sav[6] == 0) {
-        pos_y = 12; // position at POTION
+    if (sav[6] == 0 || sav[6] == 15) {
+        pos_y = ITM_POTION;
     } else {
         pos_y = sav[6]; // position at last saved
     }
