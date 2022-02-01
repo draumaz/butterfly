@@ -39,7 +39,7 @@ void board_header_update(int x, int y, int m) {
     int * sav = save_reader();
     switch (m) {
         case 0:
-            move(1, HDR_KILL);
+            move(HDR_ROW_STATS, HDR_KILL);
             printw("%d", rec[0]);
             if (rec[0] < 10) {
                 move(1, HDR_KILL+1);
@@ -47,7 +47,7 @@ void board_header_update(int x, int y, int m) {
             }
             break;
         case 1:
-            move(1, HDR_DEATH);
+            move(HDR_ROW_STATS, HDR_DEATH);
             printw("%d", rec[1]);
             if (rec[1] < 10) {
                 move(1, HDR_DEATH+1);
@@ -55,7 +55,7 @@ void board_header_update(int x, int y, int m) {
             }
             break;
         case 2:
-            move(1, HDR_SPARE);
+            move(HDR_ROW_STATS, HDR_SPARE);
             printw("%d", rec[2]);
             if (rec[2] < 10) {
                 move(1, HDR_SPARE+1);
@@ -63,11 +63,11 @@ void board_header_update(int x, int y, int m) {
             }
             break;
         case 3:
-            move(3, HDR_RACE);
+            move(HDR_ROW_PLAYER, HDR_RACE);
             printw("%s", player_race_display(0));
             break;
         case 4:
-            move(3, HDR_HP);
+            move(HDR_ROW_PLAYER, HDR_HP);
             printw("%d", sav[1]);
             if (sav[1] < 10) {
                 move(3, HDR_HP+1);
@@ -75,7 +75,7 @@ void board_header_update(int x, int y, int m) {
             }
             break;
         case 5:
-            move(3, HDR_STR);
+            move(HDR_ROW_PLAYER, HDR_STR);
             printw("%d", sav[2]);
             if (sav[2] < 10) {
                 move(3, HDR_STR+1);
@@ -83,11 +83,11 @@ void board_header_update(int x, int y, int m) {
             }
             break;
         case 6:
-            move(5, HDR_RACE);
+            move(HDR_ROW_ENEMY, HDR_RACE);
             printw("%s", enemy_race_display(0));
             break;
         case 7:
-            move(5, HDR_HP);
+            move(HDR_ROW_ENEMY, HDR_HP);
             printw("%d", sav[4]);
             if (sav[4] < 10) {
                 move(5, HDR_HP+1);
@@ -95,7 +95,7 @@ void board_header_update(int x, int y, int m) {
             }
             break;
         case 8:
-            move(5, HDR_STR);
+            move(HDR_ROW_ENEMY, HDR_STR);
             printw("%d", sav[5]);
             if (sav[5] < 10) {
                 move(5, HDR_STR+1); 
@@ -232,7 +232,7 @@ void scr_result(int x, int y) {
         move(7, 0);
         printw("You win!");
         refresh();
-        scr_sleep(450);
+        scr_sleep(750);
         move(y, 0);
         scr_newgame(x, y);
     }
@@ -246,7 +246,7 @@ void scr_result(int x, int y) {
         move(y, 0);
         printw("You died!");
         refresh();
-        scr_sleep(450);
+        scr_sleep(750);
         move(y, 0);
         scr_newgame(x, y);
     }
@@ -367,9 +367,9 @@ void scr_board() {
 }
 
 void landing_credits() {
-	char* catboy_contribs[] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Playtest"};
-	char* draumaz_contribs[] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
-    char* cano_contribs[] = {"Character design", "Inspiration"};
+	char* catboy_contribs[5] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Game naming", "Playtest"};
+	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
+    char* cano_contribs[2] = {"Character naming", "Inspiration"};
 	int b[] = {500, 500, 100};
     int c[] = {35, 20, 10};
     int pos = 1;
@@ -397,7 +397,7 @@ void landing_credits() {
 	printw("catboy6969!");
 	pos += 2;
     move(pos, 0);
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 5; i++) {
 		scr_popwrite(catboy_contribs[i], 25);
 		pos += 1;
         move(pos, 0);
