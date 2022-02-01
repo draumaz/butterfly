@@ -1,9 +1,9 @@
 butterfly:
 	cd ./src/base; mkdir -pv build; cd build; \
-		gcc -Wall -c -lncurses -ltinfo -lm \
+		$(CC) $(CFLAGS) -Wall -c -lncurses -ltinfo -lm ../main.c \
 		../main.c ../gdata.c ../wires.c ../joystick.c ../screen.c \
 		../record_io.c ../save_io.c ../action.c
-	gcc -Wall -lncurses -ltinfo -lm \
+	$(CC) $(CFLAGS) -Wall -lncurses -ltinfo -lm \
 		./src/base/build/main.o \
 		./src/base/build/gdata.o \
 		./src/base/build/wires.o \
