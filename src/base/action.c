@@ -120,7 +120,7 @@ int items(int x, int y) {
             move(17, 0);
             refresh();
             if (item_used == 0) {
-                printw("You throw the poison! The %s feels the pain...", race_display(sav[3], 1, 1));
+                printw("You throw the poison! The %s feels the pain...", enemy_race_display(1));
             } else {
                 item_used = 1;
                 printw("You don't have any poison left.");
@@ -156,7 +156,7 @@ void attack(int x, int y, int way) {
                 ,dam_to_enemy);
             } else {
                 printw("You attack the %s, dealing %dHP!\n",
-                race_display(sav[3],1,1),dam_to_enemy);
+                enemy_race_display(1), dam_to_enemy);
             }
             break; }
         case 1: { // to player
@@ -165,10 +165,10 @@ void attack(int x, int y, int way) {
             board_header_update(x, y, 4);
             if (sav[1] <= 0) {
                 printw("The %s deals the death blow, attacking with %dHP!\n",
-                race_display(sav[3],1,1),dam_to_player);
+                enemy_race_display(1), dam_to_player);
             } else {
                 printw("The %s attacks you, dealing %dHP!\n",
-                race_display(sav[3],1,1),dam_to_player);
+                enemy_race_display(1), dam_to_player);
             }
             break; }
     } refresh(); scr_sleep(750);
@@ -179,7 +179,7 @@ int spare(int x, int y) {
     int * sav = save_reader();
     y += 2;
     move(y, 0);
-    printw("You attempt to spare the %s", race_display(sav[3],1,1));
+    printw("You attempt to spare the %s", enemy_race_display(1));
     refresh();
     for (int i = 0; i < 3; i++) {
         printw(".");

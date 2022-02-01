@@ -27,10 +27,11 @@ int * save_reader() {
 		array[x] = i; x += 1;
 		fscanf(read_in, "%d", &i);
 	}
+	fclose(read_in);
 	return array;
 }
 
-void save_writer(int line, int state) {
+void save_writer(int line, signed int state) {
 	if (state < 0) { state = 0; }
 	int * save_in = save_reader();
 	FILE *read_out = fopen(save_name, "w");

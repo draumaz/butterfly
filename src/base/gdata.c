@@ -4,85 +4,90 @@
 
 #include "./../header/save_io.h"
 
-char* race_display(int race, int type, int cap) {
+char* player_race_display(int cap) {
+    int * sav = save_reader();
     char* out = NULL;
-    if (type == 0) {
-        switch (race) {
-            case 1:
-                if (cap == 0) {
-                    out = "Vuleen";
-                } else {
-                    out = "vuleen";
-                }
-                break;
-            case 2:
-                if (cap == 0) {
-                    out = "Aradi";
-                } else { 
-                    out = "aradi"; 
-                }
-                break;
-            case 3:
-                if (cap == 0) {
-                    out = "Human";
-                } else {
-                    out = "human";
-                }
-                break;
-            case 4:
-                if (cap == 0) {
-                    out = "Lycan";
-                } else {
-                    out = "lycan";
-                }
-                break;
-            case 5:
-                if (cap == 0) {
-                    out = "Jodum";
-                } else {
-                    out = "jodum";
-                }
-                break;
-        }
-    } else if (type == 1) {
-        switch (race) {
-            case 1:
-                if (cap == 0) {
-                    out = "Darak";
-                } else {
-                    out = "darak";
-                }
-                break;
-            case 2:
-                if (cap == 0) {
-                    out = "Goblin";
-                } else { 
-                    out = "Goblin";
-                }
-                break;
-            case 3:
-                if (cap == 0) {
-                    out = "Arcran";
-                } else {
-                    out = "arcran";
-                }
-                break;
-            case 4:
-                if (cap == 0) {
-                    out = "Sleech";
-                } else {
-                    out = "sleech";
-                }
-                break;
-            case 5:
-                if (cap == 0) {
-                    out = "Wimble";
-                } else {
-                    out = "wimble";
-                }
-                break;
-        }
-    } return out;
+    switch (sav[0]) {
+        case 1:
+            if (cap == 0) {
+                out = "Vuleen";
+            } else {
+                out = "vuleen";
+            }
+            break;
+        case 2:
+            if (cap == 0) {
+                out = "Aradi";
+            } else {
+                out = "aradi";
+            }
+            break;
+        case 3:
+            if (cap == 0) {
+                out = "Human";
+            } else {
+                out = "human";
+            }
+            break;
+        case 4:
+            if (cap == 0) {
+                out = "Lycan";
+            } else {
+                out = "lycan";
+            }
+            break;
+        case 5:
+            if (cap == 0) {
+                out = "Jodum";
+            } else {
+                out = "jodum";
+            }
+            break;
+    }
+    return out;
+}
+
+char* enemy_race_display(int cap) {
+    int * sav = save_reader();
+    char* out = NULL;
+    switch (sav[3]) {
+        case 1:
+            if (cap == 0) {
+                out = "Darak";
+            } else {
+                out = "darak";
+            }
+            break;
+        case 2:
+            if (cap == 0) {
+                out = "Goblin";
+            } else {
+                out = "goblin";
+            }
+            break;
+        case 3:
+            if (cap == 0) {
+                out = "Arcran";
+            } else {
+                out = "arcran";
+            }
+            break;
+        case 4:
+            if (cap == 0) {
+                out = "Sleech";
+            } else {
+                out = "sleech";
+            }
+            break;
+        case 5:
+            if (cap == 0) {
+                out = "Wimble";
+            } else {
+                out = "wimble";
+            }
+            break;
+    }
+    return out;
 }
 
 int * player_stats_gen(int i) {

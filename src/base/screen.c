@@ -64,7 +64,7 @@ void board_header_update(int x, int y, int m) {
             break;
         case 3:
             move(3, HDR_RACE);
-            printw("%s", race_display(sav[0],0,0));
+            printw("%s", player_race_display(0));
             break;
         case 4:
             move(3, HDR_HP);
@@ -84,7 +84,7 @@ void board_header_update(int x, int y, int m) {
             break;
         case 6:
             move(5, HDR_RACE);
-            printw("%s", race_display(sav[3],1,0));
+            printw("%s", enemy_race_display(0));
             break;
         case 7:
             move(5, HDR_HP);
@@ -202,11 +202,11 @@ void scr_newgame(int x, int y) {
 
 void scr_poison(int x, int y) {
     int * sav = save_reader();
-    if (sav[10] >= 1 && sav[10] <= 4) {
+    if (sav[10] >= 1 && sav[10] <= 4 && sav[1] > 0 && sav[4] > 0) {
         move(12, 0);
         if (sav[10] == 4) {
 			save_writer(10, 0); // set poison effects back to 0 (disabled)
-			printw("The %s shakes off the poison.",race_display(sav[3],1,1));
+			printw("The %s shakes off the poison.", enemy_race_display(1));
             refresh();
             scr_sleep(750);
 		} else {
@@ -214,7 +214,7 @@ void scr_poison(int x, int y) {
 			save_writer(10, sav[10]+1); // increment
 			save_writer(4, sav[4]-dam); // damage
             board_header_update(0, 12, 7);
-			printw("The %s lost %dHP from the poison!", race_display(sav[3],1,1), dam);
+			printw("The %s lost %dHP from the poison!", enemy_race_display(1), dam);
             refresh();
             scr_sleep(750);
 		}

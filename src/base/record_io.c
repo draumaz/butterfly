@@ -11,15 +11,16 @@
 
 int * record_reader() {
 	static int array[record_length];
-	FILE *read_in = fopen(record_name, "r");
+	FILE *record_in = fopen(record_name, "r");
 	int i = 0;
 	int x = 0;
-	fscanf(read_in, "%d", &i);
-	while (!feof (read_in)) {
+	fscanf(record_in, "%d", &i);
+	while (!feof (record_in)) {
 		array[x] = i;
 		x += 1;
-		fscanf(read_in, "%d", &i);
+		fscanf(record_in, "%d", &i);
 	}
+	fclose(record_in);
 	return array;
 }
 
