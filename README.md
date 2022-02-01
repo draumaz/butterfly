@@ -41,8 +41,8 @@ This is a text-based TBBS with fantasy creatures, projectile weapons, poisonous 
 
 # Acknowledgements
 
-catboy6969 - playtest, game design, armv8 testing
+catboy6969 - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
 
-Bryce Cano - character design, inspiration
+Bryce Cano - character naming, inspiration
 
 <a href="https://carbon.now.sh/">Carbon</a> - screenshots
