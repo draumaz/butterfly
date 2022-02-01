@@ -2,11 +2,15 @@
 ______ _   _ _____ _____ _________________ _   __   __ |
 | ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \ \ / / |
 | |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \ V /  |            
-| ___ | | | | | |   | | |  __||    /|  _| | |    \ /   |            a text-based TBBS
-| |_/ | |_| | | |   | | | |___| |\ \| |   | |____| |   |            made by draumaz
+| ___ | | | | | |   | | |  __||    /|  _| | |    \ /   |            
+| |_/ | |_| | | |   | | | |___| |\ \| |   | |____| |   |            
 \____/ \___/  \_/   \_/ \____/\_| \_\_|   \_____/\_/   |
 -------------------------------------------------------|
 ```
+
+
+A text-based TBBS, written by draumaz.
+
 ![Screenie](https://github.com/draumaz/butterfly/raw/main/media/btf-main.svg "Game screen")
 ![Weapon](https://github.com/draumaz/butterfly/raw/main/media/btf-item.svg "Item screen")
 
