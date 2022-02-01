@@ -16,7 +16,7 @@ int items(int x, int y) {
     int pos_x = 0; 
     int pos_y = 12; 
     int game = 0;
-    int item_used;
+    int item_used = 0;
     int * sav = save_reader();
     move(ITM_POTION, pos_x);
     printw("[%dx POTION]", sav[7]);
