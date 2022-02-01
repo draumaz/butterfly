@@ -1,15 +1,6 @@
-```
-______ _   _ _____ _____ _________________ _   __   __ |
-| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \ \ / / |
-| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \ V /  |
-| ___ | | | | | |   | | |  __||    /|  _| | |    \ /   |
-| |_/ | |_| | | |   | | | |___| |\ \| |   | |____| |   |
-\____/ \___/  \_/   \_/ \____/\_| \_\_|   \_____/\_/   |
--------------------------------------------------------|
-```
+# Butterfly
 
-
-A text-based TBBS, written by draumaz.
+A text-based TBBS with fantasy creatures, projectile weapons, and more.
 
 ![Screenie](https://github.com/draumaz/butterfly/raw/main/media/btf-main.svg "Game screen")
 ![Weapon](https://github.com/draumaz/butterfly/raw/main/media/btf-item.svg "Item screen")
@@ -41,7 +32,7 @@ A text-based TBBS, written by draumaz.
 
 ### Notes for non-GNU C compilers
 
-- Clang handles Butterfly slightly differently than GCC. To successfuly compile, apply patches/build_clang.patch to the root of the cloned repo.
+- Clang handles Butterfly slightly differently than GCC. To successfuly compile, apply patches/clang_make.patch to the root of the cloned repo.
 
 - ```cd butterfly```
 
