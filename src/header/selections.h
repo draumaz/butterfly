@@ -18,6 +18,9 @@
 #define LND_CREDITS 10
 #define LND_EXIT 11
 
+#define HDR_ROW_STATS 1
+#define HDR_ROW_PLAYER 3
+#define HDR_ROW_ENEMY 5
 #define HDR_KILL 25 // X
 #define HDR_DEATH 39
 #define HDR_SPARE 53
