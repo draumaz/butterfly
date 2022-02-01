@@ -1,11 +1,14 @@
-# Butterfly
-
+```
+______ _   _ _____ _____ _________________ _   __   __ |
+| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \ \ / / |
+| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \ V /  |            
+| ___ | | | | | |   | | |  __||    /|  _| | |    \ /   |            a text-based TBBS
+| |_/ | |_| | | |   | | | |___| |\ \| |   | |____| |   |            made by draumaz
+\____/ \___/  \_/   \_/ \____/\_| \_\_|   \_____/\_/   |
+-------------------------------------------------------|
+```
 ![Screenie](https://github.com/draumaz/butterfly/raw/main/media/btf-main.svg "Game screen")
-
-  A randomly-generated, turn-based TUI battle game. Fantasy elements, buff dragons, in your terminal today!
 ![Weapon](https://github.com/draumaz/butterfly/raw/main/media/btf-item.svg "Item screen")
-
-  Play as a strange creature, and fight off endless hordes of equally odd beings!
 
 # Controls
 
@@ -36,16 +39,10 @@
 
 #### If you encounter anything in your builds that feel like bugs, report them and I'll fix it as soon as possible!
 
-```
-real    0m0.345s
-user    0m0.268s
-sys     0m0.076s
-```
-
-# Acknowledgments
+# Thanks!
 
 catboy6969 - playtest, game design, armv8 testing
 
 Bryce Cano - character design, inspiration
 
-<a href="https://carbon.now.sh/">Carbon</a> - text displays
+<a href="https://carbon.now.sh/">Carbon</a> - screenshots
