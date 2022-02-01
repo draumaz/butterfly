@@ -36,6 +36,12 @@
 
 #### If you encounter anything in your builds that feel like bugs, report them and I'll fix it as soon as possible!
 
+```
+real    0m0.345s
+user    0m0.268s
+sys     0m0.076s
+```
+
 # Acknowledgments
 
 catboy6969 - playtest, game design, armv8 testing
