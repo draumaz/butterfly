@@ -41,7 +41,7 @@ A text-based TBBS, written by draumaz.
 
 ### Notes for non-GNU C compilers
 
-- Clang handles Butterfly slightly differently than GCC. To successfuly compile using clang, apply patches/build_clang.patch to the root of the cloned repo.
+- Clang handles Butterfly slightly differently than GCC. To successfuly compile, apply patches/build_clang.patch to the root of the cloned repo.
 
 - ```cd butterfly```
 
