@@ -15,6 +15,19 @@
 #include "./../header/screen.h"
 #include "./../header/selections.h"
 
+struct readers {
+    int * rec;
+    int * sav;
+};
+
+struct game_vars {
+    int loop;
+    int game;
+    int game_o;
+    int pos_x;
+    int pos_y;
+};
+
 char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __ |",
 	                    "| ___ | | | |_   _|_   _|  ___| ___ |  ___| |  \\ \\ / / |",
                         "| |_/ | | | | | |   | | | |__ | |_/ | |_  | |   \\ V /  |",
@@ -35,29 +48,30 @@ void board_header(int x, int y) {
 }
 
 void board_header_update(int x, int y, int m) {
-    int * rec = record_reader();
-    int * sav = save_reader();
+    struct readers rd;
+    rd.rec = record_reader();
+    rd.sav = save_reader();
     switch (m) {
         case 0:
             move(HDR_ROW_STATS, HDR_KILL);
-            printw("%d", rec[0]);
-            if (rec[0] < 10) {
+            printw("%d", rd.rec[0]);
+            if (rd.rec[0] < 10) {
                 move(1, HDR_KILL+1);
                 printw(" ");
             }
             break;
         case 1:
             move(HDR_ROW_STATS, HDR_DEATH);
-            printw("%d", rec[1]);
-            if (rec[1] < 10) {
+            printw("%d", rd.rec[1]);
+            if (rd.rec[1] < 10) {
                 move(1, HDR_DEATH+1);
                 printw(" ");
             }
             break;
         case 2:
             move(HDR_ROW_STATS, HDR_SPARE);
-            printw("%d", rec[2]);
-            if (rec[2] < 10) {
+            printw("%d", rd.rec[2]);
+            if (rd.rec[2] < 10) {
                 move(1, HDR_SPARE+1);
                 printw(" ");
             }
@@ -68,16 +82,16 @@ void board_header_update(int x, int y, int m) {
             break;
         case 4:
             move(HDR_ROW_PLAYER, HDR_HP);
-            printw("%d", sav[1]);
-            if (sav[1] < 10) {
+            printw("%d", rd.sav[1]);
+            if (rd.sav[1] < 10) {
                 move(3, HDR_HP+1);
                 printw(" ");
             }
             break;
         case 5:
             move(HDR_ROW_PLAYER, HDR_STR);
-            printw("%d", sav[2]);
-            if (sav[2] < 10) {
+            printw("%d", rd.sav[2]);
+            if (rd.sav[2] < 10) {
                 move(3, HDR_STR+1);
                 printw(" ");
             }
@@ -88,31 +102,31 @@ void board_header_update(int x, int y, int m) {
             break;
         case 7:
             move(HDR_ROW_ENEMY, HDR_HP);
-            printw("%d", sav[4]);
-            if (sav[4] < 10) {
+            printw("%d", rd.sav[4]);
+            if (rd.sav[4] < 10) {
                 move(5, HDR_HP+1);
                 printw(" ");
             }
             break;
         case 8:
             move(HDR_ROW_ENEMY, HDR_STR);
-            printw("%d", sav[5]);
-            if (sav[5] < 10) {
+            printw("%d", rd.sav[5]);
+            if (rd.sav[5] < 10) {
                 move(5, HDR_STR+1); 
                 printw(" ");
             }
             break;
         case 9:
             move(HDR_ITM_POTION, 1);
-            printw("%d", sav[7]);
+            printw("%d", rd.sav[7]);
             break;
         case 10:
             move(HDR_ITM_SPEAR, 1);
-            printw("%d", sav[8]);
+            printw("%d", rd.sav[8]);
             break;
         case 11:
             move(HDR_ITM_POISON, 1);
-            printw("%d", sav[9]);
+            printw("%d", rd.sav[9]);
             break;
     }
     move(y, x);
@@ -120,17 +134,18 @@ void board_header_update(int x, int y, int m) {
 }
 
 int entity_alive(int kind) {
-	int * sav = save_reader();
+    struct readers rd;
+	rd.sav = save_reader();
 	if (kind == 0) {
-		if (sav[1] > 0) {
+		if (rd.sav[1] > 0) {
             return 0;
-        } else if (sav[1] <= 0) {
+        } else if (rd.sav[1] <= 0) {
             return 1;
         }
 	} else if (kind == 1) {
-		if (sav[4] > 0) { 
+		if (rd.sav[4] > 0) { 
             return 0; 
-        } else if (sav[4] <= 0) { 
+        } else if (rd.sav[4] <= 0) { 
             return 1;
         }
 	}
@@ -138,22 +153,22 @@ int entity_alive(int kind) {
 }
 
 void scr_newgame(int x, int y) {
+    struct game_vars gv;
     for (int i = 6; i < 11; i++) { // destroy anything below header
         move(i, 0); printw("\n");
     }
     refresh();
-    int pos_y = 7;
-    int pos_x = 6;
-    int loop = 0;
-    move(pos_y, 0);
+    gv.loop = 0;
+    move(BRD_SPAWN_OPTS, 0);
     printw("Play again?");
     move(NG_YES, 0);
     printw(TBOARD_YES);
     move(NG_NO, 0);
     printw(TBOARD_NO);
-    pos_y = NG_YES;
-	while (loop == 0) {
-		move(pos_y, pos_x);
+    gv.pos_y = NG_YES;
+    gv.pos_x = 6;
+	while (gv.loop == 0) {
+		move(gv.pos_y, gv.pos_x);
         printw("<");
 		refresh();
 		switch (getch()) {
@@ -166,59 +181,64 @@ void scr_newgame(int x, int y) {
 			case KEY_DOWN:
             case 's':
 			case 'k':
-				mvdelch(pos_y, pos_x);
-				if (pos_y == NG_NO) {
-					pos_y = NG_YES;
+				mvdelch(gv.pos_y, gv.pos_x);
+				if (gv.pos_y == NG_NO) {
+					gv.pos_y = NG_YES;
 				} else {
-                    pos_y += 1;
+                    gv.pos_y += 1;
                 }
                 break;
 			case KEY_UP:
             case 'w':
 			case 'i':
-				mvdelch(pos_y, pos_x);
-				if (pos_y == NG_YES) {
-					pos_y = NG_NO;
+				mvdelch(gv.pos_y, gv.pos_x);
+				if (gv.pos_y == NG_YES) {
+					gv.pos_y = NG_NO;
 				} else {
-                    pos_y -= 1;
+                    gv.pos_y -= 1;
                 }
                 break;
             case '\n':
-				mvdelch(pos_y, pos_x);
-                loop = 1;
+				mvdelch(gv.pos_y, gv.pos_x);
+                gv.loop = 1;
                 break;
 			default:
                 break;
 		}
 	}
-    if (pos_y == 9) {
+    if (gv.pos_y == 9) {
         stats_deploy();
         scr_board();
-    } else if (pos_y == 10) {
+    } else if (gv.pos_y == 10) {
         screen_down();
         exit(0);
     }
 }
 
 void scr_poison(int x, int y) {
-    int * sav = save_reader();
-    if (sav[10] >= 1 && sav[10] <= 4 && sav[1] > 0 && sav[4] > 0) {
+    struct readers rd;
+    rd.sav = save_reader();
+    if (rd.sav[10] >= 1 && rd.sav[10] <= 4 && rd.sav[1] > 0 && rd.sav[4] > 0) {
         move(12, 0);
-        if (sav[10] == 4) {
+        if (rd.sav[10] == 4) {
 			save_writer(10, 0); // set poison effects back to 0 (disabled)
 			printw("The %s shakes off the poison.", enemy_race_display(1));
             refresh();
             scr_sleep(750);
 		} else {
 			int dam = (rand()%4)+1;
-			save_writer(10, sav[10]+1); // increment
-			save_writer(4, sav[4]-dam); // damage
+			save_writer(10, rd.sav[10]+1); // increment
+			save_writer(4, rd.sav[4]-dam); // damage
             board_header_update(0, 12, 7);
 			printw("The %s lost %dHP from the poison!", enemy_race_display(1), dam);
             refresh();
             scr_sleep(750);
 		}
-    } move(12,0); printw("\n"); refresh(); move(y, x);
+    }
+    move(ITM_SPAWN_OPTS, 0);
+    printw("\n");
+    refresh();
+    move(y, x);
 }
 
 void scr_result(int x, int y) {
@@ -253,29 +273,31 @@ void scr_result(int x, int y) {
 }
 
 void scr_board() {
-    int pos_x = 0;
-    int pos_y = 0;
-    int game = 0;
-    int game_o = 0;
-    int * sav = save_reader();
+    struct game_vars gv;
+    struct readers rd;
+    gv.pos_x = 0;
+    gv.pos_y = 0;
+    gv.game = 0;
+    gv.game_o = 0;
+    rd.sav = save_reader();
     int sel_int[4] = {BRD_FIGHT, BRD_ITEMS, BRD_SPARE, BRD_EXIT};
     char* sel_txt[4] = {TBOARD_FIGHT, TBOARD_ITEMS, TBOARD_SPARE, TBOARD_EXIT};
     clear();
-    board_header(pos_x, pos_y);
+    board_header(gv.pos_x, gv.pos_y);
     for (int i = 0; i < 9; i++) {
-        board_header_update(pos_x, pos_y, i);
+        board_header_update(gv.pos_x, gv.pos_y, i);
     }
     for (int i = 0; i < 4; i++) {
-        move(sel_int[i], pos_x);
+        move(sel_int[i], gv.pos_x);
         printw("%s", sel_txt[i]);
     }
     refresh();
-    pos_y = BRD_FIGHT;
-    pos_x = 10;
-    while (game_o == 0) { // begin main loop
-        scr_result(pos_x, pos_y); // did somebody win?
-        while (game == 0) { // begin play loop
-            move(pos_y, pos_x);
+    gv.pos_y = BRD_FIGHT;
+    gv.pos_x = 10;
+    while (gv.game_o == 0) { // begin main loop
+        scr_result(gv.pos_x, gv.pos_y); // did somebody win?
+        while (gv.game == 0) { // begin play loop
+            move(gv.pos_y, gv.pos_x);
             printw("<");
             refresh();
             switch (getch()) {
@@ -288,75 +310,75 @@ void scr_board() {
                 case KEY_DOWN:
                 case 's':
                 case 'k':
-                    mvdelch(pos_y, pos_x);
-                    if (pos_y == BRD_EXIT) {
-                        pos_y = BRD_FIGHT;
+                    mvdelch(gv.pos_y, gv.pos_x);
+                    if (gv.pos_y == BRD_EXIT) {
+                        gv.pos_y = BRD_FIGHT;
                     } else {
-                        pos_y += 1;
+                        gv.pos_y += 1;
                     }
                     break;
                 case KEY_UP:
                 case 'w':
                 case 'i':
-                    mvdelch(pos_y, pos_x);
-                    if (pos_y == BRD_FIGHT) {
-                        pos_y = BRD_EXIT;
+                    mvdelch(gv.pos_y, gv.pos_x);
+                    if (gv.pos_y == BRD_FIGHT) {
+                        gv.pos_y = BRD_EXIT;
                     } else {
-                        pos_y -= 1;
+                        gv.pos_y -= 1;
                     }
                     break;
                 case '\n':
-                    game = 1; // newline causes game loop break
+                    gv.game = 1; // newline causes game loop break
                     break;
                 default:
                     break;
             }
         }
-        if (game == 1) {
-            switch (pos_y) {
+        if (gv.game == 1) {
+            switch (gv.pos_y) {
                 case 7:
                     attack(0, 12, 0);
-                    sav = save_reader();
-                    if (sav[1] > 0 && sav[4] > 0) {
+                    rd.sav = save_reader();
+                    if (rd.sav[1] > 0 && rd.sav[4] > 0) {
                         attack(0, 13, 1);
                     }
-                    move(pos_y+5, 0); // clear popup
+                    move(gv.pos_y+5, 0); // clear popup
                     printw("\n");
-                    move(pos_y+6, 0);
+                    move(gv.pos_y+6, 0);
                     printw("\n");
-                    move(pos_y, pos_x);
+                    move(gv.pos_y, gv.pos_x);
                     refresh();
-                    scr_poison(pos_x, pos_y);  // check if poison loop is active
-                    game = 0; // re-enter main loop
+                    scr_poison(gv.pos_x, gv.pos_y);  // check if poison loop is active
+                    gv.game = 0; // re-enter main loop
                     break;
                 case 8:
-                    if (items(pos_x, pos_y) == 0) {
-                        sav = save_reader();
-                        if (sav[4] > 0) {
+                    if (items(gv.pos_x, gv.pos_y) == 0) {
+                        rd.sav = save_reader();
+                        if (rd.sav[4] > 0) {
                             attack(0, 12, 1);
                         }
                         move(12, 0);
                         printw("\n");
-                        move(pos_y, pos_x);
-                        scr_poison(pos_x, pos_y);
+                        move(gv.pos_y, gv.pos_x);
+                        scr_poison(gv.pos_x, gv.pos_y);
                     }
                     refresh();
-                    game = 0;
+                    gv.game = 0;
                     break;
                 case 9:
-                    if (spare(pos_y, pos_x) == 1) {
+                    if (spare(gv.pos_y, gv.pos_x) == 1) {
                         attack(0, 12, 1);
                         move(12, 0);
                         printw("\n");
                     } else {
                         move(12, 0);
                         printw("\n");
-                        move(pos_y, pos_x);
+                        move(gv.pos_y, gv.pos_x);
                         refresh();
-                        scr_newgame(pos_x, pos_y);
+                        scr_newgame(gv.pos_x, gv.pos_y);
                     }
                     refresh();
-                    game = 0;
+                    gv.game = 0;
                     break;
                 case 10:
                     scr_landing();
@@ -517,12 +539,12 @@ void landing_reset() {
 }
 
 void scr_landing() {
-    clear();
-    int pos_x = 0;
-    int pos_y = 0;
+    struct game_vars gv;
+    gv.pos_x = 0;
+    gv.pos_y = 0;
     save_exists();
     record_exists();
-    move(pos_y, pos_x);
+    clear();
     int sel_int[4] = {LND_PLAY,
                      LND_RESET,
                      LND_CREDITS,
@@ -531,25 +553,26 @@ void scr_landing() {
                        TBOARD_RESET,
                        TBOARD_CREDITS,
                        TBOARD_EXIT};
+    move(gv.pos_y, gv.pos_x);
     for (int i = 0; i < 7; i++) {
         printw("%s\n", splash_ascii[i]);
-        pos_y += 1;
-        move(pos_y, pos_x);
+        gv.pos_y += 1;
+        move(gv.pos_y, gv.pos_x);
     }
     refresh();
     for (int i = 0; i < 4; i++) {
-        move(sel_int[i], pos_x);
+        move(sel_int[i], gv.pos_x);
         printw("%s", sel_txt[i]);
     }
-    pos_y = LND_PLAY;
-    pos_x = 10;
-    int game_o = 0;
-    while (game_o == 0) {
-        int game = 0;
+    gv.pos_y = LND_PLAY;
+    gv.pos_x = 10;
+    gv.game_o = 0;
+    while (gv.game_o == 0) {
+        gv.game = 0;
         save_exists();
         record_exists();
-        while (game == 0) {
-            move(pos_y, pos_x);
+        while (gv.game == 0) {
+            move(gv.pos_y, gv.pos_x);
             printw("<");
             refresh();
             switch (getch()) {
@@ -562,32 +585,32 @@ void scr_landing() {
                 case KEY_UP:
                 case 'w':
                 case 'i':
-                    mvdelch(pos_y, pos_x);
-                    if (pos_y == LND_PLAY) {
-                        pos_y = LND_EXIT;
+                    mvdelch(gv.pos_y, gv.pos_x);
+                    if (gv.pos_y == LND_PLAY) {
+                        gv.pos_y = LND_EXIT;
                     } else {
-                        pos_y -= 1;
+                        gv.pos_y -= 1;
                     }
                     break;
                 case KEY_DOWN:
                 case 's':
                 case 'k':
-                    mvdelch(pos_y, pos_x);
-                    if (pos_y == LND_EXIT) {
-                        pos_y = LND_PLAY;
+                    mvdelch(gv.pos_y, gv.pos_x);
+                    if (gv.pos_y == LND_EXIT) {
+                        gv.pos_y = LND_PLAY;
                     } else {
-                        pos_y += 1;
+                        gv.pos_y += 1;
                     }
                     break;
                 case '\n':
-                    game = 1;
+                    gv.game = 1;
                     break;
                 default:
                     break;
             }
-        } switch (pos_y) {
+        } switch (gv.pos_y) {
                 case 8:
-                    game_o = 1;
+                    gv.game_o = 1;
                     break;
                 case 9:
                     landing_reset();
@@ -604,7 +627,7 @@ void scr_landing() {
         refresh();
     }
     int * sav = save_reader();
-    if (game_o == 1) {
+    if (gv.game_o == 1) {
         for (int i = 0; i < 5; i++) {
             if (sav[i] == 0) {
                 stats_deploy();

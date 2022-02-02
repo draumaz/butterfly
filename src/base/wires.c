@@ -6,6 +6,19 @@
 #include <string.h>
 #include <curses.h>
 
+struct readers {
+    int * rec;
+    int * sav;
+};
+
+struct game_vars {
+    int pos_x;
+    int pos_y;
+    int loop;
+    int game;
+    int game_o;
+};
+
 char* version() {
     return "0.14";
 }
