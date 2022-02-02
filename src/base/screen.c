@@ -144,13 +144,13 @@ void scr_newgame(int x, int y) {
     refresh();
     int pos_y = 7;
     int pos_x = 6;
+    int loop = 0;
     move(pos_y, 0);
     printw("Play again?");
-    pos_y += 2; move(pos_y, 0); // 9
-    printw("[YES]");
-    pos_y += 1; move(pos_y, 0); // 10
-    printw("[NO ]");
-	int loop = 0;
+    move(NG_YES, 0);
+    printw(TBOARD_YES);
+    move(NG_NO, 0);
+    printw(TBOARD_NO);
     pos_y = NG_YES;
 	while (loop == 0) {
 		move(pos_y, pos_x);
@@ -258,8 +258,8 @@ void scr_board() {
     int game = 0;
     int game_o = 0;
     int * sav = save_reader();
-    int sel_int[] = {BRD_FIGHT, BRD_ITEMS, BRD_SPARE, BRD_EXIT};
-    char* sel_txt[] = {"[FIGHT  ]", "[ITEMS  ]", "[SPARE  ]", "[EXIT   ]"};
+    int sel_int[4] = {BRD_FIGHT, BRD_ITEMS, BRD_SPARE, BRD_EXIT};
+    char* sel_txt[4] = {TBOARD_FIGHT, TBOARD_ITEMS, TBOARD_SPARE, TBOARD_EXIT};
     clear();
     board_header(pos_x, pos_y);
     for (int i = 0; i < 9; i++) {
@@ -370,8 +370,8 @@ void landing_credits() {
 	char* catboy_contribs[5] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Game naming", "Playtest"};
 	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
     char* cano_contribs[2] = {"Character naming", "Inspiration"};
-	int b[] = {500, 500, 100};
-    int c[] = {35, 20, 10};
+	int b[3] = {500, 500, 100};
+    int c[3] = {35, 20, 10};
     int pos = 1;
 	clear();
 	move(1, 0);
@@ -426,8 +426,8 @@ void landing_reset() {
     int * sav = save_reader();
     int * rec = record_reader();
     move(pos_y, pos_x);
-    if (sav[0] == 0 &&
-        sav[1] == 0 &&
+    if (sav[0] == 0 && // this really needs to be
+        sav[1] == 0 && // refactored lmao
         sav[2] == 0 &&
         sav[3] == 0 &&
         sav[4] == 0 &&
@@ -451,10 +451,10 @@ void landing_reset() {
         return;
     }
     printw("Just to verify, you want to reset your save & record files?");
-    move(RT_YES, pos_x);
-    printw("[YES]");
-    move(RT_NO, pos_x);
-    printw("[NO ]");
+    move(RT_YES, 0);
+    printw(TBOARD_YES);
+    move(RT_NO, 0);
+    printw(TBOARD_NO);
     pos_y = RT_YES;
     pos_x = 6;
     while (game == 0) {
@@ -523,14 +523,14 @@ void scr_landing() {
     save_exists();
     record_exists();
     move(pos_y, pos_x);
-    int sel_int[] = {LND_PLAY,
+    int sel_int[4] = {LND_PLAY,
                      LND_RESET,
                      LND_CREDITS,
                      LND_EXIT};
-    char* sel_txt[] = {"[PLAY   ]",
-                       "[RESET  ]",
-                       "[CREDITS]",
-                       "[EXIT   ]"};
+    char* sel_txt[4] = {TBOARD_PLAY,
+                       TBOARD_RESET,
+                       TBOARD_CREDITS,
+                       TBOARD_EXIT};
     for (int i = 0; i < 7; i++) {
         printw("%s\n", splash_ascii[i]);
         pos_y += 1;
