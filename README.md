@@ -35,7 +35,7 @@ This is a text-based TBBS with fantasy creatures, projectile weapons, poisonous 
 
 - ```cd butterfly```
 
-- ```patch -ruN < patches/clang_make.patch```
+- ```patch < patches/clang_make.patch```
 
 #### If you encounter anything in your builds that feel like bugs, report them and I'll fix it as soon as possible!
 
