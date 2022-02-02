@@ -20,7 +20,6 @@
 
 // END text //
 
-
 // BEGIN axis: x //
 
 #define HDR_KILL 25
