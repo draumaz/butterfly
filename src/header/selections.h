@@ -2,36 +2,50 @@
 #define CTRL(c) ((c) & 037)
 #endif
 
-#define NG_YES 9 // Y
-#define NG_NO 10
-
-#define RT_YES 15 // Y
-#define RT_NO 16
-
-#define BRD_FIGHT 7 // Y
-#define BRD_ITEMS 8
-#define BRD_SPARE 9
-#define BRD_EXIT 10
-
-#define LND_PLAY 8 // Y
-#define LND_RESET 9
-#define LND_CREDITS 10
-#define LND_EXIT 11
-
-#define HDR_ROW_STATS 1 // Y
-#define HDR_ROW_PLAYER 3
-#define HDR_ROW_ENEMY 5
-#define HDR_KILL 25 // X
+// X //
+#define HDR_KILL 25
 #define HDR_DEATH 39
 #define HDR_SPARE 53
+// X //
+
+// Y //
+#define NG_SPAWN_OPTS 9
+#define RT_SPAWN_OPTS 15
+#define BRD_SPAWN_OPTS 7
+#define LND_SPAWN_OPTS 8
+#define HDR_SPAWN 1
+#define ITM_SPAWN_OPTS 12
+
+#define NG_YES NG_SPAWN_OPTS
+#define NG_NO NG_SPAWN_OPTS + 1
+
+#define RT_YES RT_SPAWN_OPTS
+#define RT_NO RT_SPAWN_OPTS + 1
+
+#define BRD_FIGHT BRD_SPAWN_OPTS
+#define BRD_ITEMS BRD_SPAWN_OPTS + 1
+#define BRD_SPARE BRD_SPAWN_OPTS + 2
+#define BRD_EXIT BRD_SPAWN_OPTS + 3
+
+#define LND_PLAY LND_SPAWN_OPTS
+#define LND_RESET LND_SPAWN_OPTS + 1
+#define LND_CREDITS LND_SPAWN_OPTS + 2
+#define LND_EXIT LND_SPAWN_OPTS + 3
+
+#define HDR_ROW_STATS HDR_SPAWN
+#define HDR_ROW_PLAYER HDR_SPAWN + 2
+#define HDR_ROW_ENEMY HDR_SPAWN + 4
+
 #define HDR_RACE 7
 #define HDR_HP 20
 #define HDR_STR 30
-#define HDR_ITM_POTION 12 // Y
+
+#define HDR_ITM_POTION 12
 #define HDR_ITM_SPEAR 13
 #define HDR_ITM_POISON 14
 
-#define ITM_POTION 12 // Y
-#define ITM_SPEAR 13
-#define ITM_POISON 14
-#define ITM_BACK 15
+#define ITM_POTION ITM_SPAWN_OPTS
+#define ITM_SPEAR ITM_SPAWN_OPTS + 1
+#define ITM_POISON ITM_SPAWN_OPTS + 2
+#define ITM_BACK ITM_SPAWN_OPTS + 3
+// Y //
