@@ -2,13 +2,35 @@
 #define CTRL(c) ((c) & 037)
 #endif
 
-// X //
+// BEGIN text //
+
+#define TBOARD_L "["
+#define TBOARD_R "]"
+
+#define TBOARD_YES TBOARD_L "YES" TBOARD_R
+#define TBOARD_NO TBOARD_L "NO " TBOARD_R
+#define TBOARD_FIGHT TBOARD_L "FIGHT  " TBOARD_R
+#define TBOARD_ITEMS TBOARD_L "ITEMS  " TBOARD_R
+#define TBOARD_SPARE TBOARD_L "SPARE  " TBOARD_R
+#define TBOARD_EXIT TBOARD_L "EXIT   " TBOARD_R
+#define TBOARD_PLAY TBOARD_L "PLAY   " TBOARD_R
+#define TBOARD_RESET TBOARD_L "RESET  " TBOARD_R
+#define TBOARD_CREDITS TBOARD_L "CREDITS" TBOARD_R
+#define TBOARD_EXIT TBOARD_L "EXIT   " TBOARD_R
+
+// END text //
+
+
+// BEGIN axis: x //
+
 #define HDR_KILL 25
 #define HDR_DEATH 39
 #define HDR_SPARE 53
-// X //
 
-// Y //
+// END axis: x //
+
+// BEGIN axis: y //
+
 #define NG_SPAWN_OPTS 9
 #define RT_SPAWN_OPTS 15
 #define BRD_SPAWN_OPTS 7
@@ -48,4 +70,5 @@
 #define ITM_SPEAR ITM_SPAWN_OPTS + 1
 #define ITM_POISON ITM_SPAWN_OPTS + 2
 #define ITM_BACK ITM_SPAWN_OPTS + 3
-// Y //
+
+// END axis: y //
