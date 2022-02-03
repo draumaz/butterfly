@@ -23,6 +23,7 @@ struct readers {
 struct game_vars {
     int loop;
     int game;
+    int empty;
     int game_o;
     int pos_x;
     int pos_y;
@@ -442,32 +443,31 @@ void landing_credits() {
 }
 
 void landing_reset() {
-    int pos_x = 0;
-    int pos_y = 13;
-    int game = 0;
-    int * sav = save_reader();
-    int * rec = record_reader();
-    move(pos_y, pos_x);
-    if (sav[0] == 0 && // this really needs to be
-        sav[1] == 0 && // refactored lmao
-        sav[2] == 0 &&
-        sav[3] == 0 &&
-        sav[4] == 0 &&
-        sav[5] == 0 &&
-        sav[6] == 0 &&
-        sav[7] == 0 &&
-        sav[8] == 0 &&
-        sav[9] == 0 &&
-        sav[10] == 0 &&
-        sav[11] == 0 &&
-        rec[0] == 0 &&
-        rec[1] == 0 &&
-        rec[2] == 0) {
+    struct game_vars gv;
+    struct readers rd;
+    gv.pos_x = 0;
+    gv.pos_y = 13;
+    gv.empty = 0;
+    gv.game = 0;
+    rd.sav = save_reader();
+    rd.rec = record_reader();
+    move(gv.pos_y, gv.pos_x);
+    for (int i = 0; i < 12; i++) {
+        if (i < 3) {
+            if (rd.rec[i] == 0) {
+                gv.empty += 1;
+            }
+        }
+        if (rd.sav[i] == 0) {
+            gv.empty += 1;
+        }
+    }
+    if (gv.empty == 15) {
         printw("No need to reset, your files are already blank.");
         refresh();
         scr_sleep(500);
         for (int i = 0; i < 7; i++) {
-            move(pos_y-(i-6),0);
+            move(gv.pos_y-(i-6),0);
             printw("\n");
         }
         return;
@@ -477,10 +477,10 @@ void landing_reset() {
     printw(TBOARD_YES);
     move(RT_NO, 0);
     printw(TBOARD_NO);
-    pos_y = RT_YES;
-    pos_x = 6;
-    while (game == 0) {
-        move(pos_y, pos_x);
+    gv.pos_y = RT_YES;
+    gv.pos_x = 6;
+    while (gv.game == 0) {
+        move(gv.pos_y, gv.pos_x);
         printw("<");
         refresh();
         switch (getch()) {
@@ -493,31 +493,31 @@ void landing_reset() {
             case KEY_UP:
             case 'w':
             case 'i':
-                mvdelch(pos_y, pos_x);
-                if (pos_y == RT_NO) {
-                    pos_y -= 1;
+                mvdelch(gv.pos_y, gv.pos_x);
+                if (gv.pos_y == RT_NO) {
+                    gv.pos_y -= 1;
                 } else {
-                    pos_y += 1;
+                    gv.pos_y += 1;
                 }
                 break;
             case KEY_DOWN:
             case 's':
 			case 'k':
-				mvdelch(pos_y, pos_x);
-				if (pos_y == RT_YES) {
-					pos_y += 1;
+				mvdelch(gv.pos_y, gv.pos_x);
+				if (gv.pos_y == RT_YES) {
+					gv.pos_y += 1;
 				} else {
-                    pos_y -= 1;
+                    gv.pos_y -= 1;
                 }
                 break;
             case '\n':
-                game = 1;
+                gv.game = 1;
                 break;
 			default:
                 break;
         }
     }
-    switch (pos_y) {
+    switch (gv.pos_y) {
         case 15:
             move(18, 0);
             if (remove("data.txt") != 0 || remove("record.txt") != 0) {
@@ -532,7 +532,7 @@ void landing_reset() {
             break;
     }
     for (int i = 0; i < 10; i++) {
-        move(pos_y-(i-6),0);
+        move(gv.pos_y-(i-6),0);
         printw("\n");
     }
     refresh();
