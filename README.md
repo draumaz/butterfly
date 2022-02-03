@@ -31,7 +31,7 @@ This is a text-based TBBS with fantasy creatures, projectile weapons, poisonous 
 
 ### Notes for non-GNU C compilers
 
-- Clang handles Butterfly slightly differently than GCC. To compile with it, apply patches/clang_make.patch to the root of the cloned repo.
+Clang handles Butterfly slightly differently than GCC. To compile with it, apply patches/clang_make.patch to the root of the cloned repo.
 
 - ```cd butterfly```
 
