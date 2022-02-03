@@ -29,7 +29,7 @@ This is a text-based TBBS with fantasy creatures, projectile weapons, poisonous 
 
 - ```./butterfly-debug```
 
-### Notes for non-GNU C compilers
+### Notes for non-GNU C compilers (macOS, BSD, etc.)
 
 Clang handles Butterfly slightly differently than GCC. To compile with it, apply patches/clang_make.patch to the root of the cloned repo.
 
