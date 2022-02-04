@@ -39,11 +39,11 @@ char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __ 
 };
 
 void board_header(int x, int y) {
-    move(1, 0);
+    move(HDR_ROW_STATS, 0);
     printw("Butterfly v%s | KILLS:     | DEATHS:     | SPARES:   ", version());
-    move(3, 0);
+    move(HDR_ROW_PLAYER, 0);
     printw("PLAYR:        | HP:    | STR:    ");
-    move(5, 0);
+    move(HDR_ROW_ENEMY, 0);
     printw("ENEMY:        | HP:    | STR:    ");
     move(y, x);
 }
@@ -57,7 +57,7 @@ void board_header_update(int x, int y, int m) {
             move(HDR_ROW_STATS, HDR_KILL);
             printw("%d", rd.rec[0]);
             if (rd.rec[0] < 10) {
-                move(1, HDR_KILL+1);
+                move(HDR_ROW_STATS, HDR_KILL+1);
                 printw(" ");
             }
             break;
@@ -65,7 +65,7 @@ void board_header_update(int x, int y, int m) {
             move(HDR_ROW_STATS, HDR_DEATH);
             printw("%d", rd.rec[1]);
             if (rd.rec[1] < 10) {
-                move(1, HDR_DEATH+1);
+                move(HDR_ROW_STATS, HDR_DEATH+1);
                 printw(" ");
             }
             break;
@@ -73,7 +73,7 @@ void board_header_update(int x, int y, int m) {
             move(HDR_ROW_STATS, HDR_SPARE);
             printw("%d", rd.rec[2]);
             if (rd.rec[2] < 10) {
-                move(1, HDR_SPARE+1);
+                move(HDR_ROW_STATS, HDR_SPARE+1);
                 printw(" ");
             }
             break;
@@ -85,7 +85,7 @@ void board_header_update(int x, int y, int m) {
             move(HDR_ROW_PLAYER, HDR_HP);
             printw("%d", rd.sav[1]);
             if (rd.sav[1] < 10) {
-                move(3, HDR_HP+1);
+                move(HDR_ROW_PLAYER, HDR_HP+1);
                 printw(" ");
             }
             break;
@@ -93,7 +93,7 @@ void board_header_update(int x, int y, int m) {
             move(HDR_ROW_PLAYER, HDR_STR);
             printw("%d", rd.sav[2]);
             if (rd.sav[2] < 10) {
-                move(3, HDR_STR+1);
+                move(HDR_ROW_PLAYER, HDR_STR+1);
                 printw(" ");
             }
             break;
@@ -105,7 +105,7 @@ void board_header_update(int x, int y, int m) {
             move(HDR_ROW_ENEMY, HDR_HP);
             printw("%d", rd.sav[4]);
             if (rd.sav[4] < 10) {
-                move(5, HDR_HP+1);
+                move(HDR_ROW_ENEMY, HDR_HP+1);
                 printw(" ");
             }
             break;
@@ -113,7 +113,7 @@ void board_header_update(int x, int y, int m) {
             move(HDR_ROW_ENEMY, HDR_STR);
             printw("%d", rd.sav[5]);
             if (rd.sav[5] < 10) {
-                move(5, HDR_STR+1); 
+                move(HDR_ROW_ENEMY, HDR_STR+1); 
                 printw(" ");
             }
             break;
@@ -220,6 +220,7 @@ void scr_poison(int x, int y) {
     struct readers rd;
     rd.sav = save_reader();
     if (rd.sav[10] >= 1 && rd.sav[10] <= 4 && rd.sav[1] > 0 && rd.sav[4] > 0) {
+        // potion is active and below 4, player/enemy alive
         move(12, 0);
         if (rd.sav[10] == 4) {
 			save_writer(10, 0); // set poison effects back to 0 (disabled)
@@ -390,11 +391,17 @@ void scr_board() {
 }
 
 void landing_credits() {
-	char* catboy_contribs[5] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Game naming", "Playtest"};
-	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
+	char* catboy_contribs[5] = {"ARMv8 experimentation",
+                                "Quality assurance",
+                                "Battle design",
+                                "Game naming",
+                                "Playtest"};
+	char* draumaz_contribs[3] = {"Developed by draumaz",
+                                 " in C!",
+                                 " (with the lovely curses library)"};
 	int b[3] = {500, 500, 100};
     int c[3] = {35, 20, 10};
-    int pos = 1;
+    int pos = HDR_SPAWN;
 	clear();
 	move(1, 0);
 	scr_popwrite("Butterfly", 30); printw(",");
@@ -412,7 +419,7 @@ void landing_credits() {
     scr_sleep(1000);
 	pos += 2;
     move(pos, 0);
-	scr_popwrite("Co-developed by:",35);
+	scr_popwrite("Contributors:",35);
 	scr_sleep(500);
 	pos += 2;
     move(pos, 0);
