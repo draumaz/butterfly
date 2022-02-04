@@ -29,13 +29,13 @@ This is a text-based TBBS with fantasy creatures, projectile weapons, poisonous 
 
 - ```./butterfly-debug```
 
-### Notes for non-GNU C compilers (macOS, BSD, etc.)
+### Notes for non-Linux compilation
 
-Clang handles Butterfly slightly differently than GCC. To compile with it, apply patches/clang_make.patch to the root of the cloned repo.
+Butterfly compiles slightly differently on non-Linux platforms. To compile on them, apply patches/non_linux.patch to the root of the cloned repo.
 
 - ```cd butterfly```
 
-- ```patch < patches/clang_make.patch```
+- ```patch < patches/non_linux.patch```
 
 - ```make```
 
@@ -46,7 +46,5 @@ Clang handles Butterfly slightly differently than GCC. To compile with it, apply
 # Acknowledgements
 
 catboy6969 - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
-
-Bryce Cano - character naming, inspiration
 
 <a href="https://carbon.now.sh/">Carbon</a> - screenshots
