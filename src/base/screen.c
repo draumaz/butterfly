@@ -392,7 +392,6 @@ void scr_board() {
 void landing_credits() {
 	char* catboy_contribs[5] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Game naming", "Playtest"};
 	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
-    char* cano_contribs[2] = {"Character naming", "Inspiration"};
 	int b[3] = {500, 500, 100};
     int c[3] = {35, 20, 10};
     int pos = 1;
@@ -413,7 +412,7 @@ void landing_credits() {
     scr_sleep(1000);
 	pos += 2;
     move(pos, 0);
-	scr_popwrite("Special thanks to:",35);
+	scr_popwrite("Co-developed by:",35);
 	scr_sleep(500);
 	pos += 2;
     move(pos, 0);
@@ -425,20 +424,7 @@ void landing_credits() {
 		pos += 1;
         move(pos, 0);
         refresh();
-	} 
-    scr_sleep(500);
-    pos+= 1;
-    move(pos, 0);
-	printw("Bryce Cano!");
-    pos += 2;
-    move(pos, 0);
-    for (int i = 0; i < 2; i++) {
-        scr_popwrite(cano_contribs[i], 25);
-        pos +=1;
-        move(pos, 0);
-        refresh();
-    }
-	refresh();
+	}
 	scr_sleep(1000);
 }
 
