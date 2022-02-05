@@ -1,6 +1,6 @@
 #include "./../header/joystick.h"
 
 int main() { 
-    joystick();
-    return 0;
+	joystick();
+	return 0;
 }
