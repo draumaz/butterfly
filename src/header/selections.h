@@ -24,6 +24,9 @@
 #define HDR_KILL 25
 #define HDR_DEATH 39
 #define HDR_SPARE 53
+#define HDR_RACE 7
+#define HDR_HP 20
+#define HDR_STR 30
 
 // END axis: x //
 
@@ -55,10 +58,6 @@
 #define HDR_ROW_STATS HDR_SPAWN
 #define HDR_ROW_PLAYER HDR_SPAWN + 2
 #define HDR_ROW_ENEMY HDR_SPAWN + 4
-
-#define HDR_RACE 7
-#define HDR_HP 20
-#define HDR_STR 30
 
 #define HDR_ITM_POTION 12
 #define HDR_ITM_SPEAR 13
