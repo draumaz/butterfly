@@ -25,7 +25,8 @@ void scr_sleep(int ms) {
 
 void scr_popwrite(char* l, int p) {
 	for (unsigned long int i = 0; i < strlen(l); i++) {
-		printw("%c",l[i]); refresh();
+		printw("%c",l[i]);
+		refresh();
 		scr_sleep(p);
 	}
 }
