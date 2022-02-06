@@ -37,17 +37,17 @@ int items(int x, int y) {
 	rd.sav = save_reader();
 	move(ITM_POTION, av.pos_x);
 	printw("[%dx POTION]", rd.sav[7]);
-    	move(ITM_SPEAR, av.pos_x);
-    	printw("[%dx SPEAR ]", rd.sav[8]);
-    	move(ITM_POISON, av.pos_x);
-    	printw("[%dx POISON]", rd.sav[9]);
-    	move(ITM_BACK, av.pos_x);
-    	printw("[BACK     ]");
-    	if (rd.sav[6] == 0 || rd.sav[6] == 15) {
+	move(ITM_SPEAR, av.pos_x);
+	printw("[%dx SPEAR ]", rd.sav[8]);
+	move(ITM_POISON, av.pos_x);
+	printw("[%dx POISON]", rd.sav[9]);
+	move(ITM_BACK, av.pos_x);
+	printw("[BACK     ]");
+	if (rd.sav[6] == 0 || rd.sav[6] == 15) {
 		av.pos_y = ITM_POTION;
-    	} else {
+	} else {
 		av.pos_y = rd.sav[6]; // position at last saved
-    	}
+	}
 	av.pos_x = 12;
 	while (av.game == 0) {
 		move(av.pos_y, av.pos_x);
@@ -85,7 +85,7 @@ int items(int x, int y) {
 				break;
 			default:
 				break;
-        	}
+		}
 	}
 	if (av.pos_y != rd.sav[6]) {
 		save_writer(6, av.pos_y);
@@ -194,7 +194,7 @@ void attack(int x, int y, int way) {
 
 int spare(int x, int y) {
 	int result;
-    	int * sav = save_reader();
+	int * sav = save_reader();
 	y += 2;
 	move(y, 0);
 	printw("You attempt to spare the %s", enemy_race_display(1));
