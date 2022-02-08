@@ -31,7 +31,7 @@ This is a text-based TBBS with fantasy creatures, projectile weapons, poisonous 
 
 ### Notes for non-Linux compilation
 
-Butterfly compiles slightly differently on non-Linux platforms. To compile on them, apply patches/non_linux.patch to the root of the cloned repo.
+Butterfly requires slightly different build parameters on non-Linux platforms. To compile on them, apply patches/non_linux.patch to the Makefile.
 
 - ```cd butterfly```
 
