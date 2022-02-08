@@ -35,7 +35,7 @@ Butterfly compiles slightly differently on non-Linux platforms. To compile on th
 
 - ```cd butterfly```
 
-- ```patch < patches/non_linux.patch```
+- ```patch Makefile < patches/non_linux.patch```
 
 - ```make```
 
