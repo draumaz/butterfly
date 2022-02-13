@@ -1,4 +1,3 @@
-objs = gdata.c save_io.c record_io.c wires.c joystick.c screen.c action.c main.c
 CM = cd ./src/base/build
 
 butterfly:
