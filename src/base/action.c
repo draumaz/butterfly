@@ -103,7 +103,8 @@ int items(int x, int y) {
 			refresh();
 			if (av.item_used == 0) {
 				printw("You drink the potion, recovering 10HP!");
-			} else { 
+			} else {
+				av.item_used = 1;
 				printw("You don't have any potions left.");
 			}
 			refresh();
@@ -218,6 +219,7 @@ int spare(int x, int y) {
 	}
 	refresh();
 	scr_sleep(1000);
+	
 	move(y, 0);
 	printw("\n");
 	move(y+1, 0);

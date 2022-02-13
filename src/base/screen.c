@@ -357,9 +357,9 @@ void scr_board() {
 				case 8:
 					if (items(gv.pos_x, gv.pos_y) == 0) {
 						rd.sav = save_reader();
-					}
-					if (rd.sav[4] > 0) {
-						attack(0, 12, 1);
+						if (rd.sav[4] > 0) {
+							attack(0, 12, 1);
+						}
 					}
 					move(12, 0);
 					printw("\n");
