@@ -219,7 +219,6 @@ int spare(int x, int y) {
 	}
 	refresh();
 	scr_sleep(1000);
-	
 	move(y, 0);
 	printw("\n");
 	move(y+1, 0);
