@@ -1,16 +1,16 @@
 # Butterfly
-This is a text-based TBBS with fantasy creatures, projectile weapons, poisonous elixirs, and more.
+A text-based TBBS with fantasy creatures, projectile weapons, poisonous elixirs, and more.
 
 ![Main board](https://github.com/draumaz/butterfly/raw/main/media/btf-main.svg "Game screen")
 ![Item board](https://github.com/draumaz/butterfly/raw/main/media/btf-item.svg "Item screen")
 
 # Controls
 
-```W, I, UP``` - move up
+```W, I, UP``` - up
 
-```S, K, DOWN``` - move down
+```S, K, DOWN``` - down
 
-```ENTER``` - confirm
+```ENTER``` - select
 
 ```CTRL-Q, CTRL-C, Q``` - close game
 
