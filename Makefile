@@ -13,5 +13,5 @@ butterfly:
 	cd ./build && $(CC) $(CFLAGS) -Wall -lncurses -lm \
 	-ltinfo \
 	main.o gdata.o wires.o joystick.o screen.o record_io.o save_io.o action.o \
-	-o ../../../butterfly-debug
+	-o ../butterfly-debug
 	rm -r ./build
