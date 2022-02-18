@@ -196,7 +196,7 @@ void attack(int x, int y, int way) {
 int spare(int x, int y) {
 	int result;
 	int * sav = save_reader();
-	y += 2;
+	y += 4;
 	move(y, 0);
 	printw("You attempt to spare the %s", enemy_race_display(1));
 	refresh();

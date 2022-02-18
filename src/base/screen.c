@@ -40,7 +40,7 @@ char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __ 
 
 void board_header(int x, int y) {
 	move(HDR_ROW_STATS, 0);
-	printw("Butterfly v%s | KILLS:     | DEATHS:     | SPARES:   ", version());
+	printw("Butterfly v%s | KILLS:     | DEATHS:     | SPARES:   ", VERSION);
 	move(HDR_ROW_PLAYER, 0);
 	printw("PLAYR:        | HP:    | STR:    ");
 	move(HDR_ROW_ENEMY, 0);
@@ -284,7 +284,7 @@ void scr_board() {
 	gv.game_o = 0;
 	rd.sav = save_reader();
 	int sel_int[4] = {BRD_FIGHT, BRD_ITEMS, BRD_SPARE, BRD_EXIT};
-	char* sel_txt[4] = {TBOARD_FIGHT, TBOARD_ITEMS, TBOARD_SPARE, TBOARD_EXIT};
+	char* sel_txt[4] = {TBOARD_FIGHT, TBOARD_ITEMS, TBOARD_SPARE, TBOARD_EXIT_IG};
 	clear();
 	board_header(gv.pos_x, gv.pos_y);
 	for (int i = 0; i < 9; i++) {
@@ -296,7 +296,7 @@ void scr_board() {
 	}
 	refresh();
 	gv.pos_y = BRD_FIGHT;
-	gv.pos_x = 10;
+	gv.pos_x = 8;
 	while (gv.game_o == 0) { // begin main loop
 		scr_result(gv.pos_x, gv.pos_y); // did somebody win?
 		while (gv.game == 0) { // begin play loop
@@ -403,7 +403,7 @@ void landing_credits() {
 	refresh();
 	scr_sleep(500);
 	printw(" v");
-	scr_popwrite(version(), 15);
+	scr_popwrite(VERSION, 15);
 	scr_sleep(500);
 	pos += 2;
 	move(pos, 0);
@@ -460,7 +460,7 @@ void landing_reset() {
 		}
 		return;
 	}
-	printw("Just to verify, you want to reset your save & record files?");
+	printw("Just to verify, you want to reset all your files?");
 	move(RT_YES, 0);
 	printw(TBOARD_YES);
 	move(RT_NO, 0);
@@ -509,7 +509,7 @@ void landing_reset() {
 		case 15:
 			move(18, 0);
 			if (remove("data.txt") != 0 || remove("record.txt") != 0) {
-				printw("Failed to delete temp files.");
+				printw("Unable to delete.");
 			} else {
 				printw("Successfully deleted.");
 			}
@@ -534,7 +534,7 @@ void scr_landing() {
 	record_exists();
 	clear();
 	int sel_int[4] = {LND_PLAY, LND_RESET, LND_CREDITS, LND_EXIT};
-	char* sel_txt[4] = {TBOARD_PLAY, TBOARD_RESET, TBOARD_CREDITS, TBOARD_EXIT};
+	char* sel_txt[4] = {TBOARD_PLAY, TBOARD_RESET, TBOARD_CREDITS, TBOARD_EXIT_SP};
 	move(gv.pos_y, gv.pos_x);
 	for (int i = 0; i < 7; i++) {
 		printw("%s\n", splash_ascii[i]);
