@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define record_length 3
-#define record_name "record.txt"
+#define RECORD_LENGTH 3
+#define RECORD_NAME "record.txt"
 
 // record positions
 // 0 kills
@@ -10,8 +10,8 @@
 // 2 spares
 
 int * record_reader() {
-	static int array[record_length];
-	FILE *record_in = fopen(record_name, "r");
+	static int array[RECORD_LENGTH];
+	FILE *record_in = fopen(RECORD_NAME, "r");
 	int i = 0;
 	int x = 0;
 	fscanf(record_in, "%d", &i);
@@ -26,8 +26,8 @@ int * record_reader() {
 
 void record_writer(int line) {
 	int * record_in = record_reader();
-	FILE *record_out = fopen(record_name, "w");
-	for (int i = 0; i < record_length; i++) {
+	FILE *record_out = fopen(RECORD_NAME, "w");
+	for (int i = 0; i < RECORD_LENGTH; i++) {
 		if (i == line) {
 			record_in[i] += 1;
 		} fprintf(record_out, "%d\n", record_in[i]);
@@ -36,15 +36,15 @@ void record_writer(int line) {
 }
 
 void record_generate() {
-	FILE *generate = fopen(record_name, "w");
-	for (int i = 0; i < record_length; i++) {
+	FILE *generate = fopen(RECORD_NAME, "w");
+	for (int i = 0; i < RECORD_LENGTH; i++) {
 		fprintf(generate, "%d\n", 0);
 	}
 	fclose(generate);
 }
 
 void record_exists() {
-	if (access(record_name,F_OK) == -1) {
+	if (access(RECORD_NAME,F_OK) == -1) {
 		record_generate();
 	}
 }

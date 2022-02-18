@@ -13,7 +13,7 @@
 #include "./../header/gdata.h"
 #include "./../header/action.h"
 #include "./../header/screen.h"
-#include "./../header/selections.h"
+#include "./../header/defz.h"
 
 struct readers {
 	int * rec;

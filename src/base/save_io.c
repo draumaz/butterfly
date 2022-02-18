@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define save_length 11
-#define save_name "data.txt"
+#define SAVE_LENGTH 11
+#define SAVE_NAME "data.txt"
 
 // save positions
 // 0 player race
@@ -18,8 +18,8 @@
 // 10 poison incrementer
 
 int * save_reader() {
-	static int array[save_length];
-	FILE *read_in = fopen(save_name, "r");
+	static int array[SAVE_LENGTH];
+	FILE *read_in = fopen(SAVE_NAME, "r");
 	int i = 0;
 	int x = 0;
 	fscanf(read_in, "%d", &i);
@@ -34,8 +34,8 @@ int * save_reader() {
 void save_writer(int line, signed int state) {
 	if (state < 0) { state = 0; }
 	int * save_in = save_reader();
-	FILE *read_out = fopen(save_name, "w");
-	for (int i = 0; i < save_length; i++) {
+	FILE *read_out = fopen(SAVE_NAME, "w");
+	for (int i = 0; i < SAVE_LENGTH; i++) {
 		if (i == line) {
 			fprintf(read_out, "%d\n", state);
 		} else {
@@ -46,15 +46,15 @@ void save_writer(int line, signed int state) {
 }
 
 void save_generate() {
-	FILE *generate = fopen(save_name, "w");
-	for (int i = 0; i < save_length; i++) {
+	FILE *generate = fopen(SAVE_NAME, "w");
+	for (int i = 0; i < SAVE_LENGTH; i++) {
 		fprintf(generate, "%d\n", 0);
 	}
 	fclose(generate);
 }
 
 void save_exists() {
-	if (access(save_name,F_OK) == -1) {
+	if (access(SAVE_NAME,F_OK) == -1) {
 		save_generate();
 	}
 }

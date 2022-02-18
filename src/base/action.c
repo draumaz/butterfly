@@ -10,7 +10,7 @@
 #include "./../header/wires.h"
 #include "./../header/screen.h"
 #include "./../header/joystick.h"
-#include "./../header/selections.h"
+#include "./../header/defz.h"
 
 struct readers {
 	int * sav;
