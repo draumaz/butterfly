@@ -1,17 +1,31 @@
-butterfly:
-	mkdir \
+SRC_PFX = "./src/base"
+BUILD_PFX = "./build"
+
+all: dir_create obj_build compile cleanup
+
+dir_create:
+	@mkdir \
 	-pv \
-	./build
-	$(CC) $(CFLAGS) -Wall -c ./src/base/gdata.c -o ./build/gdata.o
-	$(CC) $(CFLAGS) -Wall -c ./src/base/save_io.c -o ./build/save_io.o
-	$(CC) $(CFLAGS) -Wall -c ./src/base/record_io.c -o ./build/record_io.o
-	$(CC) $(CFLAGS) -Wall -c ./src/base/wires.c -o ./build/wires.o
-	$(CC) $(CFLAGS) -Wall -c ./src/base/joystick.c -o ./build/joystick.o
-	$(CC) $(CFLAGS) -Wall -c ./src/base/screen.c -o ./build/screen.o
-	$(CC) $(CFLAGS) -Wall -c ./src/base/action.c -o ./build/action.o
-	$(CC) $(CFLAGS) -Wall -c ./src/base/main.c -o ./build/main.o
-	cd ./build && $(CC) $(CFLAGS) -Wall -lncurses -lm \
+	$(BUILD_PFX)
+
+obj_build:
+	$(CC) $(CFLAGS) -Wall -c $(SRC_PFX)/main.c -o $(BUILD_PFX)/main.o
+	$(CC) $(CFLAGS) -Wall -c $(SRC_PFX)/wires.c -o $(BUILD_PFX)/wires.o
+	$(CC) $(CFLAGS) -Wall -c $(SRC_PFX)/joystick.c -o $(BUILD_PFX)/joystick.o
+	$(CC) $(CFLAGS) -Wall -c $(SRC_PFX)/save_io.c -o $(BUILD_PFX)/save_io.o
+	$(CC) $(CFLAGS) -Wall -c $(SRC_PFX)/record_io.c -o $(BUILD_PFX)/record_io.o
+	$(CC) $(CFLAGS) -Wall -c $(SRC_PFX)/gdata.c -o $(BUILD_PFX)/gdata.o
+	$(CC) $(CFLAGS) -Wall -c $(SRC_PFX)/action.c -o $(BUILD_PFX)/action.o
+	$(CC) $(CFLAGS) -Wall -c $(SRC_PFX)/screen.c -o $(BUILD_PFX)/screen.o
+
+compile:
+	@echo "creating binary"
+	@cd $(BUILD_PFX) && \
+	$(CC) $(CFLAGS) -Wall -lncurses -lm \
 	-ltinfo \
-	main.o gdata.o wires.o joystick.o screen.o record_io.o save_io.o action.o \
+	main.o wires.o joystick.o save_io.o record_io.o gdata.o action.o screen.o \
 	-o ../butterfly-debug
-	rm -r ./build
+	@echo "-> ./butterfly-debug"
+
+cleanup:
+	rm -rf $(BUILD_PFX)
