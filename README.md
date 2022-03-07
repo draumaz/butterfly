@@ -1,8 +1,23 @@
 # Butterfly
 A text-based TBBS with fantasy creatures, projectile weaponry, poisonous elixirs, and more.
 
-![Main board](https://github.com/draumaz/butterfly/raw/main/media/btf-main.svg "Game screen")
-![Item board](https://github.com/draumaz/butterfly/raw/main/media/btf-item.svg "Item screen")
+```
+Butterfly v0.16 | KILLS: 0   | DEATHS: 0   | SPARES: 0
+
+PLAYR: Aradi  | HP: 26 | STR: 14
+
+ENEMY: Goblin | HP: 2  | STR: 7
+
+[FIGHT]
+[ITEMS] <
+[SPARE]
+[EXIT ]
+
+[1x POTION]
+[0x SPEAR ] <
+[1x POISON]
+[BACK     ]
+```
 
 # Controls
 
