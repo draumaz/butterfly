@@ -62,4 +62,3 @@ Butterfly requires slightly different build parameters on non-Linux platforms. T
 
 catboy6969 - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
 
-<a href="https://carbon.now.sh/">Carbon</a> - screenshots
