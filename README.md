@@ -64,4 +64,6 @@ DeltaDove - ARMv8 experimentation, quality assurance, battle design assistance, 
 
 # Licensing
 
-Butterfly is dual-licensed under both the GPL-v3.0 and MIT licenses. The facets of this game covered by the MIT license are listed in the lic/MIT.txt file. All other parts are licensed under the GPL-v3.0.
+- Butterfly is dual-licensed under both the <a href="https://github.com/draumaz/butterfly/blob/main/LICENSE">GPL-v3.0</a> and <a href="https://github.com/draumaz/butterfly/blob/main/lic/MIT.txt">MIT</a> licenses. 
+- The facets of this game covered by the MIT license can be found in the lic/MIT.txt file. 
+- All other parts are licensed under the GPL-v3.0.
