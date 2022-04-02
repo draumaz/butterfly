@@ -418,7 +418,7 @@ void landing_credits() {
 	scr_sleep(500);
 	pos += 2;
 	move(pos, 0);
-	printw("catboy6969!");
+	printw("DeltaDove!");
 	pos += 2;
 	move(pos, 0);
 	for (int i = 0; i < 5; i++) {
