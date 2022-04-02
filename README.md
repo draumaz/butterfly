@@ -60,5 +60,8 @@ Butterfly requires slightly different build parameters on non-Linux platforms. T
 
 # Acknowledgements
 
-catboy6969 - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
+DeltaDove - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
 
+# Licensing
+
+Butterfly is dual-licensed under both the GPL-v3.0 and MIT licenses. The facets of this game covered by the MIT license are listed in the lic/MIT.txt file. All other parts are licensed under the GPL-v3.0.
