@@ -1,4 +1,9 @@
-LICENSE FOR: user_input_int(), lbl_reader(), game_sleep():
+FUNCTIONS PURSUANT TO THE BELOW LICENSE:
+
+- user_input_int()
+- lbl_reader()
+- game_sleep()
+- savesys.*()
 
 Copyright (c) 2022 draumaz
 
