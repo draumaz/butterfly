@@ -3,7 +3,8 @@ FUNCTIONS PURSUANT TO THE BELOW LICENSE:
 - user_input_int()
 - lbl_reader()
 - game_sleep()
-- savesys.*()
+- record_io.*()
+- save_io.*()
 
 Copyright (c) 2022 draumaz
 
