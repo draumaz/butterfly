@@ -44,23 +44,9 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 - ```./butterfly-debug```
 
-### Notes for non-Linux compilation
-
-Butterfly requires slightly different build parameters on non-Linux platforms. To compile on them, apply patches/non_linux.patch to the Makefile.
-
-- ```cd butterfly```
-
-- ```patch Makefile < patches/non_linux.patch```
-
-- ```make```
-
-- ```./butterfly-debug```
-
-#### If you encounter anything in your builds that feel like bugs, report them and I'll fix it as soon as possible!
-
 # Acknowledgements
 
-DeltaDove - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
+<a href="https://github.com/DeltaDove">DeltaDove</a> - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
 
 # Licensing
 
