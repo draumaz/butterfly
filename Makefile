@@ -20,11 +20,11 @@ obj_build:
 
 compile:
 	@echo "creating binary"
-	@cd $(BUILD_PFX) && \
-	$(CC) $(CFLAGS) -Wall -lncurses -lm \
-	-ltinfo \
-	main.o wires.o joystick.o save_io.o record_io.o gdata.o action.o screen.o \
-	-o ../butterfly-debug
+	@cd $(BUILD_PFX) && $(CC) $(CFLAGS) \
+		main.o wires.o joystick.o save_io.o record_io.o gdata.o action.o screen.o \
+	-o ../butterfly-debug \
+	-lncurses -lm \
+	-ltinfo
 	@echo "-> ./butterfly-debug"
 
 cleanup:
