@@ -1,10 +1,13 @@
-FUNCTIONS PURSUANT TO THE BELOW LICENSE:
+## MODULES PURSUANT TO THE BELOW LICENSE:
 
 - user_input_int()
 - lbl_reader()
 - game_sleep()
 - record_io.*()
 - save_io.*()
+
+```
+MIT License
 
 Copyright (c) 2022 draumaz
 
@@ -25,5 +28,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
 
-https://github.com/draumaz/savesys
+- https://github.com/draumaz/savesys
