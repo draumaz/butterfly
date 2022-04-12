@@ -1,3 +1,6 @@
+### ==REWRITE IN PROGRESS==
+#### <a href="https://github.com/draumaz/butterfly/tree/rusty">butterfly:rusty</a> (Rust port)
+
 # Butterfly
 A text-based TBBS with fantasy creatures, projectile weaponry, poisonous elixirs, and more.
 
