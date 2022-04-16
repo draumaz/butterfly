@@ -27,8 +27,13 @@ pub fn scr_spare(win: &pancurses::Window) -> bool {
 	win.mv(begin, 0);
 	win.printw("You attempt to spare the ");
 	win.printw(get_enemy_race());
-	win.refresh(); bp_sleep(500);
-	for _ in 0..3 { win.printw("."); win.refresh(); bp_sleep(150); }
+	win.refresh();
+	bp_sleep(500);
+	for _ in 0..3 {
+		win.printw(".");
+		win.refresh();
+		bp_sleep(150);
+	}
 	bp_sleep(750);
 	if rng.gen_range(0..2) >= 1  {
 		writer(RECORD_NAME, 2, rec[2]+1);
@@ -43,7 +48,7 @@ pub fn scr_spare(win: &pancurses::Window) -> bool {
 	}
 	win.refresh();
 	bp_sleep(750);
-	for i in begin..depth { win.mv(i, 0); win.printw("\n"); }
+	screen_smash(&win, begin, depth);
 	return result;
 }
 

@@ -12,11 +12,11 @@ use crate::nommes::{SAVE_DIR, SAVE_NAME, SAVE_LENGTH, RECORD_NAME, RECORD_LENGTH
 
 fn splash_reset(win: &pancurses::Window) {
 	let mut y = 15;
+	let x = 6;
 	let mut result = 0;
 	let mut begin = 13;
 	let mut depth = 13;
 	let mut entry = false;
-	let x = 6;
 	win.mv(depth, 0);
 	if exists(SAVE_NAME) == false && 
 	exists(RECORD_NAME) == false && 

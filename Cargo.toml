@@ -1,10 +1,10 @@
 [package]
 name = "draumaz-butterfly"
-version = "0.16.0"
+version = "0.16.1"
 description = "A fantasy-adventure text battle game!"
 homepage = "https://github.com/draumaz/butterfly"
 repository = "https://github.com/draumaz/butterfly/tree/lulzy-rust"
-license = "GPL-3.0"
+license = "GPL-3.0 AND MIT"
 keywords = ["game"]
 categories = ["games", "graphics", "game-development"]
 
