@@ -8,7 +8,7 @@ use std::{thread, time};
 
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
-pub fn game_version() -> String { return String::from("v0.16_01") }
+pub fn game_version() -> String { return String::from("v0.16_02") }
 
 pub fn get_player_race() -> &'static str {
 	match reader("save/data.txt")[0] {
