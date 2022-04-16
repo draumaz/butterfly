@@ -33,7 +33,7 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 # Download
 
-## Download through cargo!
+## Get it through <a href="https://crates.io/crates/draumaz-butterfly">cargo</a>!
 
 - ```cargo install draumaz-butterfly```
 - ```draumaz-butterfly # <- this will generate a save folder, so go somewhere safe!```
