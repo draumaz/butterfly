@@ -33,6 +33,9 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 # Download
 
+## Grab a binary!
+You can find these <a href="https://github.com/draumaz/butterfly/releases/latest">here</a>.
+
 ## Build from source!
 
 - ```git clone --branch rusty https://github.com/draumaz/butterfly```
