@@ -132,7 +132,7 @@ pub fn scr_attack(win: &pancurses::Window, dir: &'static str) {
 		}
 		"all" => {
 			scr_attack_enemy(&win);
-			if reader("save/data.txt")[4] > 0 { scr_attack_player(&win, false) }
+			if reader(SAVE_NAME)[4] > 0 { scr_attack_player(&win, false) }
 			screen_smash(&win, 12, 14);
 		}
 		_ => {}
