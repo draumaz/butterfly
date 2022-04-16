@@ -8,7 +8,6 @@ use std::{thread, time};
 
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
-
 pub fn game_version() -> String { return String::from("v0.16_01") }
 
 pub fn get_player_race() -> &'static str {
@@ -77,14 +76,14 @@ pub fn var_filler(win: &pancurses::Window, switch: &str) {
 	let rec = reader(RECORD_NAME);
 	match switch {
 		"kills" => { win.mv(1, 28); win.printw("  "); win.mv(1, 28); win.printw(rec[0].to_string()); },
-		"deaths" => { win.mv(1, 41); win.printw("  "); win.mv(1, 41); win.printw(rec[1].to_string()); },
-		"spares" => { win.mv(1, 54); win.printw("  "); win.mv(1, 54); win.printw(rec[2].to_string()); },
+		"deaths" => { win.mv(1, 42); win.printw("  "); win.mv(1, 42); win.printw(rec[1].to_string()); },
+		"spares" => { win.mv(1, 56); win.printw("  "); win.mv(1, 56); win.printw(rec[2].to_string()); },
 		"race:player" => { win.mv(3, 7); win.printw("      "); win.mv(3, 7); win.printw(get_player_race()); },
 		"race:enemy" => { win.mv(5, 7); win.printw("      "); win.mv(5, 7); win.printw(get_enemy_race()); },
 		"player:health" => { win.mv(3, 20); win.printw("  "); win.mv(3, 20); win.printw(sav[1].to_string()); },
-		"player:strength" => { win.mv(3, 30); win.printw("  "); win.mv(3, 30); win.printw(sav[2].to_string()); }
+		"player:strength" => { win.mv(3, 31); win.printw("  "); win.mv(3, 31); win.printw(sav[2].to_string()); }
 		"enemy:health" => { win.mv(5, 20); win.printw("  "); win.mv(5, 20); win.printw(sav[4].to_string()); },
-		"enemy:strength" => { win.mv(5, 30); win.printw("  "); win.mv(5, 30); win.printw(sav[5].to_string()); },
+		"enemy:strength" => { win.mv(5, 31); win.printw("  "); win.mv(5, 31); win.printw(sav[5].to_string()); },
 		_ => { return }
 	}
 	win.refresh();

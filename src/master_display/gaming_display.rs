@@ -52,34 +52,34 @@ fn board_again(win: &pancurses::Window) -> bool {
 	}
 }
 
-fn board_header(win: &pancurses::Window) {
+fn board_header(win: &pancurses::Window, fill: bool) {
 	let version = &game_version().to_string();
 	let mut itr: i32;
 	let line_one = vec![
 		"Butterfly ",
 		version,
 		" | KILLS: ",
-		"",
+		"-",
 		"   | DEATHS: ",
-		"",
+		"-",
 		"   | SPARES: ",
-		""
+		"-"
 	];
 	let line_two = vec![
 		"PLAYR: ",
-		"",
+		"------",
 		" | HP: ",
-		" ",
+		"--",
 		"  | STR: ",
-		" ",
+		"--",
 	];
 	let line_three = vec![
 		"ENEMY: ",
-		"",
+		"------",
 		" | HP: ",
-		" ",
+		"--",
 		"  | STR: ",
-		" "
+		"--"
 	];
 	win.mv(1, 0);
 	for i in line_one {
@@ -99,10 +99,12 @@ fn board_header(win: &pancurses::Window) {
 		win.printw(i);
 		itr += 1;
 	}
-	for i in ["kills", "deaths", "spares", "race:player", 
-	"race:enemy", "player:health", "player:strength", 
-	"enemy:health", "enemy:strength"] {
-		var_filler(&win, i);
+	for i in ["kills", "deaths", "spares"] { var_filler(&win, i) }
+	if fill == true {
+		for i in ["race:player", "race:enemy", "player:health", 
+		"player:strength", "enemy:health", "enemy:strength"] {
+			var_filler(&win, i);
+		}
 	}
 }
 
@@ -115,10 +117,11 @@ pub fn board_main(win: &pancurses::Window) {
 	let mut result;
 	let mut sav: Vec<i32>;
 	screen_smash(&win, 0, 12); // clear screen, let's get this going!
-	board_header(&win);
+	board_header(&win, true);
 	loop { // double loops cuz i just like them okay?
 		sav = reader(SAVE_NAME);
 		if sav[4] == 0 || sav[1] == 0 {
+			board_header(&win, false);
 			if board_again(&win) == true {
 				generate(SAVE_NAME, SAVE_LENGTH);
 				for i in reader(SAVE_NAME) {
@@ -127,8 +130,10 @@ pub fn board_main(win: &pancurses::Window) {
 					inc += 1;
 				}
 				y = 7;
-				board_header(&win);
+				board_header(&win, true);
 				continue;
+			} else {
+				break;
 			}
 		}
 		match sav[10] {
@@ -185,7 +190,8 @@ pub fn board_main(win: &pancurses::Window) {
 						7 => { scr_attack(&win, "all"); result = 2; break }
 						8 => { if scr_items(&win) == true { scr_attack(&win, "player") }; result = 2; break }
 						9 => { 
-							if scr_spare(&win) == true { 
+							if scr_spare(&win) == true {
+								board_header(&win, false);
 								if board_again(&win) == true {
 									result = 2;
 									generate(SAVE_NAME, 20);
@@ -195,9 +201,10 @@ pub fn board_main(win: &pancurses::Window) {
 										inc += 1;
 									}
 									y = 7;
-									board_header(&win);
+									board_header(&win, true);
 								} else {
 									result = 1;
+									break;
 								}
 								break; 
 							} else {
