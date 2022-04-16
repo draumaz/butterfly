@@ -52,5 +52,5 @@ ENEMY: Goblin | HP: 2  | STR: 7
 # Licensing
 
 - Butterfly is dual-licensed under both the GPL-v3.0 and MIT licenses.
-- The facets of this game covered by the MIT license can be found at <a href="https://github.com/draumaz/butterfly/blob/main/lic/FUNCS_MIT.txt">lic/FUNCS_MIT.txt</a>. 
+- The facets of this game covered by the MIT license can be found at <a href="https://github.com/draumaz/butterfly/blob/main/lic/FUNCS_MIT.md">lic/FUNCS_MIT.md</a>. 
 - All other parts are licensed under GPL-v3.0.
