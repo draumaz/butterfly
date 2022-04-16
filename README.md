@@ -40,7 +40,7 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 ## Build from source!
 
-- ```git clone rusty https://github.com/draumaz/butterfly```
+- ```git clone https://github.com/draumaz/butterfly```
 
 - ```cd butterfly```
 
