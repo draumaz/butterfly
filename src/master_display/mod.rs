@@ -95,7 +95,7 @@ fn splash_credits(win: &pancurses::Window) {
 		"Contributors",
 		"------------",
 		"DELTADOVE",
-		"--> Battle design, game name, bugfixes",
+		"--> ARMv8 testing, potion design, bugtesting, naming",
 		"BRYCE CANO",
 		"--> Character design"
 	];
