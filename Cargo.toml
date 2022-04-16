@@ -1,6 +1,6 @@
 [package]
 name = "draumaz-butterfly"
-version = "0.16.2"
+version = "0.16.3"
 description = "A fantasy-adventure text battle game!"
 homepage = "https://github.com/draumaz/butterfly"
 license = "GPL-3.0 AND MIT"

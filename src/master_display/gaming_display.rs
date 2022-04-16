@@ -102,8 +102,8 @@ fn board_header(win: &pancurses::Window, fill: bool) {
 	}
 	for i in ["kills", "deaths", "spares"] { var_filler(&win, i) }
 	if fill == true {
-		for i in ["race:player", "race:enemy", "player:health", 
-		"player:strength", "enemy:health", "enemy:strength"] {
+		for i in ["player:race", "player:health", "player:strength", 
+		"enemy:race", "enemy:health", "enemy:strength"] {
 			var_filler(&win, i);
 		}
 	}

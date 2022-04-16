@@ -8,7 +8,7 @@ use std::{thread, time};
 
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
-pub fn game_version() -> String { String::from("v0.16_02") }
+pub fn game_version() -> String { String::from("v0.16_03") }
 
 pub fn get_player_race() -> &'static str {
 	match reader("save/data.txt")[0] {
@@ -78,17 +78,19 @@ pub fn stats_gen() {
 pub fn var_filler(win: &pancurses::Window, switch: &str) {
 	let sav = reader(SAVE_NAME);
 	let rec = reader(RECORD_NAME);
+	let y: i32;
+	let x: i32;
 	match switch {
-		"kills" => { win.mv(1, 28); win.printw("  "); win.mv(1, 28); win.printw(rec[0].to_string()); },
-		"deaths" => { win.mv(1, 42); win.printw("  "); win.mv(1, 42); win.printw(rec[1].to_string()); },
-		"spares" => { win.mv(1, 56); win.printw("  "); win.mv(1, 56); win.printw(rec[2].to_string()); },
-		"race:player" => { win.mv(3, 7); win.printw("      "); win.mv(3, 7); win.printw(get_player_race()); },
-		"race:enemy" => { win.mv(5, 7); win.printw("      "); win.mv(5, 7); win.printw(get_enemy_race()); },
-		"player:health" => { win.mv(3, 20); win.printw("  "); win.mv(3, 20); win.printw(sav[1].to_string()); },
-		"player:strength" => { win.mv(3, 31); win.printw("  "); win.mv(3, 31); win.printw(sav[2].to_string()); }
-		"enemy:health" => { win.mv(5, 20); win.printw("  "); win.mv(5, 20); win.printw(sav[4].to_string()); },
-		"enemy:strength" => { win.mv(5, 31); win.printw("  "); win.mv(5, 31); win.printw(sav[5].to_string()); },
-		_ => { return }
+		"kills" => { y = 1; x = 28; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(rec[0].to_string()); },
+		"deaths" => { y = 1; x = 42; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(rec[1].to_string()); },
+		"spares" => { y = 1; x = 56; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(rec[2].to_string()); },
+		"player:race" => { y = 3; x = 7; win.mv(y, x); win.printw("      "); win.mv(y, x); win.printw(get_player_race()); },
+		"player:health" => { y = 3; x = 20; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(sav[1].to_string()); },
+		"player:strength" => { y = 3; x = 31; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(sav[2].to_string()); }
+		"enemy:race" => { y = 5; x = 7; win.mv(y, x); win.printw("      "); win.mv(y, x); win.printw(get_enemy_race()); },
+		"enemy:health" => { y = 5; x = 20; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(sav[4].to_string()); },
+		"enemy:strength" => { y = 5; x = 31; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(sav[5].to_string()); },
+		_ => {}
 	}
 	win.refresh();
 }
