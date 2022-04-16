@@ -10,25 +10,30 @@ use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
 pub fn game_version() -> String { String::from("v0.16_03") }
 
-pub fn get_player_race() -> &'static str {
-	match reader("save/data.txt")[0] {
-		1 => { "Vuleen" },
-		2 => { "Aradi" },
-		3 => { "Human" },
-		4 => { "Lycan" },
-		5 => { "Jodum" },
-		_ => { "NULL" }
-	}
-}
-
-pub fn get_enemy_race() -> &'static str {
-	match reader("save/data.txt")[3] {
-		1 => { "Darak" },
-		2 => { "Goblin" },
-		3 => { "Arcran" },
-		4 => { "Sleech" },
-		5 => { "Wimble" },
-		_ => { "NULL" }
+pub fn entity_race_get(point: &'static str) -> &'static str {
+	let save = reader(SAVE_NAME);
+	match point {
+		"player" => {
+			match save[0] {
+				1 => { "Vuleen" },
+				2 => { "Aradi" },
+				3 => { "Human" },
+				4 => { "Lycan" },
+				5 => { "Jodum" },
+				_ => { "NULL" }
+			}
+		}
+		"enemy" => {
+			match save[3] {
+				1 => { "Darak" },
+				2 => { "Goblin" },
+				3 => { "Arcran" },
+				4 => { "Sleech" },
+				5 => { "Wimble" },
+				_ => { "NULL" }
+			}
+		}
+		_ => { "ERROR" }
 	}
 }
 
@@ -84,10 +89,10 @@ pub fn var_filler(win: &pancurses::Window, switch: &str) {
 		"kills" => { y = 1; x = 28; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(rec[0].to_string()); },
 		"deaths" => { y = 1; x = 42; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(rec[1].to_string()); },
 		"spares" => { y = 1; x = 56; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(rec[2].to_string()); },
-		"player:race" => { y = 3; x = 7; win.mv(y, x); win.printw("      "); win.mv(y, x); win.printw(get_player_race()); },
+		"player:race" => { y = 3; x = 7; win.mv(y, x); win.printw("      "); win.mv(y, x); win.printw(entity_race_get("player")); },
 		"player:health" => { y = 3; x = 20; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(sav[1].to_string()); },
 		"player:strength" => { y = 3; x = 31; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(sav[2].to_string()); }
-		"enemy:race" => { y = 5; x = 7; win.mv(y, x); win.printw("      "); win.mv(y, x); win.printw(get_enemy_race()); },
+		"enemy:race" => { y = 5; x = 7; win.mv(y, x); win.printw("      "); win.mv(y, x); win.printw(entity_race_get("enemy")); },
 		"enemy:health" => { y = 5; x = 20; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(sav[4].to_string()); },
 		"enemy:strength" => { y = 5; x = 31; win.mv(y, x); win.printw("  "); win.mv(y, x); win.printw(sav[5].to_string()); },
 		_ => {}

@@ -3,7 +3,7 @@ extern crate savesys;
 
 use pancurses::{Input};
 use savesys::{reader, writer, generate};
-use crate::batteries::{bp_sleep, screen_smash, var_filler, game_version, stats_gen, get_enemy_race};
+use crate::batteries::{bp_sleep, screen_smash, var_filler, game_version, stats_gen, entity_race_get};
 use crate::disp_submods::{scr_items, scr_spare, scr_attack}; 	
 use crate::nommes::{SAVE_NAME, SAVE_LENGTH};
 
@@ -133,7 +133,7 @@ pub fn board_main(win: &pancurses::Window) {
 					screen_smash(&win, 6, 11);
 					win.mv(7, 0);
 					win.printw("The ");
-					win.printw(get_enemy_race());
+					win.printw(entity_race_get("enemy"));
 					win.printw(" loses 3HP from the poison!");
 					win.refresh();
 					bp_sleep(750);
@@ -145,7 +145,7 @@ pub fn board_main(win: &pancurses::Window) {
 					screen_smash(&win, 6, 11);
 					win.mv(7, 0);
 					win.printw("The ");
-					win.printw(get_enemy_race());
+					win.printw(entity_race_get("enemys"));
 					win.printw(" shakes off the poison.");
 					win.refresh();
 					bp_sleep(750);
@@ -154,7 +154,7 @@ pub fn board_main(win: &pancurses::Window) {
 				0 | _ => {}
 			}
 		}
-		sav = reader("save/data.txt");
+		sav = reader(SAVE_NAME);
 		if sav[4] == 0 || sav[1] == 0 {
 			board_header(&win, false);
 			if board_again(&win) == true {
@@ -202,7 +202,7 @@ pub fn board_main(win: &pancurses::Window) {
 						}
 						8 => {
 							if scr_items(&win) == true { 
-								sav = reader("save/data.txt");
+								sav = reader(SAVE_NAME);
 								if sav[4] > 0 { scr_attack(&win, "player") }
 								result = 3; 
 							} else {

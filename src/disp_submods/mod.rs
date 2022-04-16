@@ -4,7 +4,7 @@ extern crate savesys;
 use pancurses::{Input};
 use rand::Rng;
 use savesys::{reader, writer};
-use crate::batteries::{screen_smash, bp_sleep, var_filler, get_enemy_race};
+use crate::batteries::{screen_smash, bp_sleep, var_filler, entity_race_get};
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
 fn items_fill(win: &pancurses::Window, item: &'static str) {
@@ -26,7 +26,7 @@ pub fn scr_spare(win: &pancurses::Window) -> bool {
 	let depth = 15;
 	win.mv(begin, 0);
 	win.printw("You attempt to spare the ");
-	win.printw(get_enemy_race());
+	win.printw(entity_race_get("enemy"));
 	win.refresh();
 	bp_sleep(500);
 	for _ in 0..3 {
@@ -77,7 +77,7 @@ fn scr_attack_enemy(win: &pancurses::Window) {
 	var_filler(&win, "enemy:health");
 	win.mv(12, 0);
 	win.printw(top_text);
-	win.printw(get_enemy_race());
+	win.printw(entity_race_get("enemy"));
 	win.printw(", dealing ");
 	win.printw(damage.to_string());
 	win.printw(" damage!");
@@ -112,7 +112,7 @@ fn scr_attack_player(win: &pancurses::Window, action: bool) {
 	var_filler(&win, "player:health");
 	win.mv(txt_pos, 0);
 	win.printw("The ");
-	win.printw(get_enemy_race());
+	win.printw(entity_race_get("enemy"));
 	win.printw(top_text);
 	win.printw(damage.to_string());
 	win.printw(" damage!");
@@ -238,7 +238,7 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 						action = true;
 						win.mv(17, 0);
 						win.printw("You throw a spear at the ");
-						win.printw(get_enemy_race());
+						win.printw(entity_race_get("enemy"));
 						win.printw(", dealing 9 damage!");
 						win.refresh();
 						bp_sleep(750);
@@ -266,7 +266,7 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 						items_fill(&win, "poison");
 						win.mv(17, 0);
 						win.printw("You douse the ");
-						win.printw(get_enemy_race());
+						win.printw(entity_race_get("enemy"));
 						win.printw(" in poison!");
 						win.refresh();
 						bp_sleep(500);
