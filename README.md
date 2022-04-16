@@ -41,9 +41,7 @@ ENEMY: Goblin | HP: 2  | STR: 7
 ## Build from source!
 
 - ```git clone https://github.com/draumaz/butterfly```
-
 - ```cd butterfly```
-
 - ```cargo run```
 
 # Acknowledgements
