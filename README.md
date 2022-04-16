@@ -33,12 +33,17 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 # Download
 
+## Download through cargo!
+
+- ```cargo install draumaz-butterfly```
+- ```draumaz-butterfly # <- this will generate a save folder, so go somewhere safe!```
+
 ## Grab a binary!
 You can find these <a href="https://github.com/draumaz/butterfly/releases/latest">here</a>.
 
 ## Build from source!
 
-- ```git clone --branch rusty https://github.com/draumaz/butterfly```
+- ```git clone rusty https://github.com/draumaz/butterfly```
 
 - ```cd butterfly```
 
