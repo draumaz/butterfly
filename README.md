@@ -1,26 +1,6 @@
-### ==REWRITE IN PROGRESS==
-#### <a href="https://github.com/draumaz/butterfly/tree/rusty">butterfly:rusty</a> (Rust port)
-
-# Butterfly
-A text-based TBBS with fantasy creatures, projectile weaponry, poisonous elixirs, and more.
-
-```
-Butterfly v0.16 | KILLS: 0   | DEATHS: 0   | SPARES: 0
-
-PLAYR: Aradi  | HP: 26 | STR: 14
-
-ENEMY: Goblin | HP: 2  | STR: 7
-
-[FIGHT]
-[ITEMS] <
-[SPARE]
-[EXIT ]
-
-[1x POTION]
-[0x SPEAR ] <
-[1x POISON]
-[BACK     ]
-```
+# butterfly:seaward
+- Welcome to the seaward branch. 
+- A play on words, this repository houses the *C codebase* <a href="https://github.com/draumaz/butterfly">Butterfly</a> used between v0.08 and v0.15. 
 
 # Controls
 
@@ -34,10 +14,7 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 # Download
 
-## Grab a binary!
-  You can find these <a href="https://github.com/draumaz/butterfly/releases/latest">here</a>.
-
-## Build from source! (it won't take long, I promise)
+## Build from source!
 
 - ```git clone https://github.com/draumaz/butterfly```
 
@@ -49,7 +26,8 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 # Acknowledgements
 
-<a href="https://github.com/DeltaDove">DeltaDove</a> - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
+- <a href="https://github.com/DeltaDove">DeltaDove</a> - ARMv8 experimentation, quality assurance, battle design assistance, game naming, bugtest
+- Bryce Cano - character design
 
 # Licensing
 
