@@ -47,7 +47,7 @@ pub fn scr_spare(win: &pancurses::Window) -> bool {
 		result = false;
 	}
 	win.refresh();
-	bp_sleep(750);
+	bp_sleep(1000);
 	screen_smash(&win, begin, depth);
 	return result;
 }
@@ -82,7 +82,7 @@ fn scr_attack_enemy(win: &pancurses::Window) {
 	win.printw(damage.to_string());
 	win.printw(" damage!");
 	win.refresh();
-	bp_sleep(750);
+	bp_sleep(1000);
 }
 
 fn scr_attack_player(win: &pancurses::Window, action: bool) {
@@ -117,7 +117,7 @@ fn scr_attack_player(win: &pancurses::Window, action: bool) {
 	win.printw(damage.to_string());
 	win.printw(" damage!");
 	win.refresh();
-	bp_sleep(750);
+	bp_sleep(1000);
 }
 
 pub fn scr_attack(win: &pancurses::Window, dir: &'static str) {

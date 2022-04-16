@@ -8,56 +8,60 @@ use std::{thread, time};
 
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
-pub fn game_version() -> String { return String::from("v0.16_02") }
+pub fn game_version() -> String { String::from("v0.16_02") }
 
 pub fn get_player_race() -> &'static str {
 	match reader("save/data.txt")[0] {
-		1 => { return "Vuleen" },
-		2 => { return "Aradi" },
-		3 => { return "Human" },
-		4 => { return "Lycan" },
-		5 => { return "Jodum" },
-		_ => { return "NULL" }
+		1 => { "Vuleen" },
+		2 => { "Aradi" },
+		3 => { "Human" },
+		4 => { "Lycan" },
+		5 => { "Jodum" },
+		_ => { "NULL" }
 	}
 }
 
 pub fn get_enemy_race() -> &'static str {
 	match reader("save/data.txt")[3] {
-		1 => { return "Darak" },
-		2 => { return "Goblin" },
-		3 => { return "Arcran" },
-		4 => { return "Sleech" },
-		5 => { return "Wimble" },
-		_ => { return "NULL" }
+		1 => { "Darak" },
+		2 => { "Goblin" },
+		3 => { "Arcran" },
+		4 => { "Sleech" },
+		5 => { "Wimble" },
+		_ => { "NULL" }
 	}
 }
 
-fn player_stats_gen(i: i32) -> Vec<i32> {
-	match i {
-		1 => { return [1, 20, 10].to_vec() },
-		2 => { return [2, 30, 15].to_vec() },
-		3 => { return [3, 20, 7].to_vec() },
-		4 => { return [4, 16, 14].to_vec() },
-		5 => { return [5, 24, 16].to_vec() },
-		_ => { return [0, 0, 0].to_vec() }
-	}
-}
-
-fn enemy_stats_gen(i: i32) -> Vec<i32> {
-	match i {
-		1 => { return [1, 25, 10].to_vec() },
-		2 => { return [2, 12, 7].to_vec() },
-		3 => { return [3, 30, 5].to_vec() },
-		4 => { return [4, 12, 13].to_vec() },
-		5 => { return [5, 27, 10].to_vec() }
-		_ => { return [0, 0, 0].to_vec() }
+fn entity_stats_gen(i: i32, switch: &str) -> Vec<i32> {
+	match switch {
+		"player" => {
+			match i {
+				1 => { [1, 20, 10].to_vec() },
+				2 => { [2, 30, 15].to_vec() },
+				3 => { [3, 20, 7].to_vec() },
+				4 => { [4, 16, 14].to_vec() },
+				5 => { [5, 24, 16].to_vec() },
+				_ => { [0, 0, 0].to_vec() }
+			}
+		}
+		"enemy" => {
+			match i {
+				1 => { [1, 25, 10].to_vec() },
+				2 => { [2, 12, 7].to_vec() },
+				3 => { [3, 30, 5].to_vec() },
+				4 => { [4, 12, 13].to_vec() },
+				5 => { [5, 27, 10].to_vec() }
+				_ => { [0, 0, 0].to_vec() }
+			}
+		}
+		_ => { [0, 0, 0].to_vec() }
 	}
 }
 
 pub fn stats_gen() {
 	let mut rng = rand::thread_rng();
-	let stat_p = player_stats_gen(rng.gen_range(1..5));
-	let stat_e = enemy_stats_gen(rng.gen_range(1..5));
+	let stat_p = entity_stats_gen(rng.gen_range(1..5), "player");
+	let stat_e = entity_stats_gen(rng.gen_range(1..5), "enemy");
 	for i in 0..3 { // player stats from line 0 to 2
 		writer(SAVE_NAME, i, stat_p[i]);
 	}

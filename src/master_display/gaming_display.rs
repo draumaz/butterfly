@@ -114,12 +114,46 @@ pub fn board_main(win: &pancurses::Window) {
 	let mut inc = 0;
 	let begin = 1;
 	let depth = 11;
-	let mut result;
+	let mut result = 0;
 	let mut sav: Vec<i32>;
 	screen_smash(&win, 0, 12); // clear screen, let's get this going!
 	board_header(&win, true);
 	loop { // double loops cuz i just like them okay?
 		sav = reader(SAVE_NAME);
+		if result == 3 {
+			match sav[10] {
+				1 | 2 | 3 => {
+					if sav[1] <= 0 || sav[4] <= 0 {continue}
+					let to_file: i32;
+					if sav[4]-3 <= 0 { to_file = 0 } else { to_file = sav[4]-3 }
+					writer(SAVE_NAME, 4, to_file);
+					writer(SAVE_NAME, 10, sav[10]+1);
+					var_filler(&win, "enemy:health");
+					screen_smash(&win, 6, 11);
+					win.mv(7, 0);
+					win.printw("The ");
+					win.printw(get_enemy_race());
+					win.printw(" loses 3HP from the poison!");
+					win.refresh();
+					bp_sleep(500);
+					screen_smash(&win, 7, 8);
+				}
+				4 => { 
+					if sav[1] <= 0 || sav[4] <= 0 {continue}
+					writer(SAVE_NAME, 10, 0);
+					screen_smash(&win, 6, 11);
+					win.mv(7, 0);
+					win.printw("The ");
+					win.printw(get_enemy_race());
+					win.printw(" shakes off the poison.");
+					win.refresh();
+					bp_sleep(500);
+					screen_smash(&win, 7, 8);
+				}
+				0 | _ => {}
+			}
+		}
+		sav = reader("save/data.txt");
 		if sav[4] == 0 || sav[1] == 0 {
 			board_header(&win, false);
 			if board_again(&win) == true {
@@ -135,33 +169,6 @@ pub fn board_main(win: &pancurses::Window) {
 			} else {
 				break;
 			}
-		}
-		match sav[10] {
-			1 | 2 | 3 => { 
-				writer(SAVE_NAME, 4, sav[4]-3);
-				writer(SAVE_NAME, 10, sav[10]+1);
-				var_filler(&win, "enemy:health");
-				screen_smash(&win, 6, 11);
-				win.mv(7, 0);
-				win.printw("The ");
-				win.printw(get_enemy_race());
-				win.printw(" loses 3HP from the poison!");
-				win.refresh();
-				bp_sleep(500);
-				screen_smash(&win, 7, 8);
-			}
-			4 => { 
-				writer(SAVE_NAME, 10, 0);
-				screen_smash(&win, 6, 11);
-				win.mv(7, 0);
-				win.printw("The ");
-				win.printw(get_enemy_race());
-				win.printw(" shakes off the poison.");
-				win.refresh();
-				bp_sleep(500);
-				screen_smash(&win, 7, 8);
-			}
-			0 | _ => {}
 		}
 		win.mv(7, 0);
 		win.printw("[FIGHT]\n[ITEMS]\n[SPARE]\n[EXIT ]");
@@ -187,8 +194,8 @@ pub fn board_main(win: &pancurses::Window) {
 				Some(Input::KeyDC) => { result = 1; break },
 				Some(Input::Character('\n')) => {
 					match y {
-						7 => { scr_attack(&win, "all"); result = 2; break }
-						8 => { if scr_items(&win) == true { scr_attack(&win, "player") }; result = 2; break }
+						7 => { scr_attack(&win, "all"); result = 3; break }
+						8 => { if scr_items(&win) == true { scr_attack(&win, "player"); result = 3; } else { result = 2 }; break }
 						9 => { 
 							if scr_spare(&win) == true {
 								board_header(&win, false);
@@ -209,7 +216,7 @@ pub fn board_main(win: &pancurses::Window) {
 								break; 
 							} else {
 								scr_attack(&win, "player");
-								result = 2;
+								result = 3;
 								break; 
 							} 
 						}
@@ -223,7 +230,8 @@ pub fn board_main(win: &pancurses::Window) {
 		}
 		match result {
 			1 => {break}
-			2 => {continue}
+			2 => {continue} // begin full loop
+			3 => {continue} // full loop begin
 			_ => {continue}
 		}
 	}
