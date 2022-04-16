@@ -12,8 +12,8 @@ fn board_again(win: &pancurses::Window) -> bool {
 	let depth = 14;
 	let mut y = 9;
 	let x = 6;
-	win.mv(begin, 0);
 	screen_smash(&win, begin, depth);
+	win.mv(begin, 0);
 	win.printw("Play again?\n\n[YES]\n[NO ]");
 	loop {
 		loop {
