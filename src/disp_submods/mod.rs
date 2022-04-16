@@ -225,8 +225,14 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 						break;
 					}
 					1 => {
+						let to_file: i32;
+						if sav[4]-9 <= 0 {
+							to_file = 0;
+						} else {
+							to_file = sav[4]-9;
+						}
 						writer(SAVE_NAME, 8, sav[8]-1);
-						writer(SAVE_NAME, 4, sav[4]-9);
+						writer(SAVE_NAME, 4, to_file);
 						items_fill(&win, "spear");
 						var_filler(&win, "enemy:health");
 						action = true;

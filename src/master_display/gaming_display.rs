@@ -15,6 +15,7 @@ fn board_again(win: &pancurses::Window) -> bool {
 	screen_smash(&win, begin, depth);
 	win.mv(begin, 0);
 	win.printw("Play again?\n\n[YES]\n[NO ]");
+	win.refresh();
 	loop {
 		loop {
 			win.mv(y, x);
@@ -135,7 +136,7 @@ pub fn board_main(win: &pancurses::Window) {
 					win.printw(get_enemy_race());
 					win.printw(" loses 3HP from the poison!");
 					win.refresh();
-					bp_sleep(500);
+					bp_sleep(750);
 					screen_smash(&win, 7, 8);
 				}
 				4 => { 
@@ -147,7 +148,7 @@ pub fn board_main(win: &pancurses::Window) {
 					win.printw(get_enemy_race());
 					win.printw(" shakes off the poison.");
 					win.refresh();
-					bp_sleep(500);
+					bp_sleep(750);
 					screen_smash(&win, 7, 8);
 				}
 				0 | _ => {}
@@ -194,8 +195,21 @@ pub fn board_main(win: &pancurses::Window) {
 				Some(Input::KeyDC) => { result = 1; break },
 				Some(Input::Character('\n')) => {
 					match y {
-						7 => { scr_attack(&win, "all"); result = 3; break }
-						8 => { if scr_items(&win) == true { scr_attack(&win, "player"); result = 3; } else { result = 2 }; break }
+						7 => {
+							scr_attack(&win, "all");
+							result = 3;
+							break;
+						}
+						8 => {
+							if scr_items(&win) == true { 
+								sav = reader("save/data.txt");
+								if sav[4] > 0 { scr_attack(&win, "player") }
+								result = 3; 
+							} else {
+								result = 2;
+							}
+							break;
+						}
 						9 => { 
 							if scr_spare(&win) == true {
 								board_header(&win, false);
