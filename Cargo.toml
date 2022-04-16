@@ -1,0 +1,21 @@
+[package]
+name = "butterfly"
+version = "0.16.0"
+description = "A fantasy-adventure text battle game!"
+homepage = "https://github.com/draumaz/butterfly"
+repository = "https://github.com/draumaz/butterfly/tree/lulzy-rust"
+license = "GPL-v3.0 AND MIT"
+keywords = ["game", "turn-based", "text-based", "fantasy"]
+categories = ["games", "graphics", "game-development"]
+
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+savesys = "3.5.9"
+rand = "0.8.5"
+
+[dependencies.pancurses]
+version = "0.17"
+features = ["win32"]
