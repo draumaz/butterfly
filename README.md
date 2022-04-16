@@ -2,7 +2,7 @@
 A text-based TBBS with fantasy creatures, projectile weaponry, poisonous elixirs, and more.
 
 ```
-Butterfly v0.16 | KILLS: 0   | DEATHS: 0   | SPARES: 0
+Butterfly v0.16_01 | KILLS: 0   | DEATHS: 0   | SPARES: 0
 
 PLAYR: Aradi  | HP: 26 | STR: 14
 
