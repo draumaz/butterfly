@@ -122,9 +122,11 @@ pub fn splash_ascii(win: &pancurses::Window) {
 	"\\____/ \\___/  \\_/   \\_/ \\____/\\_| \\_\\_|   \\_____/\\_/   |",
 	"-------------------------------------------------------|"
 	];
-	for i in 0..ascii.len() {
-		win.mv(i as i32, 0);
-		win.printw(ascii[i]);
+	let mut y: i32 = 0;
+	for i in &ascii { 
+		win.mv(y, 0);
+		win.printw(i);
+		y += 1;
 	}
 }
 
