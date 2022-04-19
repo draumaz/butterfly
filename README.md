@@ -54,8 +54,7 @@ cargo run
 
 ### NixOS:
 ```
-curl https://github.com/jeaye/ncurses-rs/blob/master/shell.nix > shell.nix
-nix-shell shell.nix --command 'cargo run'
+nix-shell -p ncurses5 --command 'cargo run'
 ```
 # Acknowledgements
 
