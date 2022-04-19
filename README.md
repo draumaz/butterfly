@@ -44,6 +44,19 @@ ENEMY: Goblin | HP: 2  | STR: 7
 - ```cd butterfly```
 - ```cargo run```
 
+## If cargo spits an error out about <ncurses.h>...
+
+### Debian/Ubuntu:
+```
+apt install ncurses-dev
+cargo run
+```
+
+### NixOS:
+```
+curl https://github.com/jeaye/ncurses-rs/blob/master/shell.nix > shell.nix
+nix-shell shell.nix --command 'cargo run'
+```
 # Acknowledgements
 
 - <a href="https://github.com/DeltaDove">DeltaDove</a> - ARMv8 testing, potion design, bugtesting, naming
