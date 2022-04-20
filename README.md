@@ -54,7 +54,7 @@ cargo run
 
 ### NixOS:
 ```
-nix-shell -p ncurses # explanation: https://nixos.wiki/wiki/Rust#FAQ
+nix-shell -p ncurses # https://nixos.wiki/wiki/Rust#Building_Rust_crates_that_require_external_system_libraries
 cargo run
 ```
 # Acknowledgements
