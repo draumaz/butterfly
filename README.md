@@ -49,13 +49,11 @@ ENEMY: Goblin | HP: 2  | STR: 7
 ### Debian/Ubuntu:
 ```
 apt install ncurses-dev
-cargo run
 ```
 
 ### NixOS:
 ```
-nix-shell -p ncurses # https://nixos.wiki/wiki/Rust#Building_Rust_crates_that_require_external_system_libraries
-cargo run
+nix-shell -p ncurses
 ```
 # Acknowledgements
 
