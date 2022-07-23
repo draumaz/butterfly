@@ -3,9 +3,9 @@ extern crate savesys;
 
 use pancurses::{Input};
 use savesys::{reader, writer, generate};
-use crate::batteries::{bp_sleep, screen_smash, var_filler, game_version, stats_gen, entity_race_get};
+use crate::batteries::{bp_sleep, screen_smash, var_filler, stats_gen, entity_race_get};
 use crate::disp_submods::{scr_items, scr_spare, scr_attack}; 	
-use crate::nommes::{SAVE_NAME, SAVE_LENGTH};
+use crate::nommes::{SAVE_NAME, SAVE_LENGTH, BUTTERFLY_VERSION};
 
 fn board_again(win: &pancurses::Window) -> bool {
 	let begin = 7;
@@ -54,11 +54,10 @@ fn board_again(win: &pancurses::Window) -> bool {
 }
 
 fn board_header(win: &pancurses::Window, fill: bool) {
-	let version = &game_version().to_string();
 	let mut itr: i32;
 	let line_one = vec![
 		"Butterfly ",
-		version,
+		BUTTERFLY_VERSION,
 		" | KILLS: ",
 		"-",
 		"   | DEATHS: ",

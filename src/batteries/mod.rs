@@ -8,8 +8,6 @@ use std::{thread, time};
 
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
-pub fn game_version() -> String { String::from("v0.16_03") }
-
 pub fn entity_race_get(point: &'static str) -> &'static str {
 	let save = reader(SAVE_NAME);
 	match point {

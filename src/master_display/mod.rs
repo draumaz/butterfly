@@ -7,8 +7,8 @@ use std::fs::{remove_file, remove_dir_all, create_dir};
 use pancurses::{Input};
 use savesys::{exists, generate, reader};
 use gaming_display::{board_main};
-use crate::batteries::{screen_smash, shreader, game_version, splash_ascii, bp_sleep, stats_gen};
-use crate::nommes::{SAVE_DIR, SAVE_NAME, SAVE_LENGTH, RECORD_NAME, RECORD_LENGTH};
+use crate::batteries::{screen_smash, shreader, splash_ascii, bp_sleep, stats_gen};
+use crate::nommes::{SAVE_DIR, SAVE_NAME, SAVE_LENGTH, RECORD_NAME, RECORD_LENGTH, BUTTERFLY_VERSION};
 
 fn splash_reset(win: &pancurses::Window) {
 	let mut y = 15;
@@ -102,7 +102,7 @@ fn splash_credits(win: &pancurses::Window) {
 	win.mv(1, 0);
 	shreader(win, credits[0].to_string(), 20);
 	bp_sleep(250);
-	shreader(win, game_version(), 20);
+	shreader(win, String::from(BUTTERFLY_VERSION), 20);
 	bp_sleep(500);
 	win.mv(3, 0);
 	for i in 1..3 {
