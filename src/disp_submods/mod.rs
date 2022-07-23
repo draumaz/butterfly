@@ -284,9 +284,6 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 			_ => { continue }
 		}
 	}
-	for i in begin..depth {
-		win.mv(i, 0); 
-		win.printw("\n");
-	}
+	screen_smash(&win, begin, depth);
 	return action;
 }
