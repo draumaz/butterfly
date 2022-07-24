@@ -7,7 +7,7 @@ use std::fs::{remove_file, remove_dir_all, create_dir};
 use pancurses::{Input};
 use savesys::{exists, generate, reader};
 use gaming_display::{board_main};
-use crate::batteries::{screen_smash, shreader, splash_ascii, bp_sleep, stats_gen};
+use crate::batteries::{screen_smash, shreader, splash_ascii, bp_sleep, stats_gen, universal_tabler};
 use crate::nommes::{SAVE_DIR, SAVE_NAME, SAVE_LENGTH, RECORD_NAME, RECORD_LENGTH, BUTTERFLY_VERSION};
 
 fn splash_reset(win: &pancurses::Window) {
@@ -31,43 +31,9 @@ fn splash_reset(win: &pancurses::Window) {
 		entry = true;
 	}
 	if entry == true {
-		loop { 
-			loop {
-				win.mv(y, x);
-				win.printw("<");
-				match win.getch() {
-					Some(Input::KeyDown) |
-					Some(Input::Character('s')) |
-					Some(Input::Character('k')) => {
-						win.mv(y, x);
-						win.printw("\n");
-						if y == 15 { y += 1; continue }
-						if y == 16 { y -= 1; continue }
-					},
-					Some(Input::KeyUp) | 
-					Some(Input::Character('w')) |
-					Some(Input::Character('i')) => {
-						win.mv(y, x);
-						win.printw("\n");
-						if y == 16 { y -= 1; continue }
-						if y == 15 { y += 1; continue }
-					},
-					Some(Input::Character('q')) |
-					Some(Input::KeyDC) => { break }
-					Some(Input::Character('\n')) => {
-						match y {
-							15 => { result = 1 },
-							16 => { result = 2 },
-							_ => { result = 3 }
-						}
-						break;
-					}
-					Some(_) => (),
-					None => ()
-				}
-			}
-			match result {
-				1 => {
+		loop {
+			match universal_tabler(&win, 15, 16, x, y) {
+				15 => {
 					depth += 6;
 					remove_file(SAVE_NAME).unwrap(); // bad boy!
 					remove_file(RECORD_NAME).unwrap();
@@ -78,7 +44,7 @@ fn splash_reset(win: &pancurses::Window) {
 					bp_sleep(300);
 					break;
 				}
-				2 => { depth += 4; break },
+				16 => { depth += 4; break },
 				_ => { continue }
 			}
 		}
@@ -133,78 +99,43 @@ fn splash_credits(win: &pancurses::Window) {
 }
 
 pub fn splash_screen(win: &pancurses::Window) {
-	let mut result;
+	let mut result = 0;
 	win.clear();
 	loop {
 		splash_ascii(&win);
-		let x = 10;
-		let mut y = 8;
 		win.mv(8, 0);
 		win.printw("[PLAY   ]\n[RESET  ]\n[CREDITS]\n[QUIT   ]");
-		loop {
-			win.mv(y, x);
-			win.printw("<");
-			match win.getch() {
-				Some(Input::KeyDown) |
-				Some(Input::Character('s')) |
-				Some(Input::Character('k')) => {
-					win.mv(y, x);
-					win.printw("\n");
-					if y == 11 { y = 8 } else { y += 1 }
-				},
-				Some(Input::KeyUp) | 
-				Some(Input::Character('w')) |
-				Some(Input::Character('i')) => {
-					win.mv(y, x);
-					win.printw("\n");
-					if y == 8 { y = 11 } else { y -= 1 }
-				},
-				Some(Input::Character('q')) |
-				Some(Input::KeyDC) => { result = 1; break },
-				Some(Input::Character('\n')) => {
-					match y {
-						8 => { // play
-							let mut inc = 0;
-							if exists(SAVE_DIR) == false { create_dir(SAVE_DIR).unwrap() }
-							if exists(RECORD_NAME) == false { generate(RECORD_NAME, RECORD_LENGTH) }
-							if exists(SAVE_NAME) == false { generate(SAVE_NAME, SAVE_LENGTH) }
-							for i in reader(SAVE_NAME) {
-								if inc == 5 { break }
-								if i == 0 { stats_gen(); break }
-								inc += 1;
-							}
-							board_main(&win); // begin!
-							screen_smash(&win, 0, 14);
-							result = 2; // loop back to splash on board exit
-							break;
-						}
-						9 => { // options
-							splash_reset(win); 
-							result = 2;
-							break;
-						}
-						10 => { // credits
-							screen_smash(&win, 0, 12);
-							splash_credits(win);
-							screen_smash(&win, 0, 14);
-							result = 2;
-							break;
-						}
-						11 => { // exit
-							result = 1;
-							break;
-						}
-						_ => {},
-					}
-				},
-				Some(_) => (),
-				None => ()
+		match universal_tabler(&win, 8, 11, 10, 8) {
+			8 => { // play
+				let mut inc = 0;
+				if exists(SAVE_DIR) == false { create_dir(SAVE_DIR).unwrap() }
+				if exists(RECORD_NAME) == false { generate(RECORD_NAME, RECORD_LENGTH) }
+				if exists(SAVE_NAME) == false { generate(SAVE_NAME, SAVE_LENGTH) }
+				for i in reader(SAVE_NAME) {
+					if inc == 5 { break }
+					if i == 0 { stats_gen(); break }
+					inc += 1;
+				}
+				board_main(&win); // begin!
+				screen_smash(&win, 0, 14);
+				result = 2; // loop back to splash on board exit
 			}
+			9 => { // options
+				splash_reset(win); 
+				result = 2;
+			}
+			10 => { // credits
+				screen_smash(&win, 0, 12);
+				splash_credits(win);
+				screen_smash(&win, 0, 14);
+				result = 2;
+			}
+			11 => { // exit
+				result = 1;
+			}
+			_ => {}
 		}
-		match result {
-			1 => { break }
-			2 => { continue }
-			_ => { continue }
-		}
+		
+		if result == 2 { continue } else { break }
 	}
 }

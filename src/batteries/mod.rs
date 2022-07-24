@@ -1,12 +1,42 @@
 extern crate pancurses;
 extern crate savesys;
 
-use pancurses::{resize_term, curs_set, noecho, echo};
+use pancurses::{Input, resize_term, curs_set, noecho, echo};
 use savesys::{reader, writer};
 use rand::Rng;
 use std::{thread, time};
 
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
+
+pub fn universal_tabler(win: &pancurses::Window,
+						begin: i32,
+						depth: i32,
+						x:     i32,
+						mut y: i32) -> i32 { 
+	loop {
+		win.mv(y, x);
+		win.printw("<");
+		match win.getch() {
+			Some(Input::KeyDown) |
+			Some(Input::Character('s')) |
+			Some(Input::Character('k')) => {
+				win.mv(y, x);
+				win.printw("\n");
+				if y == depth { y = begin } else { y += 1 }
+			},
+			Some(Input::KeyUp) | 
+			Some(Input::Character('w')) |
+			Some(Input::Character('i')) => {
+				win.mv(y, x);
+				win.printw("\n");
+				if y == begin { y = depth } else { y -= 1 }
+			},
+			Some(Input::Character('\n')) => { return y },
+			Some(_) => (),
+			None => ()
+		}
+	} 
+}
 
 pub fn entity_race_get(point: &'static str) -> &'static str {
 	let save = reader(SAVE_NAME);
