@@ -39,4 +39,4 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 # Licensing
 
-- Butterfly is released MIT license.
+- Butterfly is released under the terms of the MIT license.
