@@ -31,26 +31,12 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 ```Q``` - go back
 
-# Download
-
-## Get it through <a href="https://crates.io/crates/draumaz-butterfly">cargo</a>!
-
-- ```cargo install draumaz-butterfly```
-- ```draumaz-butterfly # <- this will generate a save folder, so go somewhere safe!```
-
-## Build from source!
-
-- ```git clone https://github.com/draumaz/butterfly```
-- ```cd butterfly```
-- ```cargo run```
 
 # Acknowledgements
 
-- <a href="https://github.com/DeltaDove">DeltaDove</a> - ARMv8 testing, potion design, bugtesting, naming
+- <a href="https://deltadove.lol">DeltaDove</a> - ARMv8 testing, potion design, bugtesting, naming
 - Bryce Cano - character design
 
 # Licensing
 
-- Butterfly is dual-licensed under both the GPL-v3.0 and MIT licenses.
-- The facets of this game covered by the MIT license can be found at <a href="https://github.com/draumaz/butterfly/blob/master/lic/FUNCS_MIT.md">lic/FUNCS_MIT.md</a>. 
-- All other parts are licensed under GPL-v3.0.
+- Butterfly is released MIT license.
