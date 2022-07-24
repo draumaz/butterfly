@@ -23,8 +23,7 @@ compile:
 	@cd $(BUILD_PFX) && $(CC) $(CFLAGS) \
 		main.o wires.o joystick.o save_io.o record_io.o gdata.o action.o screen.o \
 	-o ../butterfly-debug \
-	-lncurses -lm \
-	-ltinfo
+	-lncurses -lm
 	@echo "-> ./butterfly-debug"
 
 cleanup:
