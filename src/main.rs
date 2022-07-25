@@ -6,7 +6,7 @@ mod batteries;
 mod nommes;
 
 use batteries::{screen_up, screen_down};
-use master_display::{splash_screen};
+use master_display::splash_screen;
 use pancurses::{initscr, endwin};
 
 fn main() {
