@@ -4,16 +4,12 @@ extern crate savesys;
 mod gaming_display;
 
 use std::fs::{remove_file, remove_dir_all, create_dir};
-use pancurses::{Input};
 use savesys::{exists, generate, reader};
-use gaming_display::{board_main};
+use gaming_display::board_main;
 use crate::batteries::{screen_smash, shreader, splash_ascii, bp_sleep, stats_gen, universal_tabler};
 use crate::nommes::{SAVE_DIR, SAVE_NAME, SAVE_LENGTH, RECORD_NAME, RECORD_LENGTH, BUTTERFLY_VERSION};
 
 fn splash_reset(win: &pancurses::Window) {
-	let mut y = 15;
-	let x = 6;
-	let mut result = 0;
 	let mut begin = 13;
 	let mut depth = 13;
 	let mut entry = false;
@@ -30,25 +26,23 @@ fn splash_reset(win: &pancurses::Window) {
 		win.printw("Just to verify, you want to reset all your save files?\n\n[YES]\n[NO ]");
 		entry = true;
 	}
-	if entry == true {
-		loop {
-			match universal_tabler(&win, 15, 16, x, y) {
-				15 => {
-					depth += 6;
-					remove_file(SAVE_NAME).unwrap(); // bad boy!
-					remove_file(RECORD_NAME).unwrap();
-					remove_dir_all(SAVE_DIR).unwrap();
-					win.mv(18, 0);
-					win.printw("Successfully deleted.");
-					win.refresh();
-					bp_sleep(300);
-					break;
-				}
-				16 => { depth += 4; break },
-				_ => { continue }
+	if entry == true { loop {
+		match universal_tabler(&win, 15, 16, 6, 15) {
+			15 => {
+				depth += 6;
+				remove_file(SAVE_NAME).unwrap(); // bad boy!
+				remove_file(RECORD_NAME).unwrap();
+				remove_dir_all(SAVE_DIR).unwrap();
+				win.mv(18, 0);
+				win.printw("Successfully deleted.");
+				win.refresh();
+				bp_sleep(300);
+				break;
 			}
+			16 => { depth += 4; break },
+			_ => { continue }
 		}
-	}
+	} }
 	screen_smash(&win, begin, depth);
 }
 
@@ -117,7 +111,6 @@ pub fn splash_screen(win: &pancurses::Window) {
 					inc += 1;
 				}
 				board_main(&win); // begin!
-				screen_smash(&win, 0, 14);
 				result = 2; // loop back to splash on board exit
 			}
 			9 => { // options
@@ -127,7 +120,6 @@ pub fn splash_screen(win: &pancurses::Window) {
 			10 => { // credits
 				screen_smash(&win, 0, 12);
 				splash_credits(win);
-				screen_smash(&win, 0, 14);
 				result = 2;
 			}
 			11 => { // exit
@@ -135,7 +127,9 @@ pub fn splash_screen(win: &pancurses::Window) {
 			}
 			_ => {}
 		}
-		
-		if result == 2 { continue } else { break }
+		match result {
+			2 => { screen_smash(&win, 0, 14); continue }
+			1|_ => { break }
+		}
 	}
 }

@@ -9,8 +9,8 @@ use std::{thread, time};
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
 pub fn universal_tabler(win: &pancurses::Window,
-						begin: i32,
-						depth: i32,
+						first: i32,
+						last: i32,
 						x:     i32,
 						mut y: i32) -> i32 { 
 	loop {
@@ -22,14 +22,14 @@ pub fn universal_tabler(win: &pancurses::Window,
 			Some(Input::Character('k')) => {
 				win.mv(y, x);
 				win.printw("\n");
-				if y == depth { y = begin } else { y += 1 }
+				if y == last { y = first } else { y += 1 }
 			},
 			Some(Input::KeyUp) | 
 			Some(Input::Character('w')) |
 			Some(Input::Character('i')) => {
 				win.mv(y, x);
 				win.printw("\n");
-				if y == begin { y = depth } else { y -= 1 }
+				if y == first { y = last } else { y -= 1 }
 			},
 			Some(Input::Character('\n')) => { return y },
 			Some(_) => (),
