@@ -7,33 +7,34 @@ use crate::batteries::{screen_smash, bp_sleep, var_filler, entity_race_get, univ
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
 fn items_fill(win: &pancurses::Window, item: &'static str) {
-	let sav = reader(SAVE_NAME);
 	match item {
-		"potion" => { win.mv(12, 1); win.printw(sav[7].to_string()); }
-		"spear" => { win.mv(13, 1); win.printw(sav[8].to_string()); }
-		"poison" => { win.mv(14, 1); win.printw(sav[9].to_string()); }
+		"potion" => { win.mv(12, 1); win.printw(reader(SAVE_NAME)[7].to_string()); }
+		"spear" =>  { win.mv(13, 1); win.printw(reader(SAVE_NAME)[8].to_string()); }
+		"poison" => { win.mv(14, 1); win.printw(reader(SAVE_NAME)[9].to_string()); }
 		_ => {}
-	}
-	win.refresh();
+	}; win.refresh();
 }
 
 pub fn scr_spare(win: &pancurses::Window) -> bool {
-	let result: bool;
-	let rec = reader(RECORD_NAME);
+	let begin = 12; let depth = 15;
+	
 	let mut rng = rand::thread_rng();
-	let begin = 12;
-	let depth = 15;
+	let rec = reader(RECORD_NAME);
+	let result: bool;
+	
 	win.mv(begin, 0);
 	win.printw("You attempt to spare the ");
 	win.printw(entity_race_get("enemy"));
 	win.refresh();
 	bp_sleep(500);
+	
 	for _ in 0..3 {
 		win.printw(".");
 		win.refresh();
 		bp_sleep(150);
 	}
 	bp_sleep(750);
+	
 	if rng.gen_range(0..2) >= 1  {
 		writer(RECORD_NAME, 2, rec[2]+1);
 		var_filler(&win, "spares");
@@ -45,24 +46,30 @@ pub fn scr_spare(win: &pancurses::Window) -> bool {
 		win.printw("It didn't work.");
 		result = false;
 	}
+	
 	win.refresh();
 	bp_sleep(1000);
 	screen_smash(&win, begin, depth);
+	
 	return result;
 }
 
 fn scr_attack_enemy(win: &pancurses::Window) {
+	let damage: i32;
+	let to_file: i32;
+	let top_text: &'static str;
+	
 	let sav = reader(SAVE_NAME);
 	let rec = reader(RECORD_NAME);
+	
 	let mut rng = rand::thread_rng();
-	let damage: i32;
+	
 	if sav[2] >= sav[5] { 
 		damage = sav[2] / 4 + rng.gen_range(1..7);
 	} else {
 		damage = sav[2] / 4 + rng.gen_range(1..4);
 	}
-	let to_file: i32;
-	let top_text: &'static str;
+	
 	if sav[4] - damage <= 0 {
 		writer(RECORD_NAME, 0, rec[0]+1);
 		var_filler(&win, "kills");
@@ -72,6 +79,7 @@ fn scr_attack_enemy(win: &pancurses::Window) {
 		top_text = "You attack the ";
 		to_file = sav[4] - damage;
 	}
+	
 	writer(SAVE_NAME, 4, to_file);
 	var_filler(&win, "enemy:health");
 	win.mv(12, 0);
@@ -85,19 +93,24 @@ fn scr_attack_enemy(win: &pancurses::Window) {
 }
 
 fn scr_attack_player(win: &pancurses::Window, action: bool) {
+	let damage: i32;
+	let to_file: i32;
+	let top_text: &'static str;
+	let mut txt_pos = 13;
+	
 	let sav = reader(SAVE_NAME);
 	let rec = reader(RECORD_NAME);
+	
 	let mut rng = rand::thread_rng();
-	let damage: i32;
+
 	if sav[5] >= sav[2] { 
 		damage = sav[5] / 4 + rng.gen_range(1..7);
 	} else {
 		damage = sav[5] / 4 + rng.gen_range(1..4);
 	}
-	let to_file: i32;
-	let top_text: &'static str;
-	let mut txt_pos = 13;
+
 	if action == true { txt_pos = 12 }
+	
 	if sav[1] - damage <= 0 {
 		writer(RECORD_NAME, 1, rec[1]+1);
 		var_filler(&win, "deaths");
@@ -107,6 +120,7 @@ fn scr_attack_player(win: &pancurses::Window, action: bool) {
 		top_text = " attacks you, dealing ";
 		to_file = sav[1] - damage;
 	}
+	
 	writer(SAVE_NAME, 1, to_file);
 	var_filler(&win, "player:health");
 	win.mv(txt_pos, 0);
@@ -139,13 +153,18 @@ pub fn scr_attack(win: &pancurses::Window, dir: &'static str) {
 }
 
 pub fn scr_items(win: &pancurses::Window) -> bool {
-	let begin = 12;
 	let action: bool;
-	let sav = reader(SAVE_NAME);
+	let to_file: i32;
+	let begin = 12;
+	
 	let mut depth = 14;
+	
+	let sav = reader(SAVE_NAME);
+	
 	win.mv(begin, 0);
 	win.printw("[ x POTION]\n[ x SPEAR ]\n[ x POISON]\n[BACK     ]");
 	for i in ["potion", "spear", "poison"] { items_fill(&win, i) }
+	
 	loop {
 		match universal_tabler(&win, 12, 15, 12, 12) {
 			12 => { // potion
@@ -191,17 +210,19 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 					}
 					1 => {
 						action = true;
-						
-						let to_file: i32;
+
 						if sav[4]-9 <= 0 {
 							to_file = 0;
 						} else {
 							to_file = sav[4]-9;
 						}
+						
 						writer(SAVE_NAME, 8, sav[8]-1);
 						writer(SAVE_NAME, 4, to_file);
+						
 						items_fill(&win, "spear");
 						var_filler(&win, "enemy:health");
+						
 						win.mv(17, 0);
 						win.printw("You throw a spear at the ");
 						win.printw(entity_race_get("enemy"));
