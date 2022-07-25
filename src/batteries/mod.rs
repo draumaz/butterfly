@@ -17,19 +17,19 @@ pub fn universal_tabler(win: &pancurses::Window,
 		win.mv(y, x);
 		win.printw("<");
 		match win.getch() {
-			Some(Input::KeyDown) |
-			Some(Input::Character('s')) |
-			Some(Input::Character('k')) => {
-				win.mv(y, x);
-				win.printw("\n");
-				if y == last { y = first } else { y += 1 }
-			},
 			Some(Input::KeyUp) | 
 			Some(Input::Character('w')) |
 			Some(Input::Character('i')) => {
 				win.mv(y, x);
 				win.printw("\n");
 				if y == first { y = last } else { y -= 1 }
+			},
+			Some(Input::KeyDown) |
+			Some(Input::Character('s')) |
+			Some(Input::Character('k')) => {
+				win.mv(y, x);
+				win.printw("\n");
+				if y == last { y = first } else { y += 1 }
 			},
 			Some(Input::Character('\n')) => { return y },
 			Some(_) => (),

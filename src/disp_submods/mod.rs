@@ -1,10 +1,9 @@
 extern crate pancurses;
 extern crate savesys;
 
-use pancurses::{Input};
 use rand::Rng;
 use savesys::{reader, writer};
-use crate::batteries::{screen_smash, bp_sleep, var_filler, entity_race_get};
+use crate::batteries::{screen_smash, bp_sleep, var_filler, entity_race_get, universal_tabler};
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
 fn items_fill(win: &pancurses::Window, item: &'static str) {
@@ -143,66 +142,31 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 	let begin = 12;
 	let action: bool;
 	let sav = reader(SAVE_NAME);
-	let mut result: i32;
 	let mut depth = 14;
-	let x = 12;
-	let mut y = 12;
 	win.mv(begin, 0);
 	win.printw("[ x POTION]\n[ x SPEAR ]\n[ x POISON]\n[BACK     ]");
 	for i in ["potion", "spear", "poison"] { items_fill(&win, i) }
 	loop {
-		loop {
-			win.mv(y, x);
-			win.printw("<");
-			match win.getch() {
-				Some(Input::KeyDown) |
-					Some(Input::Character('s')) |
-					Some(Input::Character('k')) => {
-						win.mv(y, x);
-						win.printw("\n");
-						if y == 15 { y = 12 } else { y += 1 }
-					},
-					Some(Input::KeyUp) | 
-					Some(Input::Character('w')) |
-					Some(Input::Character('i')) => {
-						win.mv(y, x);
-						win.printw("\n");
-						if y == 12 { y = 15 } else { y -= 1 }   
-					},
-					Some(Input::Character('q')) |
-					Some(Input::KeyDC) => { result = 4; depth = 16; break }
-					Some(Input::Character('\n')) => {
-						match y {
-							12 => { result = 1 }
-							13 => { result = 2 }
-							14 => { result = 3 }
-							15 => { depth = 16; result = 4 },
-							_ => { result = 0 }
-						}
-						break;
-					}
-					Some(_) => (),
-					None => ()
-			}
-		}
-		match result {
-			1 => { // potion
+		match universal_tabler(&win, 12, 15, 12, 12) {
+			12 => { // potion
 				match sav[7] {
 					0 => {
+						action = false;
+						
 						win.mv(17, 0);
 						win.printw("You don't have any potions left.");
-						action = false;
 						win.refresh();
 						depth = 18;
 						bp_sleep(750);
 						break;
 					}
 					1 => {
+						action = true;
+						
 						writer(SAVE_NAME, 7, sav[7]-1);
 						writer(SAVE_NAME, 1, sav[1]+10);
 						items_fill(&win, "potion");
 						var_filler(&win, "player:health");
-						action = true;
 						win.mv(17, 0);
 						win.printw("You drink the potion, gaining 10HP!");
 						win.refresh();
@@ -213,11 +177,12 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 					_ => { continue }
 				}
 			}
-			2 => { // spear
+			13 => { // spear
 				match sav[8] {
 					0 => {
-						win.mv(17, 0);
 						action = false;
+						
+						win.mv(17, 0);
 						win.printw("You don't have any spears left.");
 						win.refresh();
 						depth = 18;
@@ -225,6 +190,8 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 						break;
 					}
 					1 => {
+						action = true;
+						
 						let to_file: i32;
 						if sav[4]-9 <= 0 {
 							to_file = 0;
@@ -235,7 +202,6 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 						writer(SAVE_NAME, 4, to_file);
 						items_fill(&win, "spear");
 						var_filler(&win, "enemy:health");
-						action = true;
 						win.mv(17, 0);
 						win.printw("You throw a spear at the ");
 						win.printw(entity_race_get("enemy"));
@@ -248,10 +214,11 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 					_ => { continue }
 				}
 			}
-			3 => { // poison
+			14 => { // poison
 				match sav[9] {
 					0 => {
 						action = false;
+						
 						win.mv(17, 0);
 						win.printw("You don't have any poison left.");
 						win.refresh();
@@ -261,6 +228,7 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 					}
 					1 => {
 						action = true;
+						
 						writer(SAVE_NAME, 9, sav[9]-1);
 						writer(SAVE_NAME, 10, 1);
 						items_fill(&win, "poison");
@@ -280,7 +248,7 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 					_ => { continue }
 				}
 			}
-			4 => { action = false; break }
+			15 => { action = false; break }
 			_ => { continue }
 		}
 	}
