@@ -8,11 +8,13 @@ use std::{thread, time};
 
 use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
-pub fn universal_tabler(win: &pancurses::Window,
-						first: i32,
-						last: i32,
-						x:     i32,
-						mut y: i32) -> i32 { 
+pub fn universal_tabler(
+	win: &pancurses::Window,
+	first: i32,
+	last: i32,
+	x:     i32,
+	mut y: i32) 
+-> i32 { 
 	loop {
 		win.mv(y, x);
 		win.printw("<");
@@ -132,7 +134,10 @@ pub fn bp_sleep(time: u64) {
 	thread::spawn(move || { thread::sleep(time::Duration::from_millis(time)); }).join().unwrap();
 }
 
-pub fn shreader(win: &pancurses::Window, s: String, t: u64) {
+pub fn shreader(
+	win: &pancurses::Window, 
+	s: String, t: u64) 
+{
 	for i in s.chars() {
 		win.printw(i.to_string());
 		win.refresh();
@@ -158,7 +163,11 @@ pub fn splash_ascii(win: &pancurses::Window) {
 	}
 }
 
-pub fn screen_smash(win: &pancurses::Window, min: i32, max: i32) {
+pub fn screen_smash(
+	win: &pancurses::Window, 
+	min: i32, 
+	max: i32) 
+{
 	for i in min..max {
 		win.mv(i, 0);
 		win.printw("\n");
