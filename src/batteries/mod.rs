@@ -41,10 +41,9 @@ pub fn universal_tabler(
 }
 
 pub fn entity_race_get(point: &'static str) -> &'static str {
-	let save = reader(SAVE_NAME);
 	match point {
 		"player" => {
-			match save[0] {
+			match reader(SAVE_NAME)[0] {
 				1 => { "Vuleen" },
 				2 => { "Aradi" },
 				3 => { "Human" },
@@ -54,7 +53,7 @@ pub fn entity_race_get(point: &'static str) -> &'static str {
 			}
 		}
 		"enemy" => {
-			match save[3] {
+			match reader(SAVE_NAME)[3] {
 				1 => { "Darak" },
 				2 => { "Goblin" },
 				3 => { "Arcran" },
@@ -131,13 +130,14 @@ pub fn var_filler(win: &pancurses::Window, switch: &str) {
 }
 
 pub fn bp_sleep(time: u64) { 
-	thread::spawn(move || { thread::sleep(time::Duration::from_millis(time)); }).join().unwrap();
+	thread::spawn(
+		move || { 
+			thread::sleep(time::Duration::from_millis(time)); 
+		}
+	).join().unwrap();
 }
 
-pub fn shreader(
-	win: &pancurses::Window, 
-	s: String, t: u64) 
-{
+pub fn shreader(win: &pancurses::Window, s: String, t: u64) {
 	for i in s.chars() {
 		win.printw(i.to_string());
 		win.refresh();
