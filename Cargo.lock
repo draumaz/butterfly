@@ -16,7 +16,7 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "draumaz-butterfly"
-version = "0.16.4"
+version = "0.16.5"
 dependencies = [
  "pancurses",
  "rand",
@@ -127,9 +127,9 @@ dependencies = [
 
 [[package]]
 name = "savesys"
-version = "3.5.9"
+version = "3.5.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a911edb5bbcc8c2bceafea162c65c065a1299a70898958aa188b77d424f69a8"
+checksum = "5a8f44bfa04cf2a5e823d9e0ffdf93f435609d9fd67cbe70a127ac9b76d8cc1b"
 
 [[package]]
 name = "wasi"
