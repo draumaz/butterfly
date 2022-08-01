@@ -79,7 +79,13 @@ fn scr_attack_enemy(win: &pancurses::Window) {
 		top_text = "You attack the ";
 		to_file = sav[4] - damage;
 	}
-	
+	for i in (to_file..sav[4]).rev() {
+		if i == 9 { win.mv(5, 21); win.printw(" "); }
+		win.mv(5, 20);
+		win.printw(i.to_string());
+		win.refresh();
+		bp_sleep(50);
+	}
 	writer(SAVE_NAME, 4, to_file);
 	var_filler(&win, "enemy:health");
 	win.mv(12, 0);
@@ -104,9 +110,9 @@ fn scr_attack_player(win: &pancurses::Window, action: bool) {
 	let mut rng = rand::thread_rng();
 
 	if sav[5] >= sav[2] { 
-		damage = sav[5] / 4 + rng.gen_range(1..7);
+		damage = sav[5] / 2 + rng.gen_range(1..7);
 	} else {
-		damage = sav[5] / 4 + rng.gen_range(1..4);
+		damage = sav[5] / 2 + rng.gen_range(1..4);
 	}
 
 	if action == true { txt_pos = 12 }
@@ -120,7 +126,13 @@ fn scr_attack_player(win: &pancurses::Window, action: bool) {
 		top_text = " attacks you, dealing ";
 		to_file = sav[1] - damage;
 	}
-	
+	for i in (to_file..sav[1]).rev() {
+		if i == 9 { win.mv(3, 21); win.printw("  "); }		
+		win.mv(3, 20);
+		win.printw(i.to_string());
+		win.refresh();
+		bp_sleep(50);
+	}
 	writer(SAVE_NAME, 1, to_file);
 	var_filler(&win, "player:health");
 	win.mv(txt_pos, 0);
