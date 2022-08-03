@@ -10,7 +10,7 @@ categories = ["games"]
 edition = "2018"
 
 [dependencies]
-savesys = "3.5.10"
+savesys = "3.5.11"
 rand = "0.8.5"
 
 [dependencies.pancurses]
