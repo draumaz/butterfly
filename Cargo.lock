@@ -127,9 +127,9 @@ dependencies = [
 
 [[package]]
 name = "savesys"
-version = "3.5.10"
+version = "3.5.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a8f44bfa04cf2a5e823d9e0ffdf93f435609d9fd67cbe70a127ac9b76d8cc1b"
+checksum = "8a792f2e974f4e89d2209fb2a3e9c4b58e322e79d5ea18d12a98745f39203070"
 
 [[package]]
 name = "wasi"
