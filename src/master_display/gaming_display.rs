@@ -2,7 +2,7 @@ extern crate pancurses;
 extern crate savesys;
 
 use savesys::{reader, writer, generate};
-use crate::batteries::{bp_sleep, screen_smash, var_filler, stats_gen, entity_race_get, universal_tabler};
+use crate::batteries::{bp_sleep, obo_blitter, screen_smash, var_filler, stats_gen, entity_race_get, universal_tabler};
 use crate::disp_submods::{scr_items, scr_spare, scr_attack}; 	
 use crate::nommes::{SAVE_NAME, SAVE_LENGTH, BUTTERFLY_VERSION};
 
@@ -75,6 +75,7 @@ fn board_header(win: &pancurses::Window, fill: bool) {
 pub fn board_main(win: &pancurses::Window) {
 	let mut inc = 0;
 	let mut result = 0;
+	let enemy_race = entity_race_get("enemy");
 	let mut sav: Vec<i32>;
 	screen_smash(&win, 0, 12); // clear screen, let's get this going!
 	board_header(&win, true);
@@ -89,26 +90,12 @@ pub fn board_main(win: &pancurses::Window) {
 					writer(SAVE_NAME, 4, to_file);
 					writer(SAVE_NAME, 10, sav[10]+1);
 					var_filler(&win, "enemy:health");
-					screen_smash(&win, 6, 11);
-					win.mv(7, 0);
-					win.printw("The ");
-					win.printw(entity_race_get("enemy"));
-					win.printw(" loses 3HP from the poison!");
-					win.refresh();
-					bp_sleep(750);
-					screen_smash(&win, 7, 8);
+					obo_blitter(&win, format!("The {enemy_race} loses 3HP from the poison!"), 12, 5, 750);
 				}
 				4 => { 
 					if sav[1] <= 0 || sav[4] <= 0 {continue}
 					writer(SAVE_NAME, 10, 0);
-					screen_smash(&win, 6, 11);
-					win.mv(7, 0);
-					win.printw("The ");
-					win.printw(entity_race_get("enemys"));
-					win.printw(" shakes off the poison.");
-					win.refresh();
-					bp_sleep(750);
-					screen_smash(&win, 7, 8);
+					obo_blitter(&win, format!("The {enemy_race} shakes off the poison."), 12, 5, 750);
 				}
 				0 | _ => {}
 			}

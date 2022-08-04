@@ -6,44 +6,33 @@ mod gaming_display;
 use std::fs::{remove_file, remove_dir_all, create_dir};
 use savesys::{exists, generate, reader};
 use gaming_display::board_main;
-use crate::batteries::{screen_smash, shreader, splash_ascii, bp_sleep, stats_gen, universal_tabler};
+use crate::batteries::{screen_smash, obo_blitter, shreader, splash_ascii, bp_sleep, stats_gen, universal_tabler};
 use crate::nommes::{SAVE_DIR, SAVE_NAME, SAVE_LENGTH, RECORD_NAME, RECORD_LENGTH, BUTTERFLY_VERSION};
 
 fn splash_reset(win: &pancurses::Window) {
-	let mut begin = 13;
 	let mut depth = 13;
 	let mut entry = false;
 	win.mv(depth, 0);
-	if exists(SAVE_NAME) == false && 
-	exists(RECORD_NAME) == false && 
-	exists(SAVE_DIR) == false {
-		begin = 13;
-		depth = 14;
-		win.printw("No save files to speak of.");
-		win.refresh();
-		bp_sleep(300);
+	if ! exists(SAVE_NAME) && ! exists(RECORD_NAME) && ! exists(SAVE_DIR) {
+		obo_blitter(&win, String::from("No save files to speak of."), 13, 10, 300);
+		return;
 	} else {
-		win.printw("Just to verify, you want to reset all your save files?\n\n[YES]\n[NO ]");
-		entry = true;
+		obo_blitter(&win, String::from("Are you sure you want to reset your save files?\n\n[YES]\n[NO ]"), 13, 10, 0);
 	}
-	if entry == true { loop {
+	loop {
 		match universal_tabler(&win, 15, 16, 6, 15) {
 			15 => {
-				depth += 6;
 				remove_file(SAVE_NAME).unwrap(); // bad boy!
 				remove_file(RECORD_NAME).unwrap();
 				remove_dir_all(SAVE_DIR).unwrap();
-				win.mv(18, 0);
-				win.printw("Successfully deleted.");
-				win.refresh();
-				bp_sleep(300);
+				obo_blitter(&win, String::from("Successfully deleted."), 18, 10, 300);
 				break;
 			}
-			16 => { depth += 4; break },
+			16 => { break },
 			_ => { continue }
 		}
-	} }
-	screen_smash(&win, begin, depth);
+	}
+	screen_smash(&win, 13, 18);
 }
 
 fn splash_credits(win: &pancurses::Window) {

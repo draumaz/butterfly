@@ -175,6 +175,19 @@ pub fn screen_smash(
 	}
 }
 
+pub fn obo_blitter(win: &pancurses::Window, text: String, pos: i32, stop: u64, pause: u64) {
+	win.mv(pos, 0);
+	for c in text.chars() { win.printw(c.to_string()); win.refresh(); bp_sleep(stop); }
+	if pause == 0 {return}
+	bp_sleep(pause);
+	for i in (0..text.len() as i32).rev() {
+		win.mv(pos, i);
+		win.printw(" ");
+		win.refresh();
+		bp_sleep(stop);
+	}
+}
+
 pub fn screen_up(s: &pancurses::Window) {
 	s.keypad(true);
 	resize_term(25, 80);
