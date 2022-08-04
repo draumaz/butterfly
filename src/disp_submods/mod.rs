@@ -169,7 +169,7 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 	let to_file: i32;
 	let begin = 12;
 	
-	let mut depth = 14;
+	let mut depth = 16;
 	
 	let sav = reader(SAVE_NAME);
 	
