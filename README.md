@@ -34,8 +34,8 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 # Acknowledgements
 
+- Bryce Cano - character design, error handling mechanics
 - <a href="https://deltadove.lol">DeltaDove</a> - ARMv8 testing, potion design, bugtesting, naming
-- Bryce Cano - character design
 
 # Licensing
 
