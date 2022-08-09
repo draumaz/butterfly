@@ -46,7 +46,7 @@ fn splash_credits(win: &pancurses::Window) {
 		"DELTADOVE",
 		"--> ARMv8 testing, potion design, bugtesting, naming",
 		"BRYCE CANO",
-		"--> Character design"
+		"--> Character design, error handling mechanics"
 	];
 	win.mv(1, 0);
 	shreader(win, credits[0].to_string(), 20);
