@@ -97,7 +97,7 @@ pub fn board_main(win: &pancurses::Window) {
 			}
 		}
 		sav = reader(SAVE_NAME);
-		if sav[4] == 0 || sav[1] == 0 {
+		if sav[4] <= 0 || sav[1] <= 0 {
 			board_header(&win, false);
 			if board_again(&win) == true {
 				generate(SAVE_NAME, SAVE_LENGTH);
