@@ -1,12 +1,12 @@
-extern crate pancurses;
-
-mod master_display;
-mod disp_submods;
-mod batteries;
 mod nommes;
+mod routine;
+mod interacters;
 
-use batteries::{screen_up, screen_down};
-use master_display::splash_screen;
+use crate::{
+	routine::batteries::{screen_up, screen_down},
+	interacters::splash::splash_screen
+};
+
 use pancurses::{initscr, endwin};
 
 fn main() {
