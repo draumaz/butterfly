@@ -1,10 +1,16 @@
-extern crate pancurses;
-extern crate savesys;
+use crate::{
+	routine::batteries::{
+		screen_smash,
+		bp_sleep,
+		var_filler,
+		entity_race_get,
+		universal_tabler
+	},
+	nommes::*
+};
 
 use rand::Rng;
 use savesys::{reader, writer};
-use crate::routine::batteries::{screen_smash, bp_sleep, var_filler, entity_race_get, universal_tabler};
-use crate::nommes::{SAVE_NAME, RECORD_NAME};
 
 fn items_fill(win: &pancurses::Window, item: &'static str) {
 	match item {

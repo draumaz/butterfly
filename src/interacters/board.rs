@@ -1,10 +1,6 @@
-extern crate pancurses;
-extern crate savesys;
-
+use crate::{routine::batteries::*, nommes::*};
 use savesys::{reader, writer, generate};
-use crate::routine::batteries::{obo_blitter, screen_smash, var_filler, stats_gen, entity_race_get, universal_tabler};
 use super::options::{scr_items, scr_spare, scr_attack}; 	
-use crate::nommes::{SAVE_NAME, SAVE_LENGTH, BUTTERFLY_VERSION};
 
 fn board_again(win: &pancurses::Window) -> bool {
 	screen_smash(&win, 7, 14);

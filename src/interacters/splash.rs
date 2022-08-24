@@ -1,8 +1,17 @@
-use std::fs::{remove_file, remove_dir_all, create_dir};
+use crate::{
+	routine::batteries::*,
+	nommes::*,
+	
+};
+
+use std::fs::{
+	remove_file,
+	remove_dir_all,
+	create_dir
+};
+
 use savesys::{exists, generate, reader};
 use super::board::board_main;
-use crate::routine::batteries::{screen_smash, obo_blitter, shreader, splash_ascii, bp_sleep, stats_gen, universal_tabler};
-use crate::nommes::{SAVE_DIR, SAVE_NAME, SAVE_LENGTH, RECORD_NAME, RECORD_LENGTH, BUTTERFLY_VERSION};
 
 fn splash_reset(win: &pancurses::Window) {
 	let mut depth = 13;
