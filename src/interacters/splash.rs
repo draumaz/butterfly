@@ -1,7 +1,6 @@
 use crate::{
 	routine::batteries::*,
-	nommes::*,
-	
+	nommes::*,	
 };
 
 use std::fs::{
