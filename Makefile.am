@@ -18,4 +18,5 @@ butterfly_SOURCES = \
 	src/base/screen.c \
 	src/header/screen.h \
 	src/base/wires.c \
-	src/header/wires.h
+	src/header/wires.h \
+	src/header/defz.h
