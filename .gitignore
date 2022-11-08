@@ -8,6 +8,7 @@ compile
 config.log
 config.status
 configure
+configure~
 COPYING
 depcomp
 INSTALL
