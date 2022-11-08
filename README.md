@@ -1,7 +1,15 @@
-# butterfly:seaweed
-- Welcome to the seaweed branch. 
-- A play on words, this repository houses the *C* codebase <a href="https://github.com/draumaz/butterfly">Butterfly</a> used between v0.08 and v0.15. 
-- This branch will be mostly inactive, due to my recent attention being shifted towards Rust.
+# butterfly
+- Lorem ipsum
+- Snorem snipsum
+- Blee blah bloo
+
+# Build instructions
+
+```
+autoreconf -vfi
+./configure
+make
+```
 
 # Controls
 
@@ -12,18 +20,6 @@
 ```ENTER``` - select
 
 ```CTRL-Q, CTRL-C, Q``` - close game
-
-# Download
-
-## Build from source!
-
-- ```git clone -b seaweed https://github.com/draumaz/butterfly```
-
-- ```cd butterfly```
-
-- ```make```
-
-- ```./butterfly-debug```
 
 # Acknowledgements
 
