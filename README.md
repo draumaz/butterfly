@@ -31,6 +31,10 @@ ENEMY: Goblin | HP: 2  | STR: 7
 
 ```Q``` - go back
 
+# Download
+
+- Visit the <a href="https://draumaz.xyz/games/butterfly">Butterfly homepage</a> for download instructions.
+
 # Build instructions
 
 ```
