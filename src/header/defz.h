@@ -25,9 +25,9 @@
 
 // BEGIN axis: x //
 
-#define HDR_KILL 25
-#define HDR_DEATH 39
-#define HDR_SPARE 53
+#define HDR_KILL 24
+#define HDR_DEATH 38
+#define HDR_SPARE 52
 #define HDR_RACE 7
 #define HDR_HP 20
 #define HDR_STR 30

@@ -54,26 +54,26 @@ void board_header_update(int x, int y, int m) {
 	rd.sav = save_reader();
 	switch (m) {
 		case 0:
-			move(HDR_ROW_STATS, HDR_KILL-1);
+			move(HDR_ROW_STATS, HDR_KILL);
 			printw("%d", rd.rec[0]);
 			if (rd.rec[0] < 10) {
-				move(HDR_ROW_STATS, HDR_KILL);
+				move(HDR_ROW_STATS, HDR_KILL+1);
 				printw(" ");
 			}
 			break;
 		case 1:
-			move(HDR_ROW_STATS, HDR_DEATH-1);
+			move(HDR_ROW_STATS, HDR_DEATH);
 			printw("%d", rd.rec[1]);
 			if (rd.rec[1] < 10) {
-				move(HDR_ROW_STATS, HDR_DEATH);
+				move(HDR_ROW_STATS, HDR_DEATH+1);
 				printw(" ");
 			}
 			break;
 		case 2:
-			move(HDR_ROW_STATS, HDR_SPARE-1);
+			move(HDR_ROW_STATS, HDR_SPARE);
 			printw("%d", rd.rec[2]);
 			if (rd.rec[2] < 10) {
-				move(HDR_ROW_STATS, HDR_SPARE);
+				move(HDR_ROW_STATS, HDR_SPARE+1);
 				printw(" ");
 			}
 			break;
