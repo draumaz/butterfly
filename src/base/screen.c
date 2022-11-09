@@ -40,7 +40,7 @@ char* splash_ascii[] = {"______ _   _ _____ _____ _________________ _   __   __ 
 
 void board_header(int x, int y) {
 	move(HDR_ROW_STATS, 0);
-	printw("Butterfly v%s | KILLS:     | DEATHS:     | SPARES:   ", VERSION);
+	printw("Butterfly %s | KILLS:     | DEATHS:     | SPARES:   ", VERSION);
 	move(HDR_ROW_PLAYER, 0);
 	printw("PLAYR:        | HP:    | STR:    ");
 	move(HDR_ROW_ENEMY, 0);
@@ -54,26 +54,26 @@ void board_header_update(int x, int y, int m) {
 	rd.sav = save_reader();
 	switch (m) {
 		case 0:
-			move(HDR_ROW_STATS, HDR_KILL);
+			move(HDR_ROW_STATS, HDR_KILL-1);
 			printw("%d", rd.rec[0]);
 			if (rd.rec[0] < 10) {
-				move(HDR_ROW_STATS, HDR_KILL+1);
+				move(HDR_ROW_STATS, HDR_KILL);
 				printw(" ");
 			}
 			break;
 		case 1:
-			move(HDR_ROW_STATS, HDR_DEATH);
+			move(HDR_ROW_STATS, HDR_DEATH-1);
 			printw("%d", rd.rec[1]);
 			if (rd.rec[1] < 10) {
-				move(HDR_ROW_STATS, HDR_DEATH+1);
+				move(HDR_ROW_STATS, HDR_DEATH);
 				printw(" ");
 			}
 			break;
 		case 2:
-			move(HDR_ROW_STATS, HDR_SPARE);
+			move(HDR_ROW_STATS, HDR_SPARE-1);
 			printw("%d", rd.rec[2]);
 			if (rd.rec[2] < 10) {
-				move(HDR_ROW_STATS, HDR_SPARE+1);
+				move(HDR_ROW_STATS, HDR_SPARE);
 				printw(" ");
 			}
 			break;
@@ -392,25 +392,29 @@ void scr_board() {
 }
 
 void landing_credits() {
-	char* catboy_contribs[5] = {"ARMv8 experimentation", "Quality assurance", "Battle design", "Game naming", "Playtest"};
-	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", " (with the lovely curses library)"};
+	char* catboy_contribs[4] = {"ARMv8 penistesting", "Battle design", "Game naming", "Bugtest"};
+	char* canotributions[2] = {"Character design", "Error handling mechanics"};
+	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", "(with the lovely curses library)"};
 	int b[3] = {500, 500, 100};
 	int c[3] = {35, 20, 10};
 	int pos = HDR_SPAWN;
 	clear();
 	move(1, 0);
-	scr_popwrite("Butterfly", 30); printw(",");
+	scr_popwrite("Butterfly", 30); printw(", ");
 	refresh();
 	scr_sleep(500);
-	printw(" v");
 	scr_popwrite(VERSION, 15);
 	scr_sleep(500);
 	pos += 2;
 	move(pos, 0);
-	for (int i = 0 ; i < 3; i++) {
+	for (int i = 0 ; i < 2; i++) {
 		scr_popwrite(draumaz_contribs[i], c[i]);
 		scr_sleep(b[i]);
 	}
+	pos += 1;
+	move(pos, 0);
+	scr_popwrite(draumaz_contribs[2], c[10]);
+	refresh();
 	scr_sleep(1000);
 	pos += 2;
 	move(pos, 0);
@@ -421,8 +425,20 @@ void landing_credits() {
 	printw("DeltaDove!");
 	pos += 2;
 	move(pos, 0);
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 4; i++) {
 		scr_popwrite(catboy_contribs[i], 25);
+		pos += 1;
+		move(pos, 0);
+		refresh();
+	}
+	scr_sleep(1000);
+	pos += 2;
+	move(pos, 0);
+	printw("Bryce Cano!");
+	pos += 2;
+	move(pos, 0);
+	for (int i = 0; i < 2; i++) {
+		scr_popwrite(canotributions[i], 25);
 		pos += 1;
 		move(pos, 0);
 		refresh();

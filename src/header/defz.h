@@ -4,7 +4,7 @@
 
 // BEGIN text //
 
-#define VERSION "0.16"
+#define VERSION "0.17"
 
 #define TBOARD_L "["
 #define TBOARD_R "]"
