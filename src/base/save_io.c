@@ -1,8 +1,10 @@
-#include <stdio.h>
-#include <unistd.h>
+// Savesys, an easily-implementable save manager
+// draumaz, 2022 | MIT
 
+// CONFIG START //
 #define SAVE_LENGTH 11
 #define SAVE_NAME "data.txt"
+// CONFIG END   //
 
 // save positions
 // 0 player race
@@ -17,21 +19,19 @@
 // 9 poison qty
 // 10 poison incrementer
 
+#include <stdio.h>
+
 int * save_reader() {
 	static int array[SAVE_LENGTH];
 	FILE *read_in = fopen(SAVE_NAME, "r");
-	int i = 0;
-	int x = 0;
-	fscanf(read_in, "%d", &i);
-	while (!feof (read_in)) {
-		array[x] = i; x += 1;
-		fscanf(read_in, "%d", &i);
+	for (int i = 0; i < SAVE_LENGTH; i++) {
+		fscanf(read_in, "%d", &array[i]);
 	}
 	fclose(read_in);
 	return array;
 }
 
-void save_writer(int line, signed int state) {
+void save_writer(int line, int state) {
 	if (state < 0) { state = 0; }
 	int * save_in = save_reader();
 	FILE *read_out = fopen(SAVE_NAME, "w");
@@ -54,7 +54,9 @@ void save_generate() {
 }
 
 void save_exists() {
-	if (access(SAVE_NAME,F_OK) == -1) {
+	FILE *f;
+	if ((f = fopen(SAVE_NAME, "r"))) {
+	} else {
 		save_generate();
 	}
 }

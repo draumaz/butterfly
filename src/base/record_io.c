@@ -1,38 +1,35 @@
-#include <stdio.h>
-#include <unistd.h>
+// Savesys, an easily-implementable save manager
+// draumaz, 2022 | MIT
 
-#define RECORD_LENGTH 3
+// CONFIG START //
+#define RECORD_LENGTH 2
 #define RECORD_NAME "record.txt"
+// CONFIG END   //
 
-// record positions
-// 0 kills
-// 1 deaths
-// 2 spares
+#include <stdio.h>
 
 int * record_reader() {
 	static int array[RECORD_LENGTH];
-	FILE *record_in = fopen(RECORD_NAME, "r");
-	int i = 0;
-	int x = 0;
-	fscanf(record_in, "%d", &i);
-	while (!feof (record_in)) {
-		array[x] = i;
-		x += 1;
-		fscanf(record_in, "%d", &i);
+	FILE *read_in = fopen(RECORD_NAME, "r");
+	for (int i = 0; i < RECORD_LENGTH; i++) {
+		fscanf(read_in, "%d", &array[i]);
 	}
-	fclose(record_in);
+	fclose(read_in);
 	return array;
 }
 
-void record_writer(int line) {
-	int * record_in = record_reader();
-	FILE *record_out = fopen(RECORD_NAME, "w");
+void record_writer(int line, int state) {
+	if (state < 0) { state = 0; }
+	int * save_in = record_reader();
+	FILE *read_out = fopen(RECORD_NAME, "w");
 	for (int i = 0; i < RECORD_LENGTH; i++) {
 		if (i == line) {
-			record_in[i] += 1;
-		} fprintf(record_out, "%d\n", record_in[i]);
+			fprintf(read_out, "%d\n", state);
+		} else {
+			fprintf(read_out, "%d\n", save_in[i]);
+		}
 	}
-	fclose(record_out);
+	fclose(read_out);
 }
 
 void record_generate() {
@@ -44,7 +41,9 @@ void record_generate() {
 }
 
 void record_exists() {
-	if (access(RECORD_NAME,F_OK) == -1) {
+	FILE *f;
+	if ((f = fopen(RECORD_NAME, "r"))) {
+	} else {
 		record_generate();
 	}
 }
