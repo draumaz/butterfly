@@ -392,7 +392,7 @@ void scr_board() {
 }
 
 void landing_credits() {
-	char* catboy_contribs[4] = {"ARMv8 penistesting", "Battle design", "Game naming", "Bugtest"};
+	char* catboy_contribs[4] = {"ARMv8 testing", "Battle design", "Game naming", "Bugtest"};
 	char* canotributions[2] = {"Character design", "Error handling mechanics"};
 	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", "(with the lovely curses library)"};
 	int b[3] = {500, 500, 100};
