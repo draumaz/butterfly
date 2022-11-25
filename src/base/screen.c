@@ -394,7 +394,7 @@ void scr_board() {
 void landing_credits() {
 	char* catboy_contribs[4] = {"ARMv8 testing", "Battle design", "Game naming", "Bugtest"};
 	char* canotributions[2] = {"Character design", "Error handling mechanics"};
-	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", "(with the lovely curses library)"};
+	char* draumaz_contribs[3] = {"Developed by draumaz", " in C!", "\n(with the lovely curses library)"};
 	int b[3] = {500, 500, 100};
 	int c[3] = {35, 20, 10};
 	int pos = HDR_SPAWN;
@@ -407,18 +407,16 @@ void landing_credits() {
 	scr_sleep(500);
 	pos += 2;
 	move(pos, 0);
-	for (int i = 0 ; i < 2; i++) {
+	for (int i = 0 ; i <= 2; i++) {
 		scr_popwrite(draumaz_contribs[i], c[i]);
 		scr_sleep(b[i]);
 	}
-	pos += 1;
-	move(pos, 0);
-	scr_popwrite(draumaz_contribs[2], c[10]);
-	refresh();
-	scr_sleep(1000);
-	pos += 2;
+	pos += 3;
 	move(pos, 0);
 	scr_popwrite("Contributors:",35);
+	pos += 1;
+	move(pos, 0);
+	scr_popwrite("_____________",20);
 	scr_sleep(500);
 	pos += 2;
 	move(pos, 0);
@@ -432,7 +430,7 @@ void landing_credits() {
 		refresh();
 	}
 	scr_sleep(1000);
-	pos += 2;
+	pos += 1;
 	move(pos, 0);
 	printw("Bryce Cano!");
 	pos += 2;
