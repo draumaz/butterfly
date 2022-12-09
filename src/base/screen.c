@@ -432,7 +432,7 @@ void landing_credits() {
 	scr_sleep(1000);
 	pos += 1;
 	move(pos, 0);
-	printw("Bryce Cano!");
+	printw("Marcy C.");
 	pos += 2;
 	move(pos, 0);
 	for (int i = 0; i < 2; i++) {
