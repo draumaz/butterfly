@@ -1,4 +1,4 @@
-AC_INIT([butterfly], [0.16], [draumaz@goatopossum.com])
+AC_INIT([butterfly], [0.17], [draumaz@goatopossum.com])
 
 AM_INIT_AUTOMAKE
 AC_PROG_CC
