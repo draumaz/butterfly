@@ -45,7 +45,7 @@ make
 
 # Acknowledgements
 
-- Bryce Cano - character design, error handling mechanics
+- <a href="https://twitter.com/hawry_hemin">Marcy C.</a> - character design, error handling mechanics
 - <a href="https://deltadove.lol">DeltaDove</a> - ARMv8 testing, potion design, bugtesting, naming
 
 # Licensing
