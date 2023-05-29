@@ -13,8 +13,8 @@ use savesys::{exists, generate, reader};
 use super::board::board_main;
 
 fn splash_reset(win: &pancurses::Window) {
-	let mut depth = 13;
-	let mut entry = false;
+	let depth = 13;
+	//let mut entry = false;
 	win.mv(depth, 0);
 	if ! exists(SAVE_NAME) && ! exists(RECORD_NAME) && ! exists(SAVE_DIR) {
 		obo_blitter(&win, String::from("No save files to speak of."), 13, 10, 300);
