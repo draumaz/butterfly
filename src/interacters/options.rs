@@ -95,11 +95,13 @@ fn scr_attack_enemy(win: &pancurses::Window) {
 	writer(SAVE_NAME, 4, to_file);
 	var_filler(&win, "enemy:health");
 	win.mv(12, 0);
-	win.printw(top_text);
-	win.printw(entity_race_get("enemy"));
-	win.printw(", dealing ");
-	win.printw(damage.to_string());
-	win.printw(" damage!");
+  for i in [
+    top_text,
+    entity_race_get("enemy"),
+    ", dealing ",
+    &damage.to_string(),
+    " damage!"
+  ] { win.printw(i); }
 	win.refresh();
 	bp_sleep(1000);
 }
@@ -142,11 +144,13 @@ fn scr_attack_player(win: &pancurses::Window, action: bool) {
 	writer(SAVE_NAME, 1, to_file);
 	var_filler(&win, "player:health");
 	win.mv(txt_pos, 0);
-	win.printw("The ");
-	win.printw(entity_race_get("enemy"));
-	win.printw(top_text);
-	win.printw(damage.to_string());
-	win.printw(" damage!");
+  for i in [
+    "The ",
+    entity_race_get("enemy"),
+    top_text,
+    &damage.to_string(),
+    "damage!"
+  ] { win.printw(i); }
 	win.refresh();
 	bp_sleep(1000);
 }
@@ -272,9 +276,11 @@ pub fn scr_items(win: &pancurses::Window) -> bool {
 						writer(SAVE_NAME, 10, 1);
 						items_fill(&win, "poison");
 						win.mv(17, 0);
-						win.printw("You douse the ");
-						win.printw(entity_race_get("enemy"));
-						win.printw(" in poison!");
+            for i in [
+              "You douse the ",
+              entity_race_get("enemy"),
+              " in poison!"
+            ] { win.printw(i); }
 						win.refresh();
 						bp_sleep(500);
 						win.mv(18, 0);
