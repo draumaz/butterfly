@@ -4,6 +4,7 @@ use crate::{
 		bp_sleep,
 		var_filler,
 		entity_race_get,
+        ellipses_gen,
 		universal_tabler
 	},
 	nommes::*
@@ -29,18 +30,13 @@ pub fn scr_spare(win: &pancurses::Window) -> bool {
 	let result: bool;
 	
 	win.mv(begin, 0);
-	win.printw("You attempt to spare the ");
-	win.printw(entity_race_get("enemy"));
+	win.printw(format!("You attempt to spare the {}", entity_race_get("enemy")));
 	win.refresh();
 	bp_sleep(500);
 	
-	for _ in 0..3 {
-		win.printw(".");
-		win.refresh();
-		bp_sleep(150);
-	}
-	bp_sleep(750);
-	
+    
+    ellipses_gen(&win, 3, 150, 750);
+
 	if rng.gen_range(0..2) >= 1  {
 		writer(RECORD_NAME, 2, rec[2]+1);
 		var_filler(&win, "spares");

@@ -134,6 +134,15 @@ pub fn bp_sleep(time: u64) {
 	).join().unwrap();
 }
 
+pub fn ellipses_gen(win: &pancurses::Window, count: i32, time_between: u64, wait: u64) {
+    for _ in 0..count {
+		win.printw(".");
+		win.refresh();
+		bp_sleep(time_between);
+	}
+    bp_sleep(wait);
+}
+
 pub fn shreader(win: &pancurses::Window, s: String, t: u64) {
 	for i in s.chars() {
 		win.printw(i.to_string());
